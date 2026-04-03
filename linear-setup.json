@@ -1,0 +1,37 @@
+{
+  "team": {
+    "key": "VRTV",
+    "name": "Vertivolatam",
+    "id": "1898e0f0-0528-430d-a1f9-f90fbbddddf7",
+    "url": "https://linear.app/vertivolatam"
+  },
+  "git": {
+    "baseBranch": "main",
+    "repo": "vertivolatam/aduanext"
+  },
+  "projects": {
+    "aduanext": {
+      "name": "AduaNext",
+      "id": "12ad91e6-4227-4cce-a760-c0184d88b786"
+    }
+  },
+  "defaults": {
+    "squashMerge": true,
+    "reviewers": {
+      "greptile": false,
+      "coderabbit": false,
+      "graphite": false
+    }
+  },
+  "srd": {
+    "gapAudit": "srd/gap-audit.md",
+    "journeys": "srd/journeys.md",
+    "personas": "srd/personas.yml",
+    "directive": "srd/claude-directive.yml",
+    "successReality": "srd/success-reality.md"
+  },
+  "openspec": {
+    "specLibrary": "specs/",
+    "changesDirectory": "openspec/changes/"
+  }
+}

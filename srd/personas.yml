@@ -1,0 +1,266 @@
+# Personas Sintéticas — AduaNext
+# 7 personas que representan el 100% de usuarios y el 100% del revenue
+
+personas:
+  - id: P01
+    nombre: "María Fernández"
+    arquetipo: "Agente Aduanero Veterano"
+    edad: 48
+    ubicación: "Heredia, Costa Rica"
+    rol: "Dueña de agencia aduanal con 15 años de experiencia"
+    contexto: >
+      Licenciada en Admin Aduanera de la UCR. Opera una agencia mediana (6 empleados).
+      Usó TICA toda su carrera. ATENA la obligó a cambiar pero no tiene soporte técnico.
+      Su equipo pierde 3 horas diarias transcribiendo datos entre sistemas.
+    motivación: "Automatizar la transmisión a ATENA y reducir errores de clasificación"
+    frustración: "ATENA no tiene soporte, Webb Fontaine no responde, DGA no capacita"
+    dispositivos: ["Desktop Windows", "WhatsApp Business"]
+    plan: "Standalone Agencia — $1,200/mes"
+    wallet:
+      ingreso_mensual: "$8,000 USD (honorarios agencia)"
+      presupuesto_tech: "$1,500/mes"
+      sensibilidad_precio: "Media — valora el ROI sobre el precio"
+      costo_de_cambio: "Alto — tiene procesos establecidos"
+    lifecycle:
+      mes_1: "Trial gratuito. Prueba DUA sandbox con datos reales anonimizados"
+      mes_2: "Convierte a plan pagado. Procesa primeras 10 DUAs reales vía AduaNext"
+      mes_3: "Onboardea 2 asistentes. Reduce errores de clasificación 40%"
+      mes_4: "Invita a 3 clientes pymes a monitorear sus DUAs en tiempo real"
+      mes_5: "Refiere a otra agencia amiga. Adopta risk pre-validation"
+      mes_6: "Renueva anual. Solicita módulo de importación"
+    churn_risk:
+      mes_2: "Si la integración ATENA falla en producción, cancela inmediatamente"
+      mes_4: "Si el ROI no es visible (ahorro de tiempo medible), evalúa alternativas"
+    scores:
+      revenue: 9
+      engagement: 8
+      virality: 6
+    porcentaje_usuarios: "8%"
+    porcentaje_revenue: "36%"
+    ltv: "$14,400"
+
+  - id: P02
+    nombre: "Carlos Jiménez"
+    arquetipo: "Agente Freelance Recién Graduado"
+    edad: 26
+    ubicación: "San Carlos, Costa Rica"
+    rol: "Recién licenciado en Admin Aduanera de la UTN, pasó el examen DGA agosto 2026"
+    contexto: >
+      Aprendió con AduaNext sandbox en la universidad. No tiene capital para abrir agencia.
+      Su caución de $20K USD la financió con un préstamo bancario.
+      Opera desde su casa atendiendo 3-5 pymes locales como freelance.
+    motivación: "Tener una herramienta profesional sin invertir en infraestructura"
+    frustración: "Las agencias grandes no lo contratan; debe generar sus propios clientes"
+    dispositivos: ["Laptop Linux", "Android", "Telegram"]
+    plan: "Agente Freelance — $60/mes"
+    wallet:
+      ingreso_mensual: "$1,500 USD (primeros meses)"
+      presupuesto_tech: "$100/mes"
+      sensibilidad_precio: "Alta — cada colón cuenta"
+      costo_de_cambio: "Bajo — no tiene sistemas previos"
+    lifecycle:
+      mes_1: "Activa plan freelance. Ya conoce AduaNext del sandbox universitario"
+      mes_2: "Procesa primera DUA real para un cliente pyme de San Carlos"
+      mes_3: "Consigue 3 clientes fijos. Factura $800/mes en honorarios"
+      mes_4: "Invita a compañeros de universidad. 2 se registran como freelance"
+      mes_5: "Explora vetted sourcers para un cliente que importa desde Guatemala"
+      mes_6: "Estable con 5 clientes. Empieza a considerar contratar asistente"
+    churn_risk:
+      mes_1: "Si no consigue su primer cliente en 30 días, abandona la plataforma"
+      mes_3: "Si el costo mensual supera el 10% de sus ingresos, busca alternativa gratis"
+    scores:
+      revenue: 3
+      engagement: 9
+      virality: 9
+    porcentaje_usuarios: "23%"
+    porcentaje_revenue: "5%"
+    ltv: "$720"
+
+  - id: P03
+    nombre: "Andrea Solano"
+    arquetipo: "Pyme Importadora Tech"
+    edad: 34
+    ubicación: "Heredia, Costa Rica"
+    rol: "Co-fundadora de startup hard-tech (micro-invernaderos verticales)"
+    contexto: >
+      Importa luces LED de horticultura desde Shenzhen y sensores de New York.
+      Paga $1,200/despacho a una agencia que no le explica los costos.
+      Quiere transparencia total: saber exactamente qué paga y por qué.
+    motivación: "Controlar mi proceso de importación sin depender de la caja negra de la agencia"
+    frustración: "Los códigos del desglose son secreto comercial. No tengo visibilidad."
+    dispositivos: ["MacBook", "iPhone", "Slack", "Telegram"]
+    plan: "Importer-Led — $120/mes + $5/DUA"
+    wallet:
+      ingreso_mensual: "$5,000 USD (startup early-stage)"
+      presupuesto_tech: "$300/mes"
+      sensibilidad_precio: "Media-alta — ROI debe ser claro vs. pagar agencia"
+      costo_de_cambio: "Medio — debe encontrar agente freelance compatible"
+    lifecycle:
+      mes_1: "Se registra tras ver caso de éxito de Vertivo. Invita agente freelance"
+      mes_2: "Primera importación: luces LED. Pre-clasifica con RIMM, agente firma"
+      mes_3: "Ahorra $800 vs. tarifa de agencia anterior. Refiere a 2 startups amigas"
+      mes_4: "Usa vetted sourcers para comparar proveedores chinos"
+      mes_5: "Importa sensores desde NYC vía courier (régimen simplificado)"
+      mes_6: "Cliente estable. Pide API para integrar con su ERP interno"
+    churn_risk:
+      mes_1: "Si no encuentra agente freelance disponible, no puede operar"
+      mes_3: "Si la primera importación tiene problemas aduaneros, culpa a la plataforma"
+    scores:
+      revenue: 6
+      engagement: 7
+      virality: 8
+    porcentaje_usuarios: "35%"
+    porcentaje_revenue: "29%"
+    ltv: "$2,040"
+
+  - id: P04
+    nombre: "Prof. Roberto Vargas"
+    arquetipo: "Académico / Coordinador de Carrera"
+    edad: 55
+    ubicación: "San José, Costa Rica"
+    rol: "Coordinador de Licenciatura en Admin Aduanera, UTN"
+    contexto: >
+      Lleva 20 años enseñando con TICA. ATENA lo dejó sin material de capacitación.
+      Necesita herramientas prácticas para que sus estudiantes aprendan el sistema real.
+      Le importa que sus graduados consigan empleo rápido.
+    motivación: "Modernizar el currículo y que los estudiantes practiquen con ATENA real"
+    frustración: "Hacienda no provee ambiente de práctica para universidades"
+    dispositivos: ["Desktop Windows", "Proyector de aula"]
+    plan: "Licencia Universitaria — $800/mes (cubre ~200 estudiantes)"
+    wallet:
+      ingreso_mensual: "Presupuesto departamental UCR/UTN"
+      presupuesto_tech: "$2,000/semestre"
+      sensibilidad_precio: "Alta — presupuesto público limitado"
+      costo_de_cambio: "Muy bajo — no tiene herramienta actual"
+    lifecycle:
+      mes_1: "Piloto con 1 curso (30 estudiantes). AduaNext dona licencia"
+      mes_2: "Estudiantes completan primera DUA en sandbox. Profesor reporta valor"
+      mes_3: "Coordinación aprueba licencia para 3 cursos"
+      mes_4: "200 estudiantes activos. AduaNext caso de estudio en clase"
+      mes_5: "Prepara a estudiantes para examen DGA agosto con simulaciones"
+      mes_6: "Primer cohorte gradúa con 'Certificado AduaNext'. 5 se registran freelance"
+    churn_risk:
+      mes_1: "Si el sandbox no funciona en el aula (red universitaria), pierde interés"
+      mes_3: "Si el presupuesto no se aprueba para el segundo semestre, no renueva"
+    scores:
+      revenue: 4
+      engagement: 5
+      virality: 10
+    porcentaje_usuarios: "15%"
+    porcentaje_revenue: "6%"
+    ltv: "$4,800"
+
+  - id: P05
+    nombre: "Diego Mora"
+    arquetipo: "Exportador Habitual"
+    edad: 42
+    ubicación: "Limón, Costa Rica"
+    rol: "Gerente de exportaciones de empresa bananera mediana"
+    contexto: >
+      Exporta 200+ contenedores/año a EE.UU. y Europa. Tiene agencia aduanal contratada
+      pero quiere visibilidad de las DUAs en tiempo real. Usa DUCA-F para CA.
+      La aduana le asigna revisión física frecuentemente por volumen.
+    motivación: "Monitorear mis 50+ DUAs activas simultáneas sin llamar a la agencia"
+    frustración: "Cada vez que necesito un dato, tengo que llamar al agente y esperar"
+    dispositivos: ["Tablet Android (en planta)", "Desktop Windows"]
+    plan: "Importer-Led Premium — $200/mes + $5/DUA"
+    wallet:
+      ingreso_mensual: "$15,000 USD (empresa establecida)"
+      presupuesto_tech: "$500/mes"
+      sensibilidad_precio: "Baja — busca eficiencia sobre precio"
+      costo_de_cambio: "Alto — múltiples DUAs activas simultáneas"
+    lifecycle:
+      mes_1: "Demo con gerencia. Conecta AduaNext como visor de sus DUAs actuales"
+      mes_2: "Monitorea 20 DUAs en tiempo real. Recibe alertas Telegram por levante"
+      mes_3: "Integra pre-validación de riesgo. Reduce revisiones físicas 20%"
+      mes_4: "Pide API para conectar con su sistema de logística interna"
+      mes_5: "Exporta a Guatemala: AduaNext pre-llena datos para DUCA-F automática"
+      mes_6: "Renueva anual. Solicita módulo de manifiesto marítimo"
+    churn_risk:
+      mes_2: "Si las notificaciones tienen latencia >5min vs. portal ATENA directo, no ve valor"
+      mes_5: "Si la funcionalidad DUCA-F no agrega valor sobre lo que ATENA ya hace, cuestiona"
+    scores:
+      revenue: 7
+      engagement: 6
+      virality: 4
+    porcentaje_usuarios: "7%"
+    porcentaje_revenue: "14%"
+    ltv: "$3,600"
+
+  - id: P06
+    nombre: "Lucía Chen"
+    arquetipo: "Vetted Sourcer / Importador Directo"
+    edad: 38
+    ubicación: "Shenzhen, China → Heredia, CR"
+    rol: "Representante de fabricante chino de LED hortícola con oficina en CR"
+    contexto: >
+      Maneja la relación comercial entre fábricas en Shenzhen y compradores en CA.
+      Necesita que sus productos estén pre-clasificados con HS codes correctos
+      para que las agencias y pymes los seleccionen fácilmente.
+    motivación: "Que mis productos aparezcan como 'verified' para reducir fricción de venta"
+    frustración: "Cada agencia me pide clasificar los mismos productos de forma diferente"
+    dispositivos: ["iPhone", "WeChat", "WhatsApp", "Laptop Windows"]
+    plan: "Sourcer Verified — $150/mes (marketplace listing)"
+    wallet:
+      ingreso_mensual: "$20,000 USD (comisiones comerciales)"
+      presupuesto_tech: "$300/mes"
+      sensibilidad_precio: "Baja — es costo de ventas"
+      costo_de_cambio: "Medio — depende de que las agencias/pymes usen AduaNext"
+    lifecycle:
+      mes_1: "Registra catálogo de 50 productos LED con HS codes pre-validados"
+      mes_2: "3 pymes la seleccionan como sourcer. Trust score: 45 (Basic)"
+      mes_3: "Completa KYC. Trust score sube a 72 (Verified)"
+      mes_4: "10 despachos exitosos. Certificados de origen auto-generados (TLC CR-CN)"
+      mes_5: "Trust score: 88 (Trusted). Elegible para blanket certificates"
+      mes_6: "30 clientes activos en AduaNext. Refiere a 2 fabricantes más"
+    churn_risk:
+      mes_2: "Si no hay suficientes compradores en la plataforma, no ve ROI del listing"
+      mes_4: "Si la generación de certificados de origen no es aceptada por la DGA, pierde valor"
+    scores:
+      revenue: 5
+      engagement: 6
+      virality: 7
+    porcentaje_usuarios: "5%"
+    porcentaje_revenue: "6%"
+    ltv: "$1,800"
+
+  - id: P07
+    nombre: "Estudiante Ana"
+    arquetipo: "Estudiante de Admin Aduanera"
+    edad: 22
+    ubicación: "Cartago, Costa Rica"
+    rol: "Estudiante de 3er año de Licenciatura en Admin Aduanera, UCR"
+    contexto: >
+      Nunca ha visto ATENA real. Aprendió con screenshots de TICA en clase.
+      Usa AduaNext sandbox como parte del curso del Prof. Vargas.
+      Su meta es pasar el examen DGA de agosto 2027 y abrir como freelance.
+    motivación: "Practicar con datos reales para prepararme para el examen y el mercado"
+    frustración: "La universidad solo enseña teoría. No hay práctica con sistemas reales"
+    dispositivos: ["Laptop Chromebook", "Android", "WhatsApp"]
+    plan: "Sandbox Educativo — Gratis (subsidiado por licencia universitaria)"
+    wallet:
+      ingreso_mensual: "$0 (estudiante)"
+      presupuesto_tech: "$0"
+      sensibilidad_precio: "Extrema — debe ser 100% gratis"
+      costo_de_cambio: "Cero"
+    lifecycle:
+      mes_1: "Crea cuenta sandbox gratuita vía convenio universitario"
+      mes_2: "Completa 5 DUAs de práctica en sandbox. Entiende clasificación arancelaria"
+      mes_3: "Participa en simulación de importación desde China (caso Vertivo)"
+      mes_4: "Completa módulo de risk pre-validation. Top 10% de su clase"
+      mes_5: "Obtiene 'Certificado AduaNext Nivel 1'"
+      mes_6: "Conecta con P03 (pyme) para práctica profesional. Primer ingreso real"
+    churn_risk:
+      mes_1: "Si el sandbox es complicado o lento, usa YouTube en vez de practicar"
+      mes_5: "Si el certificado no tiene valor reconocido por empleadores, pierde interés"
+    scores:
+      revenue: 0
+      engagement: 7
+      virality: 8
+    porcentaje_usuarios: "7%"
+    porcentaje_revenue: "0%"
+    ltv: "$0 (convierte a P02 al graduarse → $720 LTV futuro)"
+
+# Validación:
+# Usuarios: 8% + 23% + 35% + 15% + 7% + 5% + 7% = 100%
+# Revenue: 36% + 5% + 29% + 6% + 14% + 6% + 0% = 96% (4% = revenue transaccional distribuido)

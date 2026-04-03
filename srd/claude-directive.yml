@@ -1,0 +1,107 @@
+# Directiva Claude — AduaNext
+# Machine-readable priorities for AI agents and engineers
+# Generated: 2026-04-03
+# Target: $50K MRR at 6 months
+
+north_star:
+  question: "Puede un agente aduanero freelance (P02) preparar, firmar y transmitir una DUA de exportacion completa a ATENA usando AduaNext, y que una pyme (P03) monitoree el estado en tiempo real?"
+  current_answer: "No. La arquitectura esta definida pero cero flujo end-to-end funciona."
+  blocking_items:
+    - "T0-1: gRPC sidecar no implementado"
+    - "T0-3: Serverpod endpoints no existen"
+    - "T0-4: RIMM adapter no implementado"
+
+priority_rules:
+  - id: PR-01
+    rule: "Nunca trabajes en J05 (Sandbox Edu) o J06 (Vetted Sourcer) antes de que J01 (DUA Export) y J07 (Auth) esten al 100%"
+    why: "J01+J07 representan el 60% del revenue. J05+J06 son 12% y dependen de que el core funcione."
+
+  - id: PR-02
+    rule: "Toda implementacion debe pasar por el Port/Adapter pattern. Nunca importes ATENA, RIMM, o hacienda-cr directamente desde el domain o application layer."
+    why: "Explicit Architecture. El domain tiene ZERO dependencias I/O. Cuando agreguemos Guatemala (SAT-GT), solo se crean nuevos adapters."
+
+  - id: PR-03
+    rule: "El human-in-the-loop de clasificacion arancelaria NO es negociable. Nunca auto-submitas un HS code sin confirmacion explicita del agente."
+    why: "Ley 7557 asigna responsabilidad personal al agente aduanero. Full automation de clasificacion es legalmente impermisible."
+
+  - id: PR-04
+    rule: "Toda decision de clasificacion, firma, y transmision se registra en el audit trail con SHA-256 hash chain. Sin excepciones."
+    why: "Control a-posteriori de la DGA puede ocurrir anos despues del despacho. La cadena de decisiones debe ser inmutable."
+
+  - id: PR-05
+    rule: "El gRPC sidecar (hacienda-cr) se importa como dependencia npm, NUNCA se forkea. Las adaptaciones para ATENA van en la config, no en el codigo del SDK."
+    why: "hacienda-cr tiene su propio ciclo de releases. Fork diverge y no recibe security patches."
+
+  - id: PR-06
+    rule: "Prioriza a P03 (Andrea, Pyme) sobre P01 (Maria, Agencia) en decisiones de UX. La pyme necesita simplicidad; la agencia tolera complejidad."
+    why: "P03 representa 29% del revenue y es el segmento con mayor viral loop (startup-to-startup referrals)."
+
+  - id: PR-07
+    rule: "Siempre usa los field names exactos de la API ATENA en el domain model (camelCase, mismos nombres). No renombres ni traduzcas."
+    why: "El JSON que entra y sale de ATENA debe ser 1:1 con nuestro modelo. Renombrar introduce bugs de mapping silenciosos."
+
+anti_patterns:
+  - id: AP-01
+    pattern: "Implementar features del marketplace (J06) antes de que el core customs flow (J01) funcione"
+    detection: "PRs que tocan libs/adapters/marketplace/ cuando libs/adapters/atena/ esta incompleto"
+    fix: "Redirect al backlog T0/T1"
+
+  - id: AP-02
+    pattern: "Hardcodear URLs de ATENA en el codigo"
+    detection: "Strings como 'dev-siaa.hacienda.go.cr' fuera de archivos de config"
+    fix: "Usar CountryAdapterFactory + environment config YAML"
+
+  - id: AP-03
+    pattern: "Bypasear el sandbox proxy para llamadas directas a ATENA produccion"
+    detection: "HTTP calls a ATENA sin pasar por el gRPC sidecar"
+    fix: "Toda comunicacion ATENA pasa por HaciendaApi gRPC service"
+
+  - id: AP-04
+    pattern: "Agregar dependencias I/O al domain layer (libs/domain/)"
+    detection: "pubspec.yaml de libs/domain con deps como http, grpc, postgres"
+    fix: "Mover a libs/adapters/. El domain solo depende de 'meta' (annotations)"
+
+  - id: AP-05
+    pattern: "Mutar clasificaciones en lugar de crear nuevo evento"
+    detection: "UPDATE en tabla de clasificaciones en vez de INSERT"
+    fix: "Patron append-only. Cambios = nuevo evento con referencia al anterior"
+
+  - id: AP-06
+    pattern: "Notificaciones sin opt-out por tipo"
+    detection: "NotificationPort.send() sin verificar preferencias del usuario"
+    fix: "Cada tenant configura que estados disparan notificacion y por que canal"
+
+persona_quick_ref:
+  P01_maria: "Agencia veterana, 36% revenue, necesita J01+J02+J07. Churn risk: integracion ATENA falla."
+  P02_carlos: "Freelance recien graduado, 5% revenue pero 23% usuarios. Viral loop alto. Sensible a precio."
+  P03_andrea: "Pyme importadora, 29% revenue. QUIERE transparencia. Pain: 'los codigos son secreto comercial'."
+  P04_vargas: "Profesor UTN, 6% revenue. Gateway al flywheel educativo. Necesita sandbox funcional."
+  P05_diego: "Exportador grande, 14% revenue. Necesita monitoreo real-time de 50+ DUAs simultaneas."
+  P06_lucia: "Sourcer China, 6% revenue. Solo viable cuando hay compradores en la plataforma."
+  P07_ana: "Estudiante, 0% revenue hoy. Convierte a P02 al graduarse. Long-term flywheel."
+
+journey_acceptance:
+  J01_dua_export:
+    must: "DUA EX transmitida a ATENA sandbox con customsRegistrationNumber en response"
+    must_not: "DUA transmitida sin firma digital del agente"
+    metric: "Tiempo de preparacion <15 min para agente experimentado"
+
+  J02_clasificacion:
+    must: "3+ sugerencias de HS code con confidence score por busqueda"
+    must_not: "HS code auto-asignado sin confirmacion humana"
+    metric: "Clasificacion correcta al primer intento >85%"
+
+  J03_monitoreo:
+    must: "Estado actualizado <60 segundos despues del cambio en ATENA"
+    must_not: "Estado stale por >5 minutos sin alerta"
+    metric: "Notificacion Telegram entregada <30 segundos post-cambio"
+
+  J04_importer_led:
+    must: "Pyme registrada + agente invitado + primera DUA transmitida en <48 horas"
+    must_not: "Pyme vea informacion financiera de otros clientes del agente"
+    metric: "Onboarding completo en <5 minutos (registro pyme)"
+
+  J07_auth:
+    must: "Token ATENA obtenido via gRPC sidecar en <2 segundos"
+    must_not: "Credenciales logueadas en plaintext en ningun log"
+    metric: "Token refresh transparente (zero downtime percibido)"
