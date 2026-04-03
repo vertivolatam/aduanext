@@ -1,0 +1,805 @@
+1
+00:00:00,320 --> 00:00:04,180
+
+paso 8 documentos de soporte en este
+
+2
+00:00:04,180 --> 00:00:04,190
+paso 8 documentos de soporte en este
+ 
+
+3
+00:00:04,190 --> 00:00:06,160
+paso 8 documentos de soporte en este
+paso deberá incorporar la información
+
+4
+00:00:06,160 --> 00:00:06,170
+paso deberá incorporar la información
+ 
+
+5
+00:00:06,170 --> 00:00:07,930
+paso deberá incorporar la información
+relacionada con los documentos de
+
+6
+00:00:07,930 --> 00:00:07,940
+relacionada con los documentos de
+ 
+
+7
+00:00:07,940 --> 00:00:10,020
+relacionada con los documentos de
+soporte de la declaración de tránsito
+
+8
+00:00:10,020 --> 00:00:10,030
+soporte de la declaración de tránsito
+ 
+
+9
+00:00:10,030 --> 00:00:12,520
+soporte de la declaración de tránsito
+deberá agregar como documentos asociados
+
+10
+00:00:12,520 --> 00:00:12,530
+deberá agregar como documentos asociados
+ 
+
+11
+00:00:12,530 --> 00:00:14,919
+deberá agregar como documentos asociados
+las facturas y manifiestos de las
+
+12
+00:00:14,919 --> 00:00:14,929
+las facturas y manifiestos de las
+ 
+
+13
+00:00:14,929 --> 00:00:17,710
+las facturas y manifiestos de las
+mercancías cuando corresponda deberá
+
+14
+00:00:17,710 --> 00:00:17,720
+mercancías cuando corresponda deberá
+ 
+
+15
+00:00:17,720 --> 00:00:19,779
+mercancías cuando corresponda deberá
+incluir los certificados sanitarios de
+
+16
+00:00:19,779 --> 00:00:19,789
+incluir los certificados sanitarios de
+ 
+
+17
+00:00:19,789 --> 00:00:22,540
+incluir los certificados sanitarios de
+las mercancías no olvide adjuntar estos
+
+18
+00:00:22,540 --> 00:00:22,550
+las mercancías no olvide adjuntar estos
+ 
+
+19
+00:00:22,550 --> 00:00:24,460
+las mercancías no olvide adjuntar estos
+documentos ya que es un requisito
+
+20
+00:00:24,460 --> 00:00:24,470
+documentos ya que es un requisito
+ 
+
+21
+00:00:24,470 --> 00:00:26,349
+documentos ya que es un requisito
+indispensable para el llenado correcto
+
+22
+00:00:26,349 --> 00:00:26,359
+indispensable para el llenado correcto
+ 
+
+23
+00:00:26,359 --> 00:00:29,230
+indispensable para el llenado correcto
+de la declaración métodos para agregar
+
+24
+00:00:29,230 --> 00:00:29,240
+de la declaración métodos para agregar
+ 
+
+25
+00:00:29,240 --> 00:00:31,749
+de la declaración métodos para agregar
+documentos de soporte para agregar
+
+26
+00:00:31,749 --> 00:00:31,759
+documentos de soporte para agregar
+ 
+
+27
+00:00:31,759 --> 00:00:34,209
+documentos de soporte para agregar
+documentos el usuario deberá seleccionar
+
+28
+00:00:34,209 --> 00:00:34,219
+documentos el usuario deberá seleccionar
+ 
+
+29
+00:00:34,219 --> 00:00:38,020
+documentos el usuario deberá seleccionar
+una de las carpetas facturas manifiestos
+
+30
+00:00:38,020 --> 00:00:38,030
+una de las carpetas facturas manifiestos
+ 
+
+31
+00:00:38,030 --> 00:00:41,229
+una de las carpetas facturas manifiestos
+u otros en caso de haber seleccionado
+
+32
+00:00:41,229 --> 00:00:41,239
+u otros en caso de haber seleccionado
+ 
+
+33
+00:00:41,239 --> 00:00:43,029
+u otros en caso de haber seleccionado
+que su mercadería es de interés
+
+34
+00:00:43,029 --> 00:00:43,039
+que su mercadería es de interés
+ 
+
+35
+00:00:43,039 --> 00:00:45,220
+que su mercadería es de interés
+cuarentenario se habilitará en esta
+
+36
+00:00:45,220 --> 00:00:45,230
+cuarentenario se habilitará en esta
+ 
+
+37
+00:00:45,230 --> 00:00:49,180
+cuarentenario se habilitará en esta
+sección la carpeta certificados dentro
+
+38
+00:00:49,180 --> 00:00:49,190
+sección la carpeta certificados dentro
+ 
+
+39
+00:00:49,190 --> 00:00:51,189
+sección la carpeta certificados dentro
+de estas carpetas el usuario puede
+
+40
+00:00:51,189 --> 00:00:51,199
+de estas carpetas el usuario puede
+ 
+
+41
+00:00:51,199 --> 00:00:54,160
+de estas carpetas el usuario puede
+utilizar el botón examinar una vez
+
+42
+00:00:54,160 --> 00:00:54,170
+utilizar el botón examinar una vez
+ 
+
+43
+00:00:54,170 --> 00:00:56,439
+utilizar el botón examinar una vez
+seleccionado el archivo debe hacer clic
+
+44
+00:00:56,439 --> 00:00:56,449
+seleccionado el archivo debe hacer clic
+ 
+
+45
+00:00:56,449 --> 00:00:58,560
+seleccionado el archivo debe hacer clic
+en el botón subir
+
+46
+00:00:58,560 --> 00:00:58,570
+en el botón subir
+ 
+
+47
+00:00:58,570 --> 00:01:01,319
+en el botón subir
+para agregar documentos los archivos
+
+48
+00:01:01,319 --> 00:01:01,329
+para agregar documentos los archivos
+ 
+
+49
+00:01:01,329 --> 00:01:04,439
+para agregar documentos los archivos
+deberán estar en formato pdf y tener un
+
+50
+00:01:04,439 --> 00:01:04,449
+deberán estar en formato pdf y tener un
+ 
+
+51
+00:01:04,449 --> 00:01:08,040
+deberán estar en formato pdf y tener un
+tamaño máximo de un megabyte
+
+52
+00:01:08,040 --> 00:01:08,050
+tamaño máximo de un megabyte
+ 
+
+53
+00:01:08,050 --> 00:01:10,620
+tamaño máximo de un megabyte
+al finalizar de subir el archivo se
+
+54
+00:01:10,620 --> 00:01:10,630
+al finalizar de subir el archivo se
+ 
+
+55
+00:01:10,630 --> 00:01:13,110
+al finalizar de subir el archivo se
+abrirá automáticamente una ventana donde
+
+56
+00:01:13,110 --> 00:01:13,120
+abrirá automáticamente una ventana donde
+ 
+
+57
+00:01:13,120 --> 00:01:15,330
+abrirá automáticamente una ventana donde
+debe completar los datos requeridos para
+
+58
+00:01:15,330 --> 00:01:15,340
+debe completar los datos requeridos para
+ 
+
+59
+00:01:15,340 --> 00:01:17,730
+debe completar los datos requeridos para
+cada documento la información a
+
+60
+00:01:17,730 --> 00:01:17,740
+cada documento la información a
+ 
+
+61
+00:01:17,740 --> 00:01:21,650
+cada documento la información a
+completar para cada documento en línea
+
+62
+00:01:21,650 --> 00:01:21,660
+completar para cada documento en línea
+ 
+
+63
+00:01:21,660 --> 00:01:23,910
+completar para cada documento en línea
+ingrese el número de la mercancía
+
+64
+00:01:23,910 --> 00:01:23,920
+ingrese el número de la mercancía
+ 
+
+65
+00:01:23,920 --> 00:01:27,410
+ingrese el número de la mercancía
+identificada en el paso 7 mercancías
+
+66
+00:01:27,410 --> 00:01:27,420
+identificada en el paso 7 mercancías
+ 
+
+67
+00:01:27,420 --> 00:01:31,080
+identificada en el paso 7 mercancías
+documento en esta opción se le mostrará
+
+68
+00:01:31,080 --> 00:01:31,090
+documento en esta opción se le mostrará
+ 
+
+69
+00:01:31,090 --> 00:01:32,880
+documento en esta opción se le mostrará
+de forma automática el archivo en
+
+70
+00:01:32,880 --> 00:01:32,890
+de forma automática el archivo en
+ 
+
+71
+00:01:32,890 --> 00:01:36,540
+de forma automática el archivo en
+formato pdf que anexo tipo de documento
+
+72
+00:01:36,540 --> 00:01:36,550
+formato pdf que anexo tipo de documento
+ 
+
+73
+00:01:36,550 --> 00:01:38,700
+formato pdf que anexo tipo de documento
+seleccione el tipo de documentos de
+
+74
+00:01:38,700 --> 00:01:38,710
+seleccione el tipo de documentos de
+ 
+
+75
+00:01:38,710 --> 00:01:41,610
+seleccione el tipo de documentos de
+soporte de la mercancía número de
+
+76
+00:01:41,610 --> 00:01:41,620
+soporte de la mercancía número de
+ 
+
+77
+00:01:41,620 --> 00:01:44,880
+soporte de la mercancía número de
+documento ingrese el identificador del
+
+78
+00:01:44,880 --> 00:01:44,890
+documento ingrese el identificador del
+ 
+
+79
+00:01:44,890 --> 00:01:48,050
+documento ingrese el identificador del
+documento fecha de emisión del documento
+
+80
+00:01:48,050 --> 00:01:48,060
+documento fecha de emisión del documento
+ 
+
+81
+00:01:48,060 --> 00:01:50,490
+documento fecha de emisión del documento
+ingrese la fecha en la que se emitió el
+
+82
+00:01:50,490 --> 00:01:50,500
+ingrese la fecha en la que se emitió el
+ 
+
+83
+00:01:50,500 --> 00:01:53,100
+ingrese la fecha en la que se emitió el
+documento fecha de vencimiento del
+
+84
+00:01:53,100 --> 00:01:53,110
+documento fecha de vencimiento del
+ 
+
+85
+00:01:53,110 --> 00:01:55,380
+documento fecha de vencimiento del
+documento ingrese la fecha de
+
+86
+00:01:55,380 --> 00:01:55,390
+documento ingrese la fecha de
+ 
+
+87
+00:01:55,390 --> 00:01:58,040
+documento ingrese la fecha de
+vencimiento del documento cuando aplique
+
+88
+00:01:58,040 --> 00:01:58,050
+vencimiento del documento cuando aplique
+ 
+
+89
+00:01:58,050 --> 00:02:01,319
+vencimiento del documento cuando aplique
+país de emisión del documento
+
+90
+00:02:01,319 --> 00:02:01,329
+país de emisión del documento
+ 
+
+91
+00:02:01,329 --> 00:02:03,910
+país de emisión del documento
+seleccione el país donde fue emitido el
+
+92
+00:02:03,910 --> 00:02:03,920
+seleccione el país donde fue emitido el
+ 
+
+93
+00:02:03,920 --> 00:02:07,929
+seleccione el país donde fue emitido el
+documento entidad emisora ingrese la
+
+94
+00:02:07,929 --> 00:02:07,939
+documento entidad emisora ingrese la
+ 
+
+95
+00:02:07,939 --> 00:02:10,509
+documento entidad emisora ingrese la
+entidad pública o privada que emitió el
+
+96
+00:02:10,509 --> 00:02:10,519
+entidad pública o privada que emitió el
+ 
+
+97
+00:02:10,519 --> 00:02:14,350
+entidad pública o privada que emitió el
+documento monto ingrese el monto total
+
+98
+00:02:14,350 --> 00:02:14,360
+documento monto ingrese el monto total
+ 
+
+99
+00:02:14,360 --> 00:02:17,830
+documento monto ingrese el monto total
+del documento declarado cuando aplique
+
+100
+00:02:17,830 --> 00:02:17,840
+del documento declarado cuando aplique
+ 
+
+101
+00:02:17,840 --> 00:02:19,900
+del documento declarado cuando aplique
+al finalizar el ingreso de la
+
+102
+00:02:19,900 --> 00:02:19,910
+al finalizar el ingreso de la
+ 
+
+103
+00:02:19,910 --> 00:02:22,449
+al finalizar el ingreso de la
+información en el formulario haga clic
+
+104
+00:02:22,449 --> 00:02:22,459
+información en el formulario haga clic
+ 
+
+105
+00:02:22,459 --> 00:02:25,500
+información en el formulario haga clic
+en guardar la información proporcionada
+
+106
+00:02:25,500 --> 00:02:25,510
+en guardar la información proporcionada
+ 
+
+107
+00:02:25,510 --> 00:02:28,600
+en guardar la información proporcionada
+será desplegada en la tabla información
+
+108
+00:02:28,600 --> 00:02:28,610
+será desplegada en la tabla información
+ 
+
+109
+00:02:28,610 --> 00:02:31,660
+será desplegada en la tabla información
+de documentos para editar un documento
+
+110
+00:02:31,660 --> 00:02:31,670
+de documentos para editar un documento
+ 
+
+111
+00:02:31,670 --> 00:02:33,880
+de documentos para editar un documento
+de soporte deberá seleccionar la opción
+
+112
+00:02:33,880 --> 00:02:33,890
+de soporte deberá seleccionar la opción
+ 
+
+113
+00:02:33,890 --> 00:02:36,789
+de soporte deberá seleccionar la opción
+editar que se encuentra en la línea del
+
+114
+00:02:36,789 --> 00:02:36,799
+editar que se encuentra en la línea del
+ 
+
+115
+00:02:36,799 --> 00:02:39,100
+editar que se encuentra en la línea del
+documento de soporte registrado en la
+
+116
+00:02:39,100 --> 00:02:39,110
+documento de soporte registrado en la
+ 
+
+117
+00:02:39,110 --> 00:02:41,710
+documento de soporte registrado en la
+tabla de información de documentos al
+
+118
+00:02:41,710 --> 00:02:41,720
+tabla de información de documentos al
+ 
+
+119
+00:02:41,720 --> 00:02:44,110
+tabla de información de documentos al
+seleccionar esta opción se completarán
+
+120
+00:02:44,110 --> 00:02:44,120
+seleccionar esta opción se completarán
+ 
+
+121
+00:02:44,120 --> 00:02:46,000
+seleccionar esta opción se completarán
+las casillas con la información ya
+
+122
+00:02:46,000 --> 00:02:46,010
+las casillas con la información ya
+ 
+
+123
+00:02:46,010 --> 00:02:49,089
+las casillas con la información ya
+registrada para poder modificarla al
+
+124
+00:02:49,089 --> 00:02:49,099
+registrada para poder modificarla al
+ 
+
+125
+00:02:49,099 --> 00:02:50,740
+registrada para poder modificarla al
+estar conforme con la información
+
+126
+00:02:50,740 --> 00:02:50,750
+estar conforme con la información
+ 
+
+127
+00:02:50,750 --> 00:02:52,870
+estar conforme con la información
+editada podrá hacer click en el botón
+
+128
+00:02:52,870 --> 00:02:52,880
+editada podrá hacer click en el botón
+ 
+
+129
+00:02:52,880 --> 00:02:54,760
+editada podrá hacer click en el botón
+guardar
+
+130
+00:02:54,760 --> 00:02:54,770
+guardar
+ 
+
+131
+00:02:54,770 --> 00:02:57,160
+guardar
+para eliminar un documento de soporte
+
+132
+00:02:57,160 --> 00:02:57,170
+para eliminar un documento de soporte
+ 
+
+133
+00:02:57,170 --> 00:02:59,380
+para eliminar un documento de soporte
+añadido se deberá seleccionar la opción
+
+134
+00:02:59,380 --> 00:02:59,390
+añadido se deberá seleccionar la opción
+ 
+
+135
+00:02:59,390 --> 00:03:02,500
+añadido se deberá seleccionar la opción
+eliminar que se encuentra en la línea
+
+136
+00:03:02,500 --> 00:03:02,510
+eliminar que se encuentra en la línea
+ 
+
+137
+00:03:02,510 --> 00:03:05,020
+eliminar que se encuentra en la línea
+del documento de soporte registrado en
+
+138
+00:03:05,020 --> 00:03:05,030
+del documento de soporte registrado en
+ 
+
+139
+00:03:05,030 --> 00:03:08,140
+del documento de soporte registrado en
+la tabla información de documentos el
+
+140
+00:03:08,140 --> 00:03:08,150
+la tabla información de documentos el
+ 
+
+141
+00:03:08,150 --> 00:03:10,320
+la tabla información de documentos el
+sistema le mostrará un mensaje
+
+142
+00:03:10,320 --> 00:03:10,330
+sistema le mostrará un mensaje
+ 
+
+143
+00:03:10,330 --> 00:03:12,520
+sistema le mostrará un mensaje
+consultando si desea eliminar el
+
+144
+00:03:12,520 --> 00:03:12,530
+consultando si desea eliminar el
+ 
+
+145
+00:03:12,530 --> 00:03:15,550
+consultando si desea eliminar el
+documento de soporte al seleccionar si
+
+146
+00:03:15,550 --> 00:03:15,560
+documento de soporte al seleccionar si
+ 
+
+147
+00:03:15,560 --> 00:03:18,559
+documento de soporte al seleccionar si
+se eliminará completamente
+
+148
+00:03:18,559 --> 00:03:18,569
+se eliminará completamente
+ 
+
+149
+00:03:18,569 --> 00:03:20,479
+se eliminará completamente
+recuerde que los documentos de soporte
+
+150
+00:03:20,479 --> 00:03:20,489
+recuerde que los documentos de soporte
+ 
+
+151
+00:03:20,489 --> 00:03:22,879
+recuerde que los documentos de soporte
+que debe adjuntar son los que están
+
+152
+00:03:22,879 --> 00:03:22,889
+que debe adjuntar son los que están
+ 
+
+153
+00:03:22,889 --> 00:03:24,800
+que debe adjuntar son los que están
+regulados por el reglamento sobre el
+
+154
+00:03:24,800 --> 00:03:24,810
+regulados por el reglamento sobre el
+ 
+
+155
+00:03:24,810 --> 00:03:26,629
+regulados por el reglamento sobre el
+régimen de tránsito aduanero e
+
+156
+00:03:26,629 --> 00:03:26,639
+régimen de tránsito aduanero e
+ 
+
+157
+00:03:26,639 --> 00:03:29,089
+régimen de tránsito aduanero e
+internacional terrestre tras completar
+
+158
+00:03:29,089 --> 00:03:29,099
+internacional terrestre tras completar
+ 
+
+159
+00:03:29,099 --> 00:03:31,340
+internacional terrestre tras completar
+la información haga clic en siguiente
+
+160
+00:03:31,340 --> 00:03:31,350
+la información haga clic en siguiente
+ 
+
+161
+00:03:31,350 --> 00:03:37,989
+la información haga clic en siguiente
+[Música]
+

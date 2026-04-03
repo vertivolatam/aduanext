@@ -1,0 +1,575 @@
+1
+00:00:00,240 --> 00:00:03,470
+
+paso 1 ruta dependiendo de la opción
+
+2
+00:00:03,470 --> 00:00:03,480
+paso 1 ruta dependiendo de la opción
+ 
+
+3
+00:00:03,480 --> 00:00:04,880
+paso 1 ruta dependiendo de la opción
+seleccionada sobre el interes
+
+4
+00:00:04,880 --> 00:00:04,890
+seleccionada sobre el interes
+ 
+
+5
+00:00:04,890 --> 00:00:07,129
+seleccionada sobre el interes
+cuarentenario aparecerá un aviso en la
+
+6
+00:00:07,129 --> 00:00:07,139
+cuarentenario aparecerá un aviso en la
+ 
+
+7
+00:00:07,139 --> 00:00:09,470
+cuarentenario aparecerá un aviso en la
+parte superior marcada en color azul que
+
+8
+00:00:09,470 --> 00:00:09,480
+parte superior marcada en color azul que
+ 
+
+9
+00:00:09,480 --> 00:00:12,079
+parte superior marcada en color azul que
+le indicará esta información el primer
+
+10
+00:00:12,079 --> 00:00:12,089
+le indicará esta información el primer
+ 
+
+11
+00:00:12,089 --> 00:00:14,259
+le indicará esta información el primer
+paso consiste en ingresar la información
+
+12
+00:00:14,259 --> 00:00:14,269
+paso consiste en ingresar la información
+ 
+
+13
+00:00:14,269 --> 00:00:17,120
+paso consiste en ingresar la información
+correspondiente a las aduanas y países
+
+14
+00:00:17,120 --> 00:00:17,130
+correspondiente a las aduanas y países
+ 
+
+15
+00:00:17,130 --> 00:00:19,370
+correspondiente a las aduanas y países
+donde inicia y finaliza el tránsito
+
+16
+00:00:19,370 --> 00:00:19,380
+donde inicia y finaliza el tránsito
+ 
+
+17
+00:00:19,380 --> 00:00:21,230
+donde inicia y finaliza el tránsito
+internacional los campos relacionados
+
+18
+00:00:21,230 --> 00:00:21,240
+internacional los campos relacionados
+ 
+
+19
+00:00:21,240 --> 00:00:23,540
+internacional los campos relacionados
+con el país de inicio que debe llenar
+
+20
+00:00:23,540 --> 00:00:23,550
+con el país de inicio que debe llenar
+ 
+
+21
+00:00:23,550 --> 00:00:26,400
+con el país de inicio que debe llenar
+son
+
+22
+00:00:26,400 --> 00:00:26,410
+
+ 
+
+23
+00:00:26,410 --> 00:00:28,980
+
+seleccione el país donde se registra la
+
+24
+00:00:28,980 --> 00:00:28,990
+seleccione el país donde se registra la
+ 
+
+25
+00:00:28,990 --> 00:00:31,940
+seleccione el país donde se registra la
+educa o inicia la operación de tránsito
+
+26
+00:00:31,940 --> 00:00:31,950
+educa o inicia la operación de tránsito
+ 
+
+27
+00:00:31,950 --> 00:00:35,010
+educa o inicia la operación de tránsito
+aduana de inicio seleccione la aduana
+
+28
+00:00:35,010 --> 00:00:35,020
+aduana de inicio seleccione la aduana
+ 
+
+29
+00:00:35,020 --> 00:00:37,350
+aduana de inicio seleccione la aduana
+donde se registra la educa o inicia la
+
+30
+00:00:37,350 --> 00:00:37,360
+donde se registra la educa o inicia la
+ 
+
+31
+00:00:37,360 --> 00:00:40,260
+donde se registra la educa o inicia la
+operación de tránsito depósito de origen
+
+32
+00:00:40,260 --> 00:00:40,270
+operación de tránsito depósito de origen
+ 
+
+33
+00:00:40,270 --> 00:00:43,740
+operación de tránsito depósito de origen
+elija el depósito almacén zona franca o
+
+34
+00:00:43,740 --> 00:00:43,750
+elija el depósito almacén zona franca o
+ 
+
+35
+00:00:43,750 --> 00:00:45,450
+elija el depósito almacén zona franca o
+empresa de perfeccionamiento activo
+
+36
+00:00:45,450 --> 00:00:45,460
+empresa de perfeccionamiento activo
+ 
+
+37
+00:00:45,460 --> 00:00:47,729
+empresa de perfeccionamiento activo
+donde inicia la operación de tránsito
+
+38
+00:00:47,729 --> 00:00:47,739
+donde inicia la operación de tránsito
+ 
+
+39
+00:00:47,739 --> 00:00:50,220
+donde inicia la operación de tránsito
+cuando proceda el lugar de embarque
+
+40
+00:00:50,220 --> 00:00:50,230
+cuando proceda el lugar de embarque
+ 
+
+41
+00:00:50,230 --> 00:00:52,619
+cuando proceda el lugar de embarque
+ingrese el lugar en el que se cargaron
+
+42
+00:00:52,619 --> 00:00:52,629
+ingrese el lugar en el que se cargaron
+ 
+
+43
+00:00:52,629 --> 00:00:54,689
+ingrese el lugar en el que se cargaron
+las mercancías al medio de transporte
+
+44
+00:00:54,689 --> 00:00:54,699
+las mercancías al medio de transporte
+ 
+
+45
+00:00:54,699 --> 00:00:57,270
+las mercancías al medio de transporte
+los campos relacionados con el país de
+
+46
+00:00:57,270 --> 00:00:57,280
+los campos relacionados con el país de
+ 
+
+47
+00:00:57,280 --> 00:01:00,150
+los campos relacionados con el país de
+destino que debe llenar son país de
+
+48
+00:01:00,150 --> 00:01:00,160
+destino que debe llenar son país de
+ 
+
+49
+00:01:00,160 --> 00:01:02,610
+destino que debe llenar son país de
+destino seleccione el país de destino
+
+50
+00:01:02,610 --> 00:01:02,620
+destino seleccione el país de destino
+ 
+
+51
+00:01:02,620 --> 00:01:05,749
+destino seleccione el país de destino
+final de la mercancía aduana de destino
+
+52
+00:01:05,749 --> 00:01:05,759
+final de la mercancía aduana de destino
+ 
+
+53
+00:01:05,759 --> 00:01:08,340
+final de la mercancía aduana de destino
+seleccione la aduana donde finalizará la
+
+54
+00:01:08,340 --> 00:01:08,350
+seleccione la aduana donde finalizará la
+ 
+
+55
+00:01:08,350 --> 00:01:11,010
+seleccione la aduana donde finalizará la
+operación de tránsito depósito de
+
+56
+00:01:11,010 --> 00:01:11,020
+operación de tránsito depósito de
+ 
+
+57
+00:01:11,020 --> 00:01:14,520
+operación de tránsito depósito de
+destino elija el depósito almacén zona
+
+58
+00:01:14,520 --> 00:01:14,530
+destino elija el depósito almacén zona
+ 
+
+59
+00:01:14,530 --> 00:01:16,889
+destino elija el depósito almacén zona
+franca o empresa de perfeccionamiento
+
+60
+00:01:16,889 --> 00:01:16,899
+franca o empresa de perfeccionamiento
+ 
+
+61
+00:01:16,899 --> 00:01:19,350
+franca o empresa de perfeccionamiento
+activo donde se depositarán o destinarán
+
+62
+00:01:19,350 --> 00:01:19,360
+activo donde se depositarán o destinarán
+ 
+
+63
+00:01:19,360 --> 00:01:22,139
+activo donde se depositarán o destinarán
+las mercancías cuando proceda lugar de
+
+64
+00:01:22,139 --> 00:01:22,149
+las mercancías cuando proceda lugar de
+ 
+
+65
+00:01:22,149 --> 00:01:24,719
+las mercancías cuando proceda lugar de
+desembarque ingrese el lugar en el que
+
+66
+00:01:24,719 --> 00:01:24,729
+desembarque ingrese el lugar en el que
+ 
+
+67
+00:01:24,729 --> 00:01:26,820
+desembarque ingrese el lugar en el que
+se descargarán las mercancías del medio
+
+68
+00:01:26,820 --> 00:01:26,830
+se descargarán las mercancías del medio
+ 
+
+69
+00:01:26,830 --> 00:01:28,140
+se descargarán las mercancías del medio
+de transporte
+
+70
+00:01:28,140 --> 00:01:28,150
+de transporte
+ 
+
+71
+00:01:28,150 --> 00:01:31,230
+de transporte
+régimen aduanero y esta opción se
+
+72
+00:01:31,230 --> 00:01:31,240
+régimen aduanero y esta opción se
+ 
+
+73
+00:01:31,240 --> 00:01:33,030
+régimen aduanero y esta opción se
+llenará de forma automática y
+
+74
+00:01:33,030 --> 00:01:33,040
+llenará de forma automática y
+ 
+
+75
+00:01:33,040 --> 00:01:35,430
+llenará de forma automática y
+corresponde al régimen aduanero al que
+
+76
+00:01:35,430 --> 00:01:35,440
+corresponde al régimen aduanero al que
+ 
+
+77
+00:01:35,440 --> 00:01:37,860
+corresponde al régimen aduanero al que
+están sometidas las mercancías
+
+78
+00:01:37,860 --> 00:01:37,870
+están sometidas las mercancías
+ 
+
+79
+00:01:37,870 --> 00:01:41,130
+están sometidas las mercancías
+y un modo de transporte esta opción se
+
+80
+00:01:41,130 --> 00:01:41,140
+y un modo de transporte esta opción se
+ 
+
+81
+00:01:41,140 --> 00:01:42,870
+y un modo de transporte esta opción se
+llenará de forma automática y
+
+82
+00:01:42,870 --> 00:01:42,880
+llenará de forma automática y
+ 
+
+83
+00:01:42,880 --> 00:01:44,550
+llenará de forma automática y
+corresponde a la modalidad de transporte
+
+84
+00:01:44,550 --> 00:01:44,560
+corresponde a la modalidad de transporte
+ 
+
+85
+00:01:44,560 --> 00:01:46,920
+corresponde a la modalidad de transporte
+a través de la cual se movilizarán las
+
+86
+00:01:46,920 --> 00:01:46,930
+a través de la cual se movilizarán las
+ 
+
+87
+00:01:46,930 --> 00:01:50,160
+a través de la cual se movilizarán las
+mercancías en la casilla observaciones
+
+88
+00:01:50,160 --> 00:01:50,170
+mercancías en la casilla observaciones
+ 
+
+89
+00:01:50,170 --> 00:01:52,380
+mercancías en la casilla observaciones
+se puede consignar cualquier información
+
+90
+00:01:52,380 --> 00:01:52,390
+se puede consignar cualquier información
+ 
+
+91
+00:01:52,390 --> 00:01:54,450
+se puede consignar cualquier información
+de utilidad que el usuario estime
+
+92
+00:01:54,450 --> 00:01:54,460
+de utilidad que el usuario estime
+ 
+
+93
+00:01:54,460 --> 00:01:55,980
+de utilidad que el usuario estime
+necesaria incorporar para el
+
+94
+00:01:55,980 --> 00:01:55,990
+necesaria incorporar para el
+ 
+
+95
+00:01:55,990 --> 00:01:57,690
+necesaria incorporar para el
+conocimiento de la autoridad aduanera
+
+96
+00:01:57,690 --> 00:01:57,700
+conocimiento de la autoridad aduanera
+ 
+
+97
+00:01:57,700 --> 00:02:00,990
+conocimiento de la autoridad aduanera
+tendrá a su disposición 500 caracteres
+
+98
+00:02:00,990 --> 00:02:01,000
+tendrá a su disposición 500 caracteres
+ 
+
+99
+00:02:01,000 --> 00:02:02,730
+tendrá a su disposición 500 caracteres
+para ingresar la información de sus
+
+100
+00:02:02,730 --> 00:02:02,740
+para ingresar la información de sus
+ 
+
+101
+00:02:02,740 --> 00:02:05,340
+para ingresar la información de sus
+observaciones es aconsejable que antes
+
+102
+00:02:05,340 --> 00:02:05,350
+observaciones es aconsejable que antes
+ 
+
+103
+00:02:05,350 --> 00:02:07,860
+observaciones es aconsejable que antes
+de hacer clic en el botón siguiente se
+
+104
+00:02:07,860 --> 00:02:07,870
+de hacer clic en el botón siguiente se
+ 
+
+105
+00:02:07,870 --> 00:02:09,750
+de hacer clic en el botón siguiente se
+verifiquen los datos ingresados con
+
+106
+00:02:09,750 --> 00:02:09,760
+verifiquen los datos ingresados con
+ 
+
+107
+00:02:09,760 --> 00:02:12,000
+verifiquen los datos ingresados con
+anterioridad para asegurar su veracidad
+
+108
+00:02:12,000 --> 00:02:12,010
+anterioridad para asegurar su veracidad
+ 
+
+109
+00:02:12,010 --> 00:02:14,640
+anterioridad para asegurar su veracidad
+y que estén correctamente esta
+
+110
+00:02:14,640 --> 00:02:14,650
+y que estén correctamente esta
+ 
+
+111
+00:02:14,650 --> 00:02:17,130
+y que estén correctamente esta
+sugerencia aplica para todos los pasos
+
+112
+00:02:17,130 --> 00:02:17,140
+sugerencia aplica para todos los pasos
+ 
+
+113
+00:02:17,140 --> 00:02:18,880
+sugerencia aplica para todos los pasos
+siguientes
+
+114
+00:02:18,880 --> 00:02:18,890
+siguientes
+ 
+
+115
+00:02:18,890 --> 00:02:25,089
+siguientes
+[Música]
+

@@ -1,0 +1,265 @@
+1
+00:00:00,000 --> 00:00:04,280
+
+paso 4 ruta de tránsito en este paso
+
+2
+00:00:04,280 --> 00:00:04,290
+paso 4 ruta de tránsito en este paso
+ 
+
+3
+00:00:04,290 --> 00:00:06,980
+paso 4 ruta de tránsito en este paso
+deberá ingresar detalladamente la ruta
+
+4
+00:00:06,980 --> 00:00:06,990
+deberá ingresar detalladamente la ruta
+ 
+
+5
+00:00:06,990 --> 00:00:08,629
+deberá ingresar detalladamente la ruta
+fiscal que seguirá la operación de
+
+6
+00:00:08,629 --> 00:00:08,639
+fiscal que seguirá la operación de
+ 
+
+7
+00:00:08,639 --> 00:00:12,020
+fiscal que seguirá la operación de
+tránsito como recordarán el paso 1 ruta
+
+8
+00:00:12,020 --> 00:00:12,030
+tránsito como recordarán el paso 1 ruta
+ 
+
+9
+00:00:12,030 --> 00:00:14,450
+tránsito como recordarán el paso 1 ruta
+solo se ingresó de manera general el
+
+10
+00:00:14,450 --> 00:00:14,460
+solo se ingresó de manera general el
+ 
+
+11
+00:00:14,460 --> 00:00:17,029
+solo se ingresó de manera general el
+país y las aduanas de inicio y destino
+
+12
+00:00:17,029 --> 00:00:17,039
+país y las aduanas de inicio y destino
+ 
+
+13
+00:00:17,039 --> 00:00:19,550
+país y las aduanas de inicio y destino
+en esta sección deberá ingresar en
+
+14
+00:00:19,550 --> 00:00:19,560
+en esta sección deberá ingresar en
+ 
+
+15
+00:00:19,560 --> 00:00:21,950
+en esta sección deberá ingresar en
+detalle especificando cada una de las
+
+16
+00:00:21,950 --> 00:00:21,960
+detalle especificando cada una de las
+ 
+
+17
+00:00:21,960 --> 00:00:23,990
+detalle especificando cada una de las
+aduanas por donde transitará la unidad
+
+18
+00:00:23,990 --> 00:00:24,000
+aduanas por donde transitará la unidad
+ 
+
+19
+00:00:24,000 --> 00:00:26,750
+aduanas por donde transitará la unidad
+de transporte las casillas de país y
+
+20
+00:00:26,750 --> 00:00:26,760
+de transporte las casillas de país y
+ 
+
+21
+00:00:26,760 --> 00:00:29,240
+de transporte las casillas de país y
+aduana de inicio aparecerán completadas
+
+22
+00:00:29,240 --> 00:00:29,250
+aduana de inicio aparecerán completadas
+ 
+
+23
+00:00:29,250 --> 00:00:31,220
+aduana de inicio aparecerán completadas
+de forma automática ya que esta
+
+24
+00:00:31,220 --> 00:00:31,230
+de forma automática ya que esta
+ 
+
+25
+00:00:31,230 --> 00:00:34,340
+de forma automática ya que esta
+información fue ingresada en el paso la
+
+26
+00:00:34,340 --> 00:00:34,350
+información fue ingresada en el paso la
+ 
+
+27
+00:00:34,350 --> 00:00:37,100
+información fue ingresada en el paso la
+casilla aduana de paso mostrará un menú
+
+28
+00:00:37,100 --> 00:00:37,110
+casilla aduana de paso mostrará un menú
+ 
+
+29
+00:00:37,110 --> 00:00:38,630
+casilla aduana de paso mostrará un menú
+desplegable donde se debe seleccionar
+
+30
+00:00:38,630 --> 00:00:38,640
+desplegable donde se debe seleccionar
+ 
+
+31
+00:00:38,640 --> 00:00:41,450
+desplegable donde se debe seleccionar
+las aduanas de paso de cada país a
+
+32
+00:00:41,450 --> 00:00:41,460
+las aduanas de paso de cada país a
+ 
+
+33
+00:00:41,460 --> 00:00:44,240
+las aduanas de paso de cada país a
+transitar una vez seleccionado deberá
+
+34
+00:00:44,240 --> 00:00:44,250
+transitar una vez seleccionado deberá
+ 
+
+35
+00:00:44,250 --> 00:00:47,270
+transitar una vez seleccionado deberá
+presionar el botón agregar ruta el
+
+36
+00:00:47,270 --> 00:00:47,280
+presionar el botón agregar ruta el
+ 
+
+37
+00:00:47,280 --> 00:00:49,400
+presionar el botón agregar ruta el
+sistema añadirá en la tabla de ruta
+
+38
+00:00:49,400 --> 00:00:49,410
+sistema añadirá en la tabla de ruta
+ 
+
+39
+00:00:49,410 --> 00:00:52,220
+sistema añadirá en la tabla de ruta
+fiscal la información del país aduana de
+
+40
+00:00:52,220 --> 00:00:52,230
+fiscal la información del país aduana de
+ 
+
+41
+00:00:52,230 --> 00:00:54,650
+fiscal la información del país aduana de
+inicio y aduana de destino esta
+
+42
+00:00:54,650 --> 00:00:54,660
+inicio y aduana de destino esta
+ 
+
+43
+00:00:54,660 --> 00:00:56,689
+inicio y aduana de destino esta
+operación deberá de repetirla hasta
+
+44
+00:00:56,689 --> 00:00:56,699
+operación deberá de repetirla hasta
+ 
+
+45
+00:00:56,699 --> 00:00:58,520
+operación deberá de repetirla hasta
+completar el trayecto
+
+46
+00:00:58,520 --> 00:00:58,530
+completar el trayecto
+ 
+
+47
+00:00:58,530 --> 00:01:00,500
+completar el trayecto
+el sistema le notificará cuando haya
+
+48
+00:01:00,500 --> 00:01:00,510
+el sistema le notificará cuando haya
+ 
+
+49
+00:01:00,510 --> 00:01:03,860
+el sistema le notificará cuando haya
+completado la ruta fiscal tras completar
+
+50
+00:01:03,860 --> 00:01:03,870
+completado la ruta fiscal tras completar
+ 
+
+51
+00:01:03,870 --> 00:01:06,230
+completado la ruta fiscal tras completar
+la información haga clic en siguiente
+
+52
+00:01:06,230 --> 00:01:06,240
+la información haga clic en siguiente
+ 
+
+53
+00:01:06,240 --> 00:01:13,389
+la información haga clic en siguiente
+[Música]
+

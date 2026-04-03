@@ -1,0 +1,515 @@
+1
+00:00:00,000 --> 00:00:04,130
+
+paso 9 equipamiento este paso consiste
+
+2
+00:00:04,130 --> 00:00:04,140
+paso 9 equipamiento este paso consiste
+ 
+
+3
+00:00:04,140 --> 00:00:05,809
+paso 9 equipamiento este paso consiste
+en ingresar la información relacionada
+
+4
+00:00:05,809 --> 00:00:05,819
+en ingresar la información relacionada
+ 
+
+5
+00:00:05,819 --> 00:00:08,270
+en ingresar la información relacionada
+con los equipamientos correspondientes a
+
+6
+00:00:08,270 --> 00:00:08,280
+con los equipamientos correspondientes a
+ 
+
+7
+00:00:08,280 --> 00:00:10,669
+con los equipamientos correspondientes a
+la declaración haciendo clic sobre la
+
+8
+00:00:10,669 --> 00:00:10,679
+la declaración haciendo clic sobre la
+ 
+
+9
+00:00:10,679 --> 00:00:14,209
+la declaración haciendo clic sobre la
+opción nuevo en la pantalla aparecerá un
+
+10
+00:00:14,209 --> 00:00:14,219
+opción nuevo en la pantalla aparecerá un
+ 
+
+11
+00:00:14,219 --> 00:00:16,070
+opción nuevo en la pantalla aparecerá un
+formulario en el que el usuario podrá
+
+12
+00:00:16,070 --> 00:00:16,080
+formulario en el que el usuario podrá
+ 
+
+13
+00:00:16,080 --> 00:00:18,429
+formulario en el que el usuario podrá
+agregar información del equipamiento
+
+14
+00:00:18,429 --> 00:00:18,439
+agregar información del equipamiento
+ 
+
+15
+00:00:18,439 --> 00:00:21,140
+agregar información del equipamiento
+equipamiento deberás seleccionar el
+
+16
+00:00:21,140 --> 00:00:21,150
+equipamiento deberás seleccionar el
+ 
+
+17
+00:00:21,150 --> 00:00:23,060
+equipamiento deberás seleccionar el
+código del tipo de equipamiento
+
+18
+00:00:23,060 --> 00:00:23,070
+código del tipo de equipamiento
+ 
+
+19
+00:00:23,070 --> 00:00:25,759
+código del tipo de equipamiento
+utilizado tipo de carga deberás
+
+20
+00:00:25,759 --> 00:00:25,769
+utilizado tipo de carga deberás
+ 
+
+21
+00:00:25,769 --> 00:00:27,560
+utilizado tipo de carga deberás
+seleccionar el tipo de carga que
+
+22
+00:00:27,560 --> 00:00:27,570
+seleccionar el tipo de carga que
+ 
+
+23
+00:00:27,570 --> 00:00:30,919
+seleccionar el tipo de carga que
+contiene el equipamiento identificación
+
+24
+00:00:30,919 --> 00:00:30,929
+contiene el equipamiento identificación
+ 
+
+25
+00:00:30,929 --> 00:00:33,650
+contiene el equipamiento identificación
+del remolque o semirremolque deberá
+
+26
+00:00:33,650 --> 00:00:33,660
+del remolque o semirremolque deberá
+ 
+
+27
+00:00:33,660 --> 00:00:35,569
+del remolque o semirremolque deberá
+consignar el número de matrícula que
+
+28
+00:00:35,569 --> 00:00:35,579
+consignar el número de matrícula que
+ 
+
+29
+00:00:35,579 --> 00:00:38,360
+consignar el número de matrícula que
+identifica el o los remolques y
+
+30
+00:00:38,360 --> 00:00:38,370
+identifica el o los remolques y
+ 
+
+31
+00:00:38,370 --> 00:00:40,400
+identifica el o los remolques y
+semirremolques utilizados para el
+
+32
+00:00:40,400 --> 00:00:40,410
+semirremolques utilizados para el
+ 
+
+33
+00:00:40,410 --> 00:00:43,340
+semirremolques utilizados para el
+traslado de las mercancías número de
+
+34
+00:00:43,340 --> 00:00:43,350
+traslado de las mercancías número de
+ 
+
+35
+00:00:43,350 --> 00:00:45,920
+traslado de las mercancías número de
+dispositivo de seguridad deberá
+
+36
+00:00:45,920 --> 00:00:45,930
+dispositivo de seguridad deberá
+ 
+
+37
+00:00:45,930 --> 00:00:48,049
+dispositivo de seguridad deberá
+consignar los números de dispositivos de
+
+38
+00:00:48,049 --> 00:00:48,059
+consignar los números de dispositivos de
+ 
+
+39
+00:00:48,059 --> 00:00:50,450
+consignar los números de dispositivos de
+seguridad precintos o marchamos
+
+40
+00:00:50,450 --> 00:00:50,460
+seguridad precintos o marchamos
+ 
+
+41
+00:00:50,460 --> 00:00:52,940
+seguridad precintos o marchamos
+colocados a los equipamientos
+
+42
+00:00:52,940 --> 00:00:52,950
+colocados a los equipamientos
+ 
+
+43
+00:00:52,950 --> 00:00:55,460
+colocados a los equipamientos
+tipo de contenedor deberás seleccionar
+
+44
+00:00:55,460 --> 00:00:55,470
+tipo de contenedor deberás seleccionar
+ 
+
+45
+00:00:55,470 --> 00:00:58,100
+tipo de contenedor deberás seleccionar
+el tipo de contenedor que transporta las
+
+46
+00:00:58,100 --> 00:00:58,110
+el tipo de contenedor que transporta las
+ 
+
+47
+00:00:58,110 --> 00:01:00,940
+el tipo de contenedor que transporta las
+mercancías tamaño del equipamiento
+
+48
+00:01:00,940 --> 00:01:00,950
+mercancías tamaño del equipamiento
+ 
+
+49
+00:01:00,950 --> 00:01:03,620
+mercancías tamaño del equipamiento
+deberá ingresar o seleccionar la
+
+50
+00:01:03,620 --> 00:01:03,630
+deberá ingresar o seleccionar la
+ 
+
+51
+00:01:03,630 --> 00:01:05,530
+deberá ingresar o seleccionar la
+dimensión del equipamiento utilizado
+
+52
+00:01:05,530 --> 00:01:05,540
+dimensión del equipamiento utilizado
+ 
+
+53
+00:01:05,540 --> 00:01:08,200
+dimensión del equipamiento utilizado
+número de identificación del contenedor
+
+54
+00:01:08,200 --> 00:01:08,210
+número de identificación del contenedor
+ 
+
+55
+00:01:08,210 --> 00:01:10,520
+número de identificación del contenedor
+deberá ingresar el número de
+
+56
+00:01:10,520 --> 00:01:10,530
+deberá ingresar el número de
+ 
+
+57
+00:01:10,530 --> 00:01:12,230
+deberá ingresar el número de
+identificación del contenedor que
+
+58
+00:01:12,230 --> 00:01:12,240
+identificación del contenedor que
+ 
+
+59
+00:01:12,240 --> 00:01:15,080
+identificación del contenedor que
+contiene las mercancías para finalizar
+
+60
+00:01:15,080 --> 00:01:15,090
+contiene las mercancías para finalizar
+ 
+
+61
+00:01:15,090 --> 00:01:17,270
+contiene las mercancías para finalizar
+el ingreso del equipamiento haga clic en
+
+62
+00:01:17,270 --> 00:01:17,280
+el ingreso del equipamiento haga clic en
+ 
+
+63
+00:01:17,280 --> 00:01:19,880
+el ingreso del equipamiento haga clic en
+el botón guardar
+
+64
+00:01:19,880 --> 00:01:19,890
+el botón guardar
+ 
+
+65
+00:01:19,890 --> 00:01:22,310
+el botón guardar
+para editar un equipamiento deberás
+
+66
+00:01:22,310 --> 00:01:22,320
+para editar un equipamiento deberás
+ 
+
+67
+00:01:22,320 --> 00:01:24,860
+para editar un equipamiento deberás
+seleccionar la opción editar que se
+
+68
+00:01:24,860 --> 00:01:24,870
+seleccionar la opción editar que se
+ 
+
+69
+00:01:24,870 --> 00:01:26,420
+seleccionar la opción editar que se
+encuentra en la línea del equipamiento
+
+70
+00:01:26,420 --> 00:01:26,430
+encuentra en la línea del equipamiento
+ 
+
+71
+00:01:26,430 --> 00:01:29,960
+encuentra en la línea del equipamiento
+registrado en la tabla equipamientos al
+
+72
+00:01:29,960 --> 00:01:29,970
+registrado en la tabla equipamientos al
+ 
+
+73
+00:01:29,970 --> 00:01:32,240
+registrado en la tabla equipamientos al
+seleccionar esta opción se completarán
+
+74
+00:01:32,240 --> 00:01:32,250
+seleccionar esta opción se completarán
+ 
+
+75
+00:01:32,250 --> 00:01:34,040
+seleccionar esta opción se completarán
+las casillas con la información ya
+
+76
+00:01:34,040 --> 00:01:34,050
+las casillas con la información ya
+ 
+
+77
+00:01:34,050 --> 00:01:36,920
+las casillas con la información ya
+registrada para poder modificarlo al
+
+78
+00:01:36,920 --> 00:01:36,930
+registrada para poder modificarlo al
+ 
+
+79
+00:01:36,930 --> 00:01:38,570
+registrada para poder modificarlo al
+estar conforme con la información
+
+80
+00:01:38,570 --> 00:01:38,580
+estar conforme con la información
+ 
+
+81
+00:01:38,580 --> 00:01:40,640
+estar conforme con la información
+editada podrá hacer click en el botón
+
+82
+00:01:40,640 --> 00:01:40,650
+editada podrá hacer click en el botón
+ 
+
+83
+00:01:40,650 --> 00:01:43,850
+editada podrá hacer click en el botón
+guardar para eliminar un registro de
+
+84
+00:01:43,850 --> 00:01:43,860
+guardar para eliminar un registro de
+ 
+
+85
+00:01:43,860 --> 00:01:46,399
+guardar para eliminar un registro de
+equipamiento se deberá seleccionar la
+
+86
+00:01:46,399 --> 00:01:46,409
+equipamiento se deberá seleccionar la
+ 
+
+87
+00:01:46,409 --> 00:01:49,190
+equipamiento se deberá seleccionar la
+opción eliminar que se encuentra en la
+
+88
+00:01:49,190 --> 00:01:49,200
+opción eliminar que se encuentra en la
+ 
+
+89
+00:01:49,200 --> 00:01:51,590
+opción eliminar que se encuentra en la
+línea del equipamiento registrado en la
+
+90
+00:01:51,590 --> 00:01:51,600
+línea del equipamiento registrado en la
+ 
+
+91
+00:01:51,600 --> 00:01:54,320
+línea del equipamiento registrado en la
+tabla equipamientos el sistema le
+
+92
+00:01:54,320 --> 00:01:54,330
+tabla equipamientos el sistema le
+ 
+
+93
+00:01:54,330 --> 00:01:56,840
+tabla equipamientos el sistema le
+mostrará un mensaje consultando si desea
+
+94
+00:01:56,840 --> 00:01:56,850
+mostrará un mensaje consultando si desea
+ 
+
+95
+00:01:56,850 --> 00:01:59,480
+mostrará un mensaje consultando si desea
+eliminar el equipamiento al seleccionar
+
+96
+00:01:59,480 --> 00:01:59,490
+eliminar el equipamiento al seleccionar
+ 
+
+97
+00:01:59,490 --> 00:02:03,020
+eliminar el equipamiento al seleccionar
+si se eliminará completamente tras
+
+98
+00:02:03,020 --> 00:02:03,030
+si se eliminará completamente tras
+ 
+
+99
+00:02:03,030 --> 00:02:05,330
+si se eliminará completamente tras
+completar la información haga clic en
+
+100
+00:02:05,330 --> 00:02:05,340
+completar la información haga clic en
+ 
+
+101
+00:02:05,340 --> 00:02:05,940
+completar la información haga clic en
+siguiente
+
+102
+00:02:05,940 --> 00:02:05,950
+siguiente
+ 
+
+103
+00:02:05,950 --> 00:02:11,210
+siguiente
+[Música]
+

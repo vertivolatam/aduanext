@@ -1,0 +1,1055 @@
+1
+00:00:00,000 --> 00:00:03,530
+
+paso 2 exportador en esta sección el
+
+2
+00:00:03,530 --> 00:00:03,540
+paso 2 exportador en esta sección el
+ 
+
+3
+00:00:03,540 --> 00:00:05,690
+paso 2 exportador en esta sección el
+usuario dispondrá de dos maneras en las
+
+4
+00:00:05,690 --> 00:00:05,700
+usuario dispondrá de dos maneras en las
+ 
+
+5
+00:00:05,700 --> 00:00:06,849
+usuario dispondrá de dos maneras en las
+que podrá ingresar la información
+
+6
+00:00:06,849 --> 00:00:06,859
+que podrá ingresar la información
+ 
+
+7
+00:00:06,859 --> 00:00:08,980
+que podrá ingresar la información
+correspondiente al exportador
+
+8
+00:00:08,980 --> 00:00:08,990
+correspondiente al exportador
+ 
+
+9
+00:00:08,990 --> 00:00:11,270
+correspondiente al exportador
+funcionalidad de búsqueda esta
+
+10
+00:00:11,270 --> 00:00:11,280
+funcionalidad de búsqueda esta
+ 
+
+11
+00:00:11,280 --> 00:00:13,100
+funcionalidad de búsqueda esta
+funcionalidad le permitirá llenar de
+
+12
+00:00:13,100 --> 00:00:13,110
+funcionalidad le permitirá llenar de
+ 
+
+13
+00:00:13,110 --> 00:00:14,749
+funcionalidad le permitirá llenar de
+forma automática los datos del
+
+14
+00:00:14,749 --> 00:00:14,759
+forma automática los datos del
+ 
+
+15
+00:00:14,759 --> 00:00:17,300
+forma automática los datos del
+exportador o proveedor por medio de una
+
+16
+00:00:17,300 --> 00:00:17,310
+exportador o proveedor por medio de una
+ 
+
+17
+00:00:17,310 --> 00:00:20,179
+exportador o proveedor por medio de una
+búsqueda utilizando el tipo y el número
+
+18
+00:00:20,179 --> 00:00:20,189
+búsqueda utilizando el tipo y el número
+ 
+
+19
+00:00:20,189 --> 00:00:21,950
+búsqueda utilizando el tipo y el número
+de documento de identificación del
+
+20
+00:00:21,950 --> 00:00:21,960
+de documento de identificación del
+ 
+
+21
+00:00:21,960 --> 00:00:24,560
+de documento de identificación del
+exportador esta opción es funcional
+
+22
+00:00:24,560 --> 00:00:24,570
+exportador esta opción es funcional
+ 
+
+23
+00:00:24,570 --> 00:00:27,140
+exportador esta opción es funcional
+únicamente si el exportador ya ha sido
+
+24
+00:00:27,140 --> 00:00:27,150
+únicamente si el exportador ya ha sido
+ 
+
+25
+00:00:27,150 --> 00:00:29,450
+únicamente si el exportador ya ha sido
+registrado previamente en cualquier otra
+
+26
+00:00:29,450 --> 00:00:29,460
+registrado previamente en cualquier otra
+ 
+
+27
+00:00:29,460 --> 00:00:31,999
+registrado previamente en cualquier otra
+declaración de lo contrario deberá
+
+28
+00:00:31,999 --> 00:00:32,009
+declaración de lo contrario deberá
+ 
+
+29
+00:00:32,009 --> 00:00:33,729
+declaración de lo contrario deberá
+ingresar la información requerida
+
+30
+00:00:33,729 --> 00:00:33,739
+ingresar la información requerida
+ 
+
+31
+00:00:33,739 --> 00:00:36,160
+ingresar la información requerida
+ingreso de la información requerida
+
+32
+00:00:36,160 --> 00:00:36,170
+ingreso de la información requerida
+ 
+
+33
+00:00:36,170 --> 00:00:38,959
+ingreso de la información requerida
+cuando es la primera vez que se registra
+
+34
+00:00:38,959 --> 00:00:38,969
+cuando es la primera vez que se registra
+ 
+
+35
+00:00:38,969 --> 00:00:40,850
+cuando es la primera vez que se registra
+la información de un exportador o
+
+36
+00:00:40,850 --> 00:00:40,860
+la información de un exportador o
+ 
+
+37
+00:00:40,860 --> 00:00:45,139
+la información de un exportador o
+proveedor los campos a llenar son nombre
+
+38
+00:00:45,139 --> 00:00:45,149
+proveedor los campos a llenar son nombre
+ 
+
+39
+00:00:45,149 --> 00:00:47,810
+proveedor los campos a llenar son nombre
+o razón social del exportador se debe
+
+40
+00:00:47,810 --> 00:00:47,820
+o razón social del exportador se debe
+ 
+
+41
+00:00:47,820 --> 00:00:49,670
+o razón social del exportador se debe
+ingresar en el caso de personas
+
+42
+00:00:49,670 --> 00:00:49,680
+ingresar en el caso de personas
+ 
+
+43
+00:00:49,680 --> 00:00:52,939
+ingresar en el caso de personas
+naturales nombres y apellidos en el caso
+
+44
+00:00:52,939 --> 00:00:52,949
+naturales nombres y apellidos en el caso
+ 
+
+45
+00:00:52,949 --> 00:00:55,880
+naturales nombres y apellidos en el caso
+de personas jurídicas la razón social o
+
+46
+00:00:55,880 --> 00:00:55,890
+de personas jurídicas la razón social o
+ 
+
+47
+00:00:55,890 --> 00:00:58,160
+de personas jurídicas la razón social o
+denominación social del exportador o
+
+48
+00:00:58,160 --> 00:00:58,170
+denominación social del exportador o
+ 
+
+49
+00:00:58,170 --> 00:01:01,099
+denominación social del exportador o
+proveedor cuando corresponde domicilio
+
+50
+00:01:01,099 --> 00:01:01,109
+proveedor cuando corresponde domicilio
+ 
+
+51
+00:01:01,109 --> 00:01:03,170
+proveedor cuando corresponde domicilio
+fiscal del exportador se debe ingresar
+
+52
+00:01:03,170 --> 00:01:03,180
+fiscal del exportador se debe ingresar
+ 
+
+53
+00:01:03,180 --> 00:01:05,630
+fiscal del exportador se debe ingresar
+la dirección o domicilio fiscal
+
+54
+00:01:05,630 --> 00:01:05,640
+la dirección o domicilio fiscal
+ 
+
+55
+00:01:05,640 --> 00:01:07,700
+la dirección o domicilio fiscal
+portador o proveedor cuando corresponda
+
+56
+00:01:07,700 --> 00:01:07,710
+portador o proveedor cuando corresponda
+ 
+
+57
+00:01:07,710 --> 00:01:09,770
+portador o proveedor cuando corresponda
+de conformidad con lo establecido en los
+
+58
+00:01:09,770 --> 00:01:09,780
+de conformidad con lo establecido en los
+ 
+
+59
+00:01:09,780 --> 00:01:12,469
+de conformidad con lo establecido en los
+registros tributarios de cada país tipo
+
+60
+00:01:12,469 --> 00:01:12,479
+registros tributarios de cada país tipo
+ 
+
+61
+00:01:12,479 --> 00:01:15,440
+registros tributarios de cada país tipo
+de documento de identificación se debe
+
+62
+00:01:15,440 --> 00:01:15,450
+de documento de identificación se debe
+ 
+
+63
+00:01:15,450 --> 00:01:17,630
+de documento de identificación se debe
+indicar un tipo de documento utilizado
+
+64
+00:01:17,630 --> 00:01:17,640
+indicar un tipo de documento utilizado
+ 
+
+65
+00:01:17,640 --> 00:01:20,000
+indicar un tipo de documento utilizado
+por el exportador o proveedor cuando
+
+66
+00:01:20,000 --> 00:01:20,010
+por el exportador o proveedor cuando
+ 
+
+67
+00:01:20,010 --> 00:01:22,940
+por el exportador o proveedor cuando
+corresponda número de documento de
+
+68
+00:01:22,940 --> 00:01:22,950
+corresponda número de documento de
+ 
+
+69
+00:01:22,950 --> 00:01:25,850
+corresponda número de documento de
+identificación seleccionando un tipo de
+
+70
+00:01:25,850 --> 00:01:25,860
+identificación seleccionando un tipo de
+ 
+
+71
+00:01:25,860 --> 00:01:28,280
+identificación seleccionando un tipo de
+documento de identificación se debe
+
+72
+00:01:28,280 --> 00:01:28,290
+documento de identificación se debe
+ 
+
+73
+00:01:28,290 --> 00:01:30,020
+documento de identificación se debe
+ingresar el número de registro
+
+74
+00:01:30,020 --> 00:01:30,030
+ingresar el número de registro
+ 
+
+75
+00:01:30,030 --> 00:01:32,240
+ingresar el número de registro
+tributario o de identificación del
+
+76
+00:01:32,240 --> 00:01:32,250
+tributario o de identificación del
+ 
+
+77
+00:01:32,250 --> 00:01:34,040
+tributario o de identificación del
+exportador o proveedor cuando
+
+78
+00:01:34,040 --> 00:01:34,050
+exportador o proveedor cuando
+ 
+
+79
+00:01:34,050 --> 00:01:36,980
+exportador o proveedor cuando
+corresponde país de emisión en esta
+
+80
+00:01:36,980 --> 00:01:36,990
+corresponde país de emisión en esta
+ 
+
+81
+00:01:36,990 --> 00:01:39,170
+corresponde país de emisión en esta
+casilla se seleccionará el país en el
+
+82
+00:01:39,170 --> 00:01:39,180
+casilla se seleccionará el país en el
+ 
+
+83
+00:01:39,180 --> 00:01:40,850
+casilla se seleccionará el país en el
+que fue emitido el documento de
+
+84
+00:01:40,850 --> 00:01:40,860
+que fue emitido el documento de
+ 
+
+85
+00:01:40,860 --> 00:01:42,980
+que fue emitido el documento de
+identificación utilizado por el
+
+86
+00:01:42,980 --> 00:01:42,990
+identificación utilizado por el
+ 
+
+87
+00:01:42,990 --> 00:01:45,050
+identificación utilizado por el
+exportador o proveedor cuando
+
+88
+00:01:45,050 --> 00:01:45,060
+exportador o proveedor cuando
+ 
+
+89
+00:01:45,060 --> 00:01:48,230
+exportador o proveedor cuando
+corresponde correo electrónico se debe
+
+90
+00:01:48,230 --> 00:01:48,240
+corresponde correo electrónico se debe
+ 
+
+91
+00:01:48,240 --> 00:01:49,880
+corresponde correo electrónico se debe
+ingresar un correo electrónico del
+
+92
+00:01:49,880 --> 00:01:49,890
+ingresar un correo electrónico del
+ 
+
+93
+00:01:49,890 --> 00:01:52,580
+ingresar un correo electrónico del
+exportador o proveedor teléfono del
+
+94
+00:01:52,580 --> 00:01:52,590
+exportador o proveedor teléfono del
+ 
+
+95
+00:01:52,590 --> 00:01:55,130
+exportador o proveedor teléfono del
+exportador se debe ingresar un número de
+
+96
+00:01:55,130 --> 00:01:55,140
+exportador se debe ingresar un número de
+ 
+
+97
+00:01:55,140 --> 00:01:57,840
+exportador se debe ingresar un número de
+teléfono del exportador o proveedor
+
+98
+00:01:57,840 --> 00:01:57,850
+teléfono del exportador o proveedor
+ 
+
+99
+00:01:57,850 --> 00:02:00,990
+teléfono del exportador o proveedor
+fax del exportador se puede ingresar un
+
+100
+00:02:00,990 --> 00:02:01,000
+fax del exportador se puede ingresar un
+ 
+
+101
+00:02:01,000 --> 00:02:03,390
+fax del exportador se puede ingresar un
+número de fax del exportador o proveedor
+
+102
+00:02:03,390 --> 00:02:03,400
+número de fax del exportador o proveedor
+ 
+
+103
+00:02:03,400 --> 00:02:06,210
+número de fax del exportador o proveedor
+tras completar la información haga clic
+
+104
+00:02:06,210 --> 00:02:06,220
+tras completar la información haga clic
+ 
+
+105
+00:02:06,220 --> 00:02:10,559
+tras completar la información haga clic
+en siguiente paso 3 importador en el
+
+106
+00:02:10,559 --> 00:02:10,569
+en siguiente paso 3 importador en el
+ 
+
+107
+00:02:10,569 --> 00:02:12,840
+en siguiente paso 3 importador en el
+tercer paso el usuario deberá ingresar
+
+108
+00:02:12,840 --> 00:02:12,850
+tercer paso el usuario deberá ingresar
+ 
+
+109
+00:02:12,850 --> 00:02:15,000
+tercer paso el usuario deberá ingresar
+la información relacionada al importador
+
+110
+00:02:15,000 --> 00:02:15,010
+la información relacionada al importador
+ 
+
+111
+00:02:15,010 --> 00:02:18,110
+la información relacionada al importador
+o destinatario funcionalidad de búsqueda
+
+112
+00:02:18,110 --> 00:02:18,120
+o destinatario funcionalidad de búsqueda
+ 
+
+113
+00:02:18,120 --> 00:02:20,910
+o destinatario funcionalidad de búsqueda
+esta funcionalidad le permitirá llenar
+
+114
+00:02:20,910 --> 00:02:20,920
+esta funcionalidad le permitirá llenar
+ 
+
+115
+00:02:20,920 --> 00:02:23,010
+esta funcionalidad le permitirá llenar
+de forma automática los datos del
+
+116
+00:02:23,010 --> 00:02:23,020
+de forma automática los datos del
+ 
+
+117
+00:02:23,020 --> 00:02:25,080
+de forma automática los datos del
+importador o destinatario por medio de
+
+118
+00:02:25,080 --> 00:02:25,090
+importador o destinatario por medio de
+ 
+
+119
+00:02:25,090 --> 00:02:27,150
+importador o destinatario por medio de
+una búsqueda utilizando el tipo y el
+
+120
+00:02:27,150 --> 00:02:27,160
+una búsqueda utilizando el tipo y el
+ 
+
+121
+00:02:27,160 --> 00:02:28,680
+una búsqueda utilizando el tipo y el
+número de documento de identificación
+
+122
+00:02:28,680 --> 00:02:28,690
+número de documento de identificación
+ 
+
+123
+00:02:28,690 --> 00:02:31,740
+número de documento de identificación
+del importador o destinatario esta
+
+124
+00:02:31,740 --> 00:02:31,750
+del importador o destinatario esta
+ 
+
+125
+00:02:31,750 --> 00:02:34,350
+del importador o destinatario esta
+opción es funcional únicamente si el
+
+126
+00:02:34,350 --> 00:02:34,360
+opción es funcional únicamente si el
+ 
+
+127
+00:02:34,360 --> 00:02:36,809
+opción es funcional únicamente si el
+importador o destinatario ya ha sido
+
+128
+00:02:36,809 --> 00:02:36,819
+importador o destinatario ya ha sido
+ 
+
+129
+00:02:36,819 --> 00:02:39,180
+importador o destinatario ya ha sido
+registrado previamente en cualquier otra
+
+130
+00:02:39,180 --> 00:02:39,190
+registrado previamente en cualquier otra
+ 
+
+131
+00:02:39,190 --> 00:02:41,820
+registrado previamente en cualquier otra
+declaración de lo contrario deberá
+
+132
+00:02:41,820 --> 00:02:41,830
+declaración de lo contrario deberá
+ 
+
+133
+00:02:41,830 --> 00:02:43,610
+declaración de lo contrario deberá
+ingresar la información requerida
+
+134
+00:02:43,610 --> 00:02:43,620
+ingresar la información requerida
+ 
+
+135
+00:02:43,620 --> 00:02:46,920
+ingresar la información requerida
+ingreso de información requerida cuando
+
+136
+00:02:46,920 --> 00:02:46,930
+ingreso de información requerida cuando
+ 
+
+137
+00:02:46,930 --> 00:02:49,080
+ingreso de información requerida cuando
+es la primera vez que se registra la
+
+138
+00:02:49,080 --> 00:02:49,090
+es la primera vez que se registra la
+ 
+
+139
+00:02:49,090 --> 00:02:50,610
+es la primera vez que se registra la
+información de un importador o
+
+140
+00:02:50,610 --> 00:02:50,620
+información de un importador o
+ 
+
+141
+00:02:50,620 --> 00:02:53,210
+información de un importador o
+destinatario los campos de llenar son
+
+142
+00:02:53,210 --> 00:02:53,220
+destinatario los campos de llenar son
+ 
+
+143
+00:02:53,220 --> 00:02:56,640
+destinatario los campos de llenar son
+nombre o razón social del importador se
+
+144
+00:02:56,640 --> 00:02:56,650
+nombre o razón social del importador se
+ 
+
+145
+00:02:56,650 --> 00:02:58,770
+nombre o razón social del importador se
+debe ingresar en el caso de personas
+
+146
+00:02:58,770 --> 00:02:58,780
+debe ingresar en el caso de personas
+ 
+
+147
+00:02:58,780 --> 00:03:02,009
+debe ingresar en el caso de personas
+naturales nombres y apellidos en el caso
+
+148
+00:03:02,009 --> 00:03:02,019
+naturales nombres y apellidos en el caso
+ 
+
+149
+00:03:02,019 --> 00:03:03,420
+naturales nombres y apellidos en el caso
+de personas jurídicas
+
+150
+00:03:03,420 --> 00:03:03,430
+de personas jurídicas
+ 
+
+151
+00:03:03,430 --> 00:03:05,849
+de personas jurídicas
+la razón social o denominación social
+
+152
+00:03:05,849 --> 00:03:05,859
+la razón social o denominación social
+ 
+
+153
+00:03:05,859 --> 00:03:07,949
+la razón social o denominación social
+del importador o destinatario cuando
+
+154
+00:03:07,949 --> 00:03:07,959
+del importador o destinatario cuando
+ 
+
+155
+00:03:07,959 --> 00:03:10,679
+del importador o destinatario cuando
+corresponde domicilio fiscal del
+
+156
+00:03:10,679 --> 00:03:10,689
+corresponde domicilio fiscal del
+ 
+
+157
+00:03:10,689 --> 00:03:13,440
+corresponde domicilio fiscal del
+importador se debe ingresar la dirección
+
+158
+00:03:13,440 --> 00:03:13,450
+importador se debe ingresar la dirección
+ 
+
+159
+00:03:13,450 --> 00:03:15,420
+importador se debe ingresar la dirección
+o domicilio fiscal del importador o
+
+160
+00:03:15,420 --> 00:03:15,430
+o domicilio fiscal del importador o
+ 
+
+161
+00:03:15,430 --> 00:03:18,059
+o domicilio fiscal del importador o
+destinatario cuando corresponda de
+
+162
+00:03:18,059 --> 00:03:18,069
+destinatario cuando corresponda de
+ 
+
+163
+00:03:18,069 --> 00:03:19,800
+destinatario cuando corresponda de
+conformidad con lo establecido en los
+
+164
+00:03:19,800 --> 00:03:19,810
+conformidad con lo establecido en los
+ 
+
+165
+00:03:19,810 --> 00:03:22,860
+conformidad con lo establecido en los
+registros tributarios de cada país tipo
+
+166
+00:03:22,860 --> 00:03:22,870
+registros tributarios de cada país tipo
+ 
+
+167
+00:03:22,870 --> 00:03:25,349
+registros tributarios de cada país tipo
+de documento de identificación se debe
+
+168
+00:03:25,349 --> 00:03:25,359
+de documento de identificación se debe
+ 
+
+169
+00:03:25,359 --> 00:03:27,509
+de documento de identificación se debe
+indicar un tipo de documento utilizado
+
+170
+00:03:27,509 --> 00:03:27,519
+indicar un tipo de documento utilizado
+ 
+
+171
+00:03:27,519 --> 00:03:30,720
+indicar un tipo de documento utilizado
+por el importador o destinatario número
+
+172
+00:03:30,720 --> 00:03:30,730
+por el importador o destinatario número
+ 
+
+173
+00:03:30,730 --> 00:03:32,660
+por el importador o destinatario número
+de documento de identificación
+
+174
+00:03:32,660 --> 00:03:32,670
+de documento de identificación
+ 
+
+175
+00:03:32,670 --> 00:03:34,920
+de documento de identificación
+seleccionado un tipo de documento de
+
+176
+00:03:34,920 --> 00:03:34,930
+seleccionado un tipo de documento de
+ 
+
+177
+00:03:34,930 --> 00:03:37,050
+seleccionado un tipo de documento de
+identificación se debe ingresar el
+
+178
+00:03:37,050 --> 00:03:37,060
+identificación se debe ingresar el
+ 
+
+179
+00:03:37,060 --> 00:03:39,539
+identificación se debe ingresar el
+número del registro tributario o de
+
+180
+00:03:39,539 --> 00:03:39,549
+número del registro tributario o de
+ 
+
+181
+00:03:39,549 --> 00:03:41,309
+número del registro tributario o de
+identificación del importador o
+
+182
+00:03:41,309 --> 00:03:41,319
+identificación del importador o
+ 
+
+183
+00:03:41,319 --> 00:03:44,399
+identificación del importador o
+destinatario país de emisión en esta
+
+184
+00:03:44,399 --> 00:03:44,409
+destinatario país de emisión en esta
+ 
+
+185
+00:03:44,409 --> 00:03:46,890
+destinatario país de emisión en esta
+casilla se seleccionará el país de donde
+
+186
+00:03:46,890 --> 00:03:46,900
+casilla se seleccionará el país de donde
+ 
+
+187
+00:03:46,900 --> 00:03:48,420
+casilla se seleccionará el país de donde
+fue emitido el documento de
+
+188
+00:03:48,420 --> 00:03:48,430
+fue emitido el documento de
+ 
+
+189
+00:03:48,430 --> 00:03:50,490
+fue emitido el documento de
+identificación utilizado por el
+
+190
+00:03:50,490 --> 00:03:50,500
+identificación utilizado por el
+ 
+
+191
+00:03:50,500 --> 00:03:52,349
+identificación utilizado por el
+importador o destinatario cuando
+
+192
+00:03:52,349 --> 00:03:52,359
+importador o destinatario cuando
+ 
+
+193
+00:03:52,359 --> 00:03:55,140
+importador o destinatario cuando
+corresponde correo electrónico se debe
+
+194
+00:03:55,140 --> 00:03:55,150
+corresponde correo electrónico se debe
+ 
+
+195
+00:03:55,150 --> 00:03:56,909
+corresponde correo electrónico se debe
+ingresar un correo electrónico del
+
+196
+00:03:56,909 --> 00:03:56,919
+ingresar un correo electrónico del
+ 
+
+197
+00:03:56,919 --> 00:03:59,879
+ingresar un correo electrónico del
+importador o destinatario teléfono del
+
+198
+00:03:59,879 --> 00:03:59,889
+importador o destinatario teléfono del
+ 
+
+199
+00:03:59,889 --> 00:04:02,729
+importador o destinatario teléfono del
+importador se debe ingresar un número de
+
+200
+00:04:02,729 --> 00:04:02,739
+importador se debe ingresar un número de
+ 
+
+201
+00:04:02,739 --> 00:04:05,149
+importador se debe ingresar un número de
+teléfono al importador o destinatario
+
+202
+00:04:05,149 --> 00:04:05,159
+teléfono al importador o destinatario
+ 
+
+203
+00:04:05,159 --> 00:04:08,490
+teléfono al importador o destinatario
+fax del importador se puede ingresar un
+
+204
+00:04:08,490 --> 00:04:08,500
+fax del importador se puede ingresar un
+ 
+
+205
+00:04:08,500 --> 00:04:10,320
+fax del importador se puede ingresar un
+número de fax del importador
+
+206
+00:04:10,320 --> 00:04:10,330
+número de fax del importador
+ 
+
+207
+00:04:10,330 --> 00:04:12,900
+número de fax del importador
+y notario tras completar la información
+
+208
+00:04:12,900 --> 00:04:12,910
+y notario tras completar la información
+ 
+
+209
+00:04:12,910 --> 00:04:15,160
+y notario tras completar la información
+haga clic en siguiente
+
+210
+00:04:15,160 --> 00:04:15,170
+haga clic en siguiente
+ 
+
+211
+00:04:15,170 --> 00:04:20,800
+haga clic en siguiente
+[Música]
+

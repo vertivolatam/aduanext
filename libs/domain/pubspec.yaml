@@ -1,0 +1,23 @@
+name: aduanext_domain
+description: AduaNext Domain Layer — Pure business logic with zero I/O dependencies. Entities, Value Objects, Ports (interfaces), Domain Services, and Domain Events.
+version: 0.1.0
+publish_to: none
+
+# Architecture: Explicit Architecture (Herberto Graca)
+# https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/
+#
+# This package has ZERO external dependencies beyond Dart core.
+# All I/O is abstracted behind Ports (abstract classes).
+# Adapters live in libs/adapters and implement these Ports.
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  # Domain layer has NO dependencies — pure Dart only.
+  # If you're tempted to add a dep here, it probably belongs in libs/adapters.
+  meta: ^1.16.0  # For @immutable, @sealed annotations only
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.1.0

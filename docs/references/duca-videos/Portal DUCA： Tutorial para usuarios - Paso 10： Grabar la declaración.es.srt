@@ -1,0 +1,905 @@
+1
+00:00:00,110 --> 00:00:00,610
+
+[Música]
+
+2
+00:00:00,610 --> 00:00:00,620
+[Música]
+ 
+
+3
+00:00:00,620 --> 00:00:05,150
+[Música]
+paso 10 guardar la declaración este paso
+
+4
+00:00:05,150 --> 00:00:05,160
+paso 10 guardar la declaración este paso
+ 
+
+5
+00:00:05,160 --> 00:00:06,860
+paso 10 guardar la declaración este paso
+presenta la opción de guardar la
+
+6
+00:00:06,860 --> 00:00:06,870
+presenta la opción de guardar la
+ 
+
+7
+00:00:06,870 --> 00:00:09,110
+presenta la opción de guardar la
+declaración permitiendo validar y
+
+8
+00:00:09,110 --> 00:00:09,120
+declaración permitiendo validar y
+ 
+
+9
+00:00:09,120 --> 00:00:10,930
+declaración permitiendo validar y
+guardar todos los datos incorporados
+
+10
+00:00:10,930 --> 00:00:10,940
+guardar todos los datos incorporados
+ 
+
+11
+00:00:10,940 --> 00:00:14,240
+guardar todos los datos incorporados
+previo a su transmisión al momento de
+
+12
+00:00:14,240 --> 00:00:14,250
+previo a su transmisión al momento de
+ 
+
+13
+00:00:14,250 --> 00:00:16,880
+previo a su transmisión al momento de
+dar clic en siguiente se mostrará el
+
+14
+00:00:16,880 --> 00:00:16,890
+dar clic en siguiente se mostrará el
+ 
+
+15
+00:00:16,890 --> 00:00:19,040
+dar clic en siguiente se mostrará el
+mensaje al centro de la pantalla donde
+
+16
+00:00:19,040 --> 00:00:19,050
+mensaje al centro de la pantalla donde
+ 
+
+17
+00:00:19,050 --> 00:00:21,320
+mensaje al centro de la pantalla donde
+el sistema consultar a si desea enviar
+
+18
+00:00:21,320 --> 00:00:21,330
+el sistema consultar a si desea enviar
+ 
+
+19
+00:00:21,330 --> 00:00:24,470
+el sistema consultar a si desea enviar
+la declaración al elegir si la misma
+
+20
+00:00:24,470 --> 00:00:24,480
+la declaración al elegir si la misma
+ 
+
+21
+00:00:24,480 --> 00:00:26,630
+la declaración al elegir si la misma
+será enviada al país de registro del
+
+22
+00:00:26,630 --> 00:00:26,640
+será enviada al país de registro del
+ 
+
+23
+00:00:26,640 --> 00:00:29,570
+será enviada al país de registro del
+tránsito de lo contrario el sistema le
+
+24
+00:00:29,570 --> 00:00:29,580
+tránsito de lo contrario el sistema le
+ 
+
+25
+00:00:29,580 --> 00:00:31,880
+tránsito de lo contrario el sistema le
+notificará que la declaración ha sido
+
+26
+00:00:31,880 --> 00:00:31,890
+notificará que la declaración ha sido
+ 
+
+27
+00:00:31,890 --> 00:00:34,790
+notificará que la declaración ha sido
+completada informándole que la misma se
+
+28
+00:00:34,790 --> 00:00:34,800
+completada informándole que la misma se
+ 
+
+29
+00:00:34,800 --> 00:00:37,510
+completada informándole que la misma se
+encontrara en la sección de consultas
+
+30
+00:00:37,510 --> 00:00:37,520
+encontrara en la sección de consultas
+ 
+
+31
+00:00:37,520 --> 00:00:40,639
+encontrara en la sección de consultas
+seleccionando el estado capturada en el
+
+32
+00:00:40,639 --> 00:00:40,649
+seleccionando el estado capturada en el
+ 
+
+33
+00:00:40,649 --> 00:00:42,889
+seleccionando el estado capturada en el
+menú lateral izquierdo al seleccionar la
+
+34
+00:00:42,889 --> 00:00:42,899
+menú lateral izquierdo al seleccionar la
+ 
+
+35
+00:00:42,899 --> 00:00:45,709
+menú lateral izquierdo al seleccionar la
+opción consultas podrá visualizar en la
+
+36
+00:00:45,709 --> 00:00:45,719
+opción consultas podrá visualizar en la
+ 
+
+37
+00:00:45,719 --> 00:00:48,139
+opción consultas podrá visualizar en la
+pantalla dos secciones la primera
+
+38
+00:00:48,139 --> 00:00:48,149
+pantalla dos secciones la primera
+ 
+
+39
+00:00:48,149 --> 00:00:51,170
+pantalla dos secciones la primera
+sección muestra un historial con las más
+
+40
+00:00:51,170 --> 00:00:51,180
+sección muestra un historial con las más
+ 
+
+41
+00:00:51,180 --> 00:00:53,260
+sección muestra un historial con las más
+recientes declaraciones elaboradas
+
+42
+00:00:53,260 --> 00:00:53,270
+recientes declaraciones elaboradas
+ 
+
+43
+00:00:53,270 --> 00:00:55,459
+recientes declaraciones elaboradas
+proporcionando información relevante
+
+44
+00:00:55,459 --> 00:00:55,469
+proporcionando información relevante
+ 
+
+45
+00:00:55,469 --> 00:00:58,459
+proporcionando información relevante
+como correlativo de gestión fecha de
+
+46
+00:00:58,459 --> 00:00:58,469
+como correlativo de gestión fecha de
+ 
+
+47
+00:00:58,469 --> 00:01:01,850
+como correlativo de gestión fecha de
+creación número de la ducati nombre del
+
+48
+00:01:01,850 --> 00:01:01,860
+creación número de la ducati nombre del
+ 
+
+49
+00:01:01,860 --> 00:01:04,969
+creación número de la ducati nombre del
+exportador país de inicio país de
+
+50
+00:01:04,969 --> 00:01:04,979
+exportador país de inicio país de
+ 
+
+51
+00:01:04,979 --> 00:01:06,230
+exportador país de inicio país de
+destino
+
+52
+00:01:06,230 --> 00:01:06,240
+destino
+ 
+
+53
+00:01:06,240 --> 00:01:08,770
+destino
+artista y el estado de la declaración
+
+54
+00:01:08,770 --> 00:01:08,780
+artista y el estado de la declaración
+ 
+
+55
+00:01:08,780 --> 00:01:11,840
+artista y el estado de la declaración
+para facilitar la identificación de una
+
+56
+00:01:11,840 --> 00:01:11,850
+para facilitar la identificación de una
+ 
+
+57
+00:01:11,850 --> 00:01:14,420
+para facilitar la identificación de una
+declaración se ha incorporado la opción
+
+58
+00:01:14,420 --> 00:01:14,430
+declaración se ha incorporado la opción
+ 
+
+59
+00:01:14,430 --> 00:01:17,120
+declaración se ha incorporado la opción
+de búsqueda en la parte superior de este
+
+60
+00:01:17,120 --> 00:01:17,130
+de búsqueda en la parte superior de este
+ 
+
+61
+00:01:17,130 --> 00:01:19,429
+de búsqueda en la parte superior de este
+historial se encuentra un menú de
+
+62
+00:01:19,429 --> 00:01:19,439
+historial se encuentra un menú de
+ 
+
+63
+00:01:19,439 --> 00:01:22,069
+historial se encuentra un menú de
+operaciones que podrá utilizar con las
+
+64
+00:01:22,069 --> 00:01:22,079
+operaciones que podrá utilizar con las
+ 
+
+65
+00:01:22,079 --> 00:01:23,660
+operaciones que podrá utilizar con las
+declaraciones correspondientes
+
+66
+00:01:23,660 --> 00:01:23,670
+declaraciones correspondientes
+ 
+
+67
+00:01:23,670 --> 00:01:25,730
+declaraciones correspondientes
+el menú cuenta con las siguientes
+
+68
+00:01:25,730 --> 00:01:25,740
+el menú cuenta con las siguientes
+ 
+
+69
+00:01:25,740 --> 00:01:28,820
+el menú cuenta con las siguientes
+funciones imprimir mostrará la
+
+70
+00:01:28,820 --> 00:01:28,830
+funciones imprimir mostrará la
+ 
+
+71
+00:01:28,830 --> 00:01:32,810
+funciones imprimir mostrará la
+declaración a ser impresa duplicar este
+
+72
+00:01:32,810 --> 00:01:32,820
+declaración a ser impresa duplicar este
+ 
+
+73
+00:01:32,820 --> 00:01:35,210
+declaración a ser impresa duplicar este
+botón genera una nueva declaración con
+
+74
+00:01:35,210 --> 00:01:35,220
+botón genera una nueva declaración con
+ 
+
+75
+00:01:35,220 --> 00:01:37,160
+botón genera una nueva declaración con
+la información de una previamente
+
+76
+00:01:37,160 --> 00:01:37,170
+la información de una previamente
+ 
+
+77
+00:01:37,170 --> 00:01:39,559
+la información de una previamente
+realizada se copiará la información
+
+78
+00:01:39,559 --> 00:01:39,569
+realizada se copiará la información
+ 
+
+79
+00:01:39,569 --> 00:01:41,499
+realizada se copiará la información
+exceptuando los documentos de soporte
+
+80
+00:01:41,499 --> 00:01:41,509
+exceptuando los documentos de soporte
+ 
+
+81
+00:01:41,509 --> 00:01:44,690
+exceptuando los documentos de soporte
+esta función podrá ser utilizada para
+
+82
+00:01:44,690 --> 00:01:44,700
+esta función podrá ser utilizada para
+ 
+
+83
+00:01:44,700 --> 00:01:46,969
+esta función podrá ser utilizada para
+evitar procesos de doble digitación de
+
+84
+00:01:46,969 --> 00:01:46,979
+evitar procesos de doble digitación de
+ 
+
+85
+00:01:46,979 --> 00:01:48,800
+evitar procesos de doble digitación de
+declaraciones con información que se
+
+86
+00:01:48,800 --> 00:01:48,810
+declaraciones con información que se
+ 
+
+87
+00:01:48,810 --> 00:01:51,649
+declaraciones con información que se
+repite constantemente como mercancías
+
+88
+00:01:51,649 --> 00:01:51,659
+repite constantemente como mercancías
+ 
+
+89
+00:01:51,659 --> 00:01:55,870
+repite constantemente como mercancías
+transporte equipamiento y otros enviar
+
+90
+00:01:55,870 --> 00:01:55,880
+transporte equipamiento y otros enviar
+ 
+
+91
+00:01:55,880 --> 00:01:57,980
+transporte equipamiento y otros enviar
+presionando a este botón podrá
+
+92
+00:01:57,980 --> 00:01:57,990
+presionando a este botón podrá
+ 
+
+93
+00:01:57,990 --> 00:02:00,320
+presionando a este botón podrá
+transmitir una declaración con el fin de
+
+94
+00:02:00,320 --> 00:02:00,330
+transmitir una declaración con el fin de
+ 
+
+95
+00:02:00,330 --> 00:02:02,389
+transmitir una declaración con el fin de
+recibir la aprobación por la autoridad
+
+96
+00:02:02,389 --> 00:02:02,399
+recibir la aprobación por la autoridad
+ 
+
+97
+00:02:02,399 --> 00:02:06,080
+recibir la aprobación por la autoridad
+competente verificar al presionar este
+
+98
+00:02:06,080 --> 00:02:06,090
+competente verificar al presionar este
+ 
+
+99
+00:02:06,090 --> 00:02:08,749
+competente verificar al presionar este
+botón se podrá solicitar al sistema el
+
+100
+00:02:08,749 --> 00:02:08,759
+botón se podrá solicitar al sistema el
+ 
+
+101
+00:02:08,759 --> 00:02:11,300
+botón se podrá solicitar al sistema el
+estado actual de la declaración al
+
+102
+00:02:11,300 --> 00:02:11,310
+estado actual de la declaración al
+ 
+
+103
+00:02:11,310 --> 00:02:12,650
+estado actual de la declaración al
+cambiar de estado
+
+104
+00:02:12,650 --> 00:02:12,660
+cambiar de estado
+ 
+
+105
+00:02:12,660 --> 00:02:15,800
+cambiar de estado
+actualizará la información motivo de la
+
+106
+00:02:15,800 --> 00:02:15,810
+actualizará la información motivo de la
+ 
+
+107
+00:02:15,810 --> 00:02:19,130
+actualizará la información motivo de la
+denegación esta opción permite conocer
+
+108
+00:02:19,130 --> 00:02:19,140
+denegación esta opción permite conocer
+ 
+
+109
+00:02:19,140 --> 00:02:21,380
+denegación esta opción permite conocer
+el motivo por el que la declaración fue
+
+110
+00:02:21,380 --> 00:02:21,390
+el motivo por el que la declaración fue
+ 
+
+111
+00:02:21,390 --> 00:02:23,680
+el motivo por el que la declaración fue
+denegada por la autoridad aduanera
+
+112
+00:02:23,680 --> 00:02:23,690
+denegada por la autoridad aduanera
+ 
+
+113
+00:02:23,690 --> 00:02:26,930
+denegada por la autoridad aduanera
+anular le permite anular declaraciones
+
+114
+00:02:26,930 --> 00:02:26,940
+anular le permite anular declaraciones
+ 
+
+115
+00:02:26,940 --> 00:02:29,210
+anular le permite anular declaraciones
+autorizadas que no hayan iniciado su
+
+116
+00:02:29,210 --> 00:02:29,220
+autorizadas que no hayan iniciado su
+ 
+
+117
+00:02:29,220 --> 00:02:32,900
+autorizadas que no hayan iniciado su
+tránsito eliminar esta opción le
+
+118
+00:02:32,900 --> 00:02:32,910
+tránsito eliminar esta opción le
+ 
+
+119
+00:02:32,910 --> 00:02:35,120
+tránsito eliminar esta opción le
+permitirá eliminar una declaración del
+
+120
+00:02:35,120 --> 00:02:35,130
+permitirá eliminar una declaración del
+ 
+
+121
+00:02:35,130 --> 00:02:37,430
+permitirá eliminar una declaración del
+sistema cuando la declaración no haya
+
+122
+00:02:37,430 --> 00:02:37,440
+sistema cuando la declaración no haya
+ 
+
+123
+00:02:37,440 --> 00:02:38,900
+sistema cuando la declaración no haya
+sido autorizada por la autoridad
+
+124
+00:02:38,900 --> 00:02:38,910
+sido autorizada por la autoridad
+ 
+
+125
+00:02:38,910 --> 00:02:42,590
+sido autorizada por la autoridad
+aduanera refrescar permite actualizar
+
+126
+00:02:42,590 --> 00:02:42,600
+aduanera refrescar permite actualizar
+ 
+
+127
+00:02:42,600 --> 00:02:45,710
+aduanera refrescar permite actualizar
+los estados de las declaraciones buscar
+
+128
+00:02:45,710 --> 00:02:45,720
+los estados de las declaraciones buscar
+ 
+
+129
+00:02:45,720 --> 00:02:48,050
+los estados de las declaraciones buscar
+por estados permite filtrar las
+
+130
+00:02:48,050 --> 00:02:48,060
+por estados permite filtrar las
+ 
+
+131
+00:02:48,060 --> 00:02:50,090
+por estados permite filtrar las
+declaraciones según el estado de las
+
+132
+00:02:50,090 --> 00:02:50,100
+declaraciones según el estado de las
+ 
+
+133
+00:02:50,100 --> 00:02:53,570
+declaraciones según el estado de las
+mismas en el menú lateral izquierdo la
+
+134
+00:02:53,570 --> 00:02:53,580
+mismas en el menú lateral izquierdo la
+ 
+
+135
+00:02:53,580 --> 00:02:56,570
+mismas en el menú lateral izquierdo la
+opción tablero contiene un conjunto de
+
+136
+00:02:56,570 --> 00:02:56,580
+opción tablero contiene un conjunto de
+ 
+
+137
+00:02:56,580 --> 00:02:58,850
+opción tablero contiene un conjunto de
+estadísticas relacionadas a los estados
+
+138
+00:02:58,850 --> 00:02:58,860
+estadísticas relacionadas a los estados
+ 
+
+139
+00:02:58,860 --> 00:03:01,010
+estadísticas relacionadas a los estados
+de las declaraciones del usuario que ha
+
+140
+00:03:01,010 --> 00:03:01,020
+de las declaraciones del usuario que ha
+ 
+
+141
+00:03:01,020 --> 00:03:03,530
+de las declaraciones del usuario que ha
+ingresado en la aplicación también
+
+142
+00:03:03,530 --> 00:03:03,540
+ingresado en la aplicación también
+ 
+
+143
+00:03:03,540 --> 00:03:06,110
+ingresado en la aplicación también
+encontrará allí los conductores y
+
+144
+00:03:06,110 --> 00:03:06,120
+encontrará allí los conductores y
+ 
+
+145
+00:03:06,120 --> 00:03:07,820
+encontrará allí los conductores y
+exportadores consignados en las
+
+146
+00:03:07,820 --> 00:03:07,830
+exportadores consignados en las
+ 
+
+147
+00:03:07,830 --> 00:03:09,890
+exportadores consignados en las
+declaraciones con mayor frecuencia por
+
+148
+00:03:09,890 --> 00:03:09,900
+declaraciones con mayor frecuencia por
+ 
+
+149
+00:03:09,900 --> 00:03:12,200
+declaraciones con mayor frecuencia por
+parte del transportista registrado para
+
+150
+00:03:12,200 --> 00:03:12,210
+parte del transportista registrado para
+ 
+
+151
+00:03:12,210 --> 00:03:14,230
+parte del transportista registrado para
+el uso de la aplicación
+
+152
+00:03:14,230 --> 00:03:14,240
+el uso de la aplicación
+ 
+
+153
+00:03:14,240 --> 00:03:16,750
+el uso de la aplicación
+la interoperabilidad de la plataforma
+
+154
+00:03:16,750 --> 00:03:16,760
+la interoperabilidad de la plataforma
+ 
+
+155
+00:03:16,760 --> 00:03:18,970
+la interoperabilidad de la plataforma
+duca permite que los sistemas de los
+
+156
+00:03:18,970 --> 00:03:18,980
+duca permite que los sistemas de los
+ 
+
+157
+00:03:18,980 --> 00:03:21,130
+duca permite que los sistemas de los
+países de la región tengan una mejor
+
+158
+00:03:21,130 --> 00:03:21,140
+países de la región tengan una mejor
+ 
+
+159
+00:03:21,140 --> 00:03:23,020
+países de la región tengan una mejor
+comunicación a través de la
+
+160
+00:03:23,020 --> 00:03:23,030
+comunicación a través de la
+ 
+
+161
+00:03:23,030 --> 00:03:25,450
+comunicación a través de la
+simplificación y agilización de los
+
+162
+00:03:25,450 --> 00:03:25,460
+simplificación y agilización de los
+ 
+
+163
+00:03:25,460 --> 00:03:28,570
+simplificación y agilización de los
+procesos aduaneros la educa es una
+
+164
+00:03:28,570 --> 00:03:28,580
+procesos aduaneros la educa es una
+ 
+
+165
+00:03:28,580 --> 00:03:30,480
+procesos aduaneros la educa es una
+medida de facilitación del comercio
+
+166
+00:03:30,480 --> 00:03:30,490
+medida de facilitación del comercio
+ 
+
+167
+00:03:30,490 --> 00:03:32,980
+medida de facilitación del comercio
+resultado del esfuerzo del trabajo de
+
+168
+00:03:32,980 --> 00:03:32,990
+resultado del esfuerzo del trabajo de
+ 
+
+169
+00:03:32,990 --> 00:03:35,350
+resultado del esfuerzo del trabajo de
+los servicios aduaneros de la región así
+
+170
+00:03:35,350 --> 00:03:35,360
+los servicios aduaneros de la región así
+ 
+
+171
+00:03:35,360 --> 00:03:37,120
+los servicios aduaneros de la región así
+como del consejo de ministros de
+
+172
+00:03:37,120 --> 00:03:37,130
+como del consejo de ministros de
+ 
+
+173
+00:03:37,130 --> 00:03:40,090
+como del consejo de ministros de
+integración económica y constituye un
+
+174
+00:03:40,090 --> 00:03:40,100
+integración económica y constituye un
+ 
+
+175
+00:03:40,100 --> 00:03:42,430
+integración económica y constituye un
+paso firme hacia el fortalecimiento del
+
+176
+00:03:42,430 --> 00:03:42,440
+paso firme hacia el fortalecimiento del
+ 
+
+177
+00:03:42,440 --> 00:03:44,500
+paso firme hacia el fortalecimiento del
+proceso de la integración económica
+
+178
+00:03:44,500 --> 00:03:44,510
+proceso de la integración económica
+ 
+
+179
+00:03:44,510 --> 00:03:45,660
+proceso de la integración económica
+centroamericana
+
+180
+00:03:45,660 --> 00:03:45,670
+centroamericana
+ 
+
+181
+00:03:45,670 --> 00:03:55,160
+centroamericana
+[Música]
+

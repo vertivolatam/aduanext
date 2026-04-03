@@ -1,0 +1,275 @@
+// AduaNext — Hacienda Sidecar gRPC Service Definitions
+//
+// These proto definitions wrap the hacienda-cr TypeScript SDK
+// (https://github.com/DojoCodingLabs/hacienda-cr) as a gRPC service.
+//
+// The sidecar handles: OAuth2/OIDC auth, XAdES-EPES signing,
+// ATENA API proxy, and rate-limiting.
+//
+// Serverpod (Dart) calls this sidecar via gRPC for all
+// Costa Rica Hacienda integrations.
+
+syntax = "proto3";
+
+package aduanext.hacienda;
+
+option java_package = "io.aduanext.hacienda.pb";
+
+// ==========================================================================
+// HaciendaAuth — OAuth2/OIDC Token Lifecycle
+//
+// Wraps hacienda-cr: packages/sdk/src/auth/token-manager.ts
+// Auth flow: ROPC (grant_type=password) against Keycloak SSO
+//
+// ATENA SSO: https://sso-{env}-siaa.hacienda.go.cr/auth/realms/app/protocol/openid-connect/token
+// RIMM SSO: Same URL, different client_id (URIMM vs Declaration)
+// ==========================================================================
+
+service HaciendaAuth {
+  // Authenticate with Hacienda IDP using ROPC credentials
+  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse);
+
+  // Get cached access token (auto-refreshes 30s before expiry)
+  rpc GetAccessToken (GetAccessTokenRequest) returns (GetAccessTokenResponse);
+
+  // Check if a valid session exists
+  rpc IsAuthenticated (IsAuthenticatedRequest) returns (IsAuthenticatedResponse);
+
+  // Invalidate current session
+  rpc Invalidate (InvalidateRequest) returns (InvalidateResponse);
+}
+
+message AuthenticateRequest {
+  string id_type = 1;        // "01"=Fisica, "02"=Juridica, "03"=DIMEX, "04"=NITE
+  string id_number = 2;      // Cedula: 9-12 digits
+  string password = 3;       // IDP password
+  string client_id = 4;      // "Declaration" for DUA, "URIMM" for RIMM
+  string environment = 5;    // "dev", "test", "preprod", "prod"
+}
+
+message AuthenticateResponse {
+  bool success = 1;
+  string message = 2;
+  string error_code = 3;
+}
+
+message GetAccessTokenRequest {
+  string client_id = 1;      // Which service token to retrieve
+}
+
+message GetAccessTokenResponse {
+  string token = 1;           // JWT access_token (Bearer)
+  int64 expires_in_seconds = 2;
+  string token_type = 3;      // "Bearer"
+  string scope = 4;           // "profile email"
+}
+
+message IsAuthenticatedRequest {
+  string client_id = 1;
+}
+
+message IsAuthenticatedResponse {
+  bool authenticated = 1;
+}
+
+message InvalidateRequest {
+  string client_id = 1;
+}
+
+message InvalidateResponse {
+  bool success = 1;
+}
+
+// ==========================================================================
+// HaciendaSigner — XAdES-EPES Digital Signing
+//
+// Wraps hacienda-cr: packages/sdk/src/signing/signer.ts
+// Signing: XAdES-EPES v1.3.2+, RSA 2048, SHA-256
+// Certificate: PKCS#12 (.p12) from BCCR-authorized CAs
+// ==========================================================================
+
+service HaciendaSigner {
+  // Sign XML with XAdES-EPES envelope signature
+  rpc SignXml (SignXmlRequest) returns (SignXmlResponse);
+
+  // Sign XML and return as base64-encoded string (for ATENA submission)
+  rpc SignAndEncode (SignAndEncodeRequest) returns (SignAndEncodeResponse);
+
+  // Verify a signed XML document
+  rpc VerifySignature (VerifySignatureRequest) returns (VerifySignatureResponse);
+}
+
+message SignXmlRequest {
+  string xml = 1;              // XML document to sign
+  bytes p12_buffer = 2;        // PKCS#12 certificate bytes
+  string p12_pin = 3;          // Certificate PIN/password
+}
+
+message SignXmlResponse {
+  string signed_xml = 1;       // XML with enveloped XAdES-EPES signature
+  string error = 2;
+}
+
+message SignAndEncodeRequest {
+  string xml = 1;
+  bytes p12_buffer = 2;
+  string p12_pin = 3;
+}
+
+message SignAndEncodeResponse {
+  string base64_signed_xml = 1;
+  string error = 2;
+}
+
+message VerifySignatureRequest {
+  string signed_xml = 1;
+}
+
+message VerifySignatureResponse {
+  bool valid = 1;
+  string signer_cn = 2;        // Common Name from signing certificate
+  string error = 3;
+}
+
+// ==========================================================================
+// HaciendaApi — ATENA REST API Proxy
+//
+// Wraps hacienda-cr: packages/sdk/src/api/http-client.ts
+// Includes: rate-limiting (token bucket), retry (exponential backoff),
+//           automatic Bearer token injection
+//
+// DUA Gateway: https://{env}-siaa.hacienda.go.cr/cr-sad-server-gateway/
+// RIMM Server: https://{env}-siaa.hacienda.go.cr/rimm-server/
+// ==========================================================================
+
+service HaciendaApi {
+  // DUA API #1: Get declaration by registration key
+  rpc GetDeclaration (GetDeclarationRequest) returns (GetDeclarationResponse);
+
+  // DUA API #2: Validate declaration for liquidation
+  rpc ValidateDeclaration (ValidateDeclarationRequest) returns (ApiResponse);
+
+  // DUA API #3: Liquidate (assess) declaration
+  rpc LiquidateDeclaration (LiquidateDeclarationRequest) returns (ApiResponse);
+
+  // DUA API #4: Validate DUA for rectification
+  rpc ValidateRectification (ValidateRectificationRequest) returns (ApiResponse);
+
+  // DUA API #5: Rectify declaration
+  rpc RectifyDeclaration (RectifyDeclarationRequest) returns (ApiResponse);
+
+  // DUA API #6: Upload attached document
+  rpc UploadDocument (UploadDocumentRequest) returns (ApiResponse);
+
+  // RIMM: Generic search across any reference table
+  rpc RimmSearch (RimmSearchRequest) returns (RimmSearchResponse);
+}
+
+// --- DUA Requests ---
+
+message GetDeclarationRequest {
+  string customs_office_code = 1;   // e.g., "005"
+  string serial = 2;                // e.g., "R"
+  int32 number = 3;                 // e.g., 78
+  int32 year = 4;                   // e.g., 2024
+}
+
+message GetDeclarationResponse {
+  string json_payload = 1;          // Full ATENA JSON response (serialized)
+  int32 http_status = 2;
+  string error = 3;
+}
+
+message ValidateDeclarationRequest {
+  string json_payload = 1;          // Full DUA JSON body for validation
+}
+
+message LiquidateDeclarationRequest {
+  string json_payload = 1;          // Full DUA JSON body for liquidation (API #3)
+}
+
+message ValidateRectificationRequest {
+  string json_payload = 1;          // DUA JSON for rectification validation
+}
+
+message RectifyDeclarationRequest {
+  string json_payload = 1;          // DUA JSON for rectification
+}
+
+message UploadDocumentRequest {
+  string declaration_id = 1;
+  string doc_code = 2;              // e.g., "003" for factura
+  string doc_reference = 3;
+  bytes file_content = 4;
+  string file_name = 5;
+  string content_type = 6;          // e.g., "application/pdf"
+}
+
+message ApiResponse {
+  int32 http_status = 1;
+  string json_payload = 2;          // Full JSON response (serialized)
+  string error = 3;
+}
+
+// --- RIMM Requests ---
+
+message RimmSearchRequest {
+  string endpoint = 1;              // e.g., "commodity", "heading", "termsOfDelivery"
+  repeated RimmRestriction restrictions = 2;
+  RimmMeta meta = 3;
+  int32 max = 4;                    // Max results (default 100)
+  int32 offset = 5;                 // Pagination offset
+  bool distinct = 6;
+  string restrict_by = 7;           // "AND" or "OR"
+  repeated string select_fields = 8; // ["*"] for all
+  map<string, string> sort_by_fields = 9; // e.g., {"code": "ASC"}
+}
+
+message RimmRestriction {
+  string value = 1;                 // Search value (empty for FULL_TEXT wildcard)
+  string operator = 2;             // FULL_TEXT, EQUALS, BETWEEN, LIKE
+  string field = 3;                // e.g., "hsCode", "description"
+  string value_to = 4;             // For BETWEEN operator (range end)
+}
+
+message RimmMeta {
+  string operator = 1;             // "EQUALS"
+  string validity_date = 2;        // "YYYY-MM-DD" format
+}
+
+message RimmSearchResponse {
+  repeated string result_list = 1;  // Array of JSON objects (serialized)
+  int32 total_count = 2;
+  string error = 3;
+}
+
+// ==========================================================================
+// HaciendaOrchestrator — High-level Workflows
+//
+// Combines auth + signing + API into single atomic operations.
+// Used by Serverpod for common flows that need all three services.
+// ==========================================================================
+
+service HaciendaOrchestrator {
+  // Full workflow: authenticate → validate → sign → submit → return result
+  rpc SubmitSignedDeclaration (SubmitSignedDeclarationRequest) returns (SubmitSignedDeclarationResponse);
+}
+
+message SubmitSignedDeclarationRequest {
+  string json_payload = 1;          // Full DUA JSON body
+  bytes p12_buffer = 2;             // Signing certificate
+  string p12_pin = 3;               // Certificate PIN
+  AuthenticateRequest auth = 4;     // Auth credentials
+  bool validate_only = 5;           // If true, only validate (don't submit)
+}
+
+message SubmitSignedDeclarationResponse {
+  bool success = 1;
+  string status = 2;                // "ST_ASSESSED", "ST_REGISTERED", etc.
+  string customs_registration_number = 3;
+  string assessment_serial = 4;
+  int32 assessment_number = 5;
+  string assessment_date = 6;
+  string json_response = 7;         // Full ATENA response (serialized)
+  string error = 8;
+}

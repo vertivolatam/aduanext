@@ -1,0 +1,435 @@
+1
+00:00:02,659 --> 00:00:05,690
+
+pasos del registro para adquirir saldo
+
+2
+00:00:05,690 --> 00:00:05,700
+pasos del registro para adquirir saldo
+ 
+
+3
+00:00:05,700 --> 00:00:09,710
+pasos del registro para adquirir saldo
+de la ducaf para iniciar ingresa el
+
+4
+00:00:09,710 --> 00:00:09,720
+de la ducaf para iniciar ingresa el
+ 
+
+5
+00:00:09,720 --> 00:00:11,830
+de la ducaf para iniciar ingresa el
+sitio www
+
+6
+00:00:11,830 --> 00:00:11,840
+sitio www
+ 
+
+7
+00:00:11,840 --> 00:00:16,029
+sitio www
+aduanas-control saldo punto 7.int
+
+8
+00:00:16,029 --> 00:00:16,039
+aduanas-control saldo punto 7.int
+ 
+
+9
+00:00:16,039 --> 00:00:18,590
+aduanas-control saldo punto 7.int
+se mostrará la página de inicio de
+
+10
+00:00:18,590 --> 00:00:18,600
+se mostrará la página de inicio de
+ 
+
+11
+00:00:18,600 --> 00:00:21,109
+se mostrará la página de inicio de
+sesión y para crear una cuenta Haz clic
+
+12
+00:00:21,109 --> 00:00:21,119
+sesión y para crear una cuenta Haz clic
+ 
+
+13
+00:00:21,119 --> 00:00:23,170
+sesión y para crear una cuenta Haz clic
+en la opción crear cuenta
+
+14
+00:00:23,170 --> 00:00:23,180
+en la opción crear cuenta
+ 
+
+15
+00:00:23,180 --> 00:00:25,970
+en la opción crear cuenta
+Luego nos enviará hacia el formulario
+
+16
+00:00:25,970 --> 00:00:25,980
+Luego nos enviará hacia el formulario
+ 
+
+17
+00:00:25,980 --> 00:00:27,890
+Luego nos enviará hacia el formulario
+donde podrás llenar los datos
+
+18
+00:00:27,890 --> 00:00:27,900
+donde podrás llenar los datos
+ 
+
+19
+00:00:27,900 --> 00:00:30,050
+donde podrás llenar los datos
+solicitados para la creación de tu
+
+20
+00:00:30,050 --> 00:00:30,060
+solicitados para la creación de tu
+ 
+
+21
+00:00:30,060 --> 00:00:31,030
+solicitados para la creación de tu
+cuenta
+
+22
+00:00:31,030 --> 00:00:31,040
+cuenta
+ 
+
+23
+00:00:31,040 --> 00:00:34,190
+cuenta
+selecciona el tipo de usuario si eres un
+
+24
+00:00:34,190 --> 00:00:34,200
+selecciona el tipo de usuario si eres un
+ 
+
+25
+00:00:34,200 --> 00:00:37,370
+selecciona el tipo de usuario si eres un
+agente o un exportador selecciona el
+
+26
+00:00:37,370 --> 00:00:37,380
+agente o un exportador selecciona el
+ 
+
+27
+00:00:37,380 --> 00:00:40,369
+agente o un exportador selecciona el
+país al que perteneces
+
+28
+00:00:40,369 --> 00:00:40,379
+país al que perteneces
+ 
+
+29
+00:00:40,379 --> 00:00:44,150
+país al que perteneces
+el nombre o razón social
+
+30
+00:00:44,150 --> 00:00:44,160
+
+ 
+
+31
+00:00:44,160 --> 00:00:45,729
+
+la dirección
+
+32
+00:00:45,729 --> 00:00:45,739
+la dirección
+ 
+
+33
+00:00:45,739 --> 00:00:49,490
+la dirección
+el teléfono
+
+34
+00:00:49,490 --> 00:00:49,500
+
+ 
+
+35
+00:00:49,500 --> 00:00:51,950
+
+el identificador tributario que podrá
+
+36
+00:00:51,950 --> 00:00:51,960
+el identificador tributario que podrá
+ 
+
+37
+00:00:51,960 --> 00:00:54,110
+el identificador tributario que podrá
+ser el nit para Guatemala y El Salvador
+
+38
+00:00:54,110 --> 00:00:54,120
+ser el nit para Guatemala y El Salvador
+ 
+
+39
+00:00:54,120 --> 00:00:58,250
+ser el nit para Guatemala y El Salvador
+el rtn para Honduras y el Root para
+
+40
+00:00:58,250 --> 00:00:58,260
+el rtn para Honduras y el Root para
+ 
+
+41
+00:00:58,260 --> 00:01:01,270
+el rtn para Honduras y el Root para
+Nicaragua Costa Rica y Panamá
+
+42
+00:01:01,270 --> 00:01:01,280
+Nicaragua Costa Rica y Panamá
+ 
+
+43
+00:01:01,280 --> 00:01:04,070
+Nicaragua Costa Rica y Panamá
+ingresa el correo electrónico que se
+
+44
+00:01:04,070 --> 00:01:04,080
+ingresa el correo electrónico que se
+ 
+
+45
+00:01:04,080 --> 00:01:06,410
+ingresa el correo electrónico que se
+registrará a la plataforma
+
+46
+00:01:06,410 --> 00:01:06,420
+registrará a la plataforma
+ 
+
+47
+00:01:06,420 --> 00:01:09,050
+registrará a la plataforma
+crea una contraseña segura la cual debe
+
+48
+00:01:09,050 --> 00:01:09,060
+crea una contraseña segura la cual debe
+ 
+
+49
+00:01:09,060 --> 00:01:11,570
+crea una contraseña segura la cual debe
+contar por lo menos con 8 caracteres que
+
+50
+00:01:11,570 --> 00:01:11,580
+contar por lo menos con 8 caracteres que
+ 
+
+51
+00:01:11,580 --> 00:01:15,289
+contar por lo menos con 8 caracteres que
+incluyan mayúsculas minúsculas números y
+
+52
+00:01:15,289 --> 00:01:15,299
+incluyan mayúsculas minúsculas números y
+ 
+
+53
+00:01:15,299 --> 00:01:17,149
+incluyan mayúsculas minúsculas números y
+por lo menos uno de los caracteres
+
+54
+00:01:17,149 --> 00:01:17,159
+por lo menos uno de los caracteres
+ 
+
+55
+00:01:17,159 --> 00:01:21,230
+por lo menos uno de los caracteres
+especiales a tu elección
+
+56
+00:01:21,230 --> 00:01:21,240
+
+ 
+
+57
+00:01:21,240 --> 00:01:23,450
+
+se solicitará que confirmes tu
+
+58
+00:01:23,450 --> 00:01:23,460
+se solicitará que confirmes tu
+ 
+
+59
+00:01:23,460 --> 00:01:26,030
+se solicitará que confirmes tu
+contraseña
+
+60
+00:01:26,030 --> 00:01:26,040
+
+ 
+
+61
+00:01:26,040 --> 00:01:28,609
+
+Y por último Lee y acepta los términos
+
+62
+00:01:28,609 --> 00:01:28,619
+Y por último Lee y acepta los términos
+ 
+
+63
+00:01:28,619 --> 00:01:30,890
+Y por último Lee y acepta los términos
+de condiciones los cuales podrás revisar
+
+64
+00:01:30,890 --> 00:01:30,900
+de condiciones los cuales podrás revisar
+ 
+
+65
+00:01:30,900 --> 00:01:33,830
+de condiciones los cuales podrás revisar
+haciendo clic en el link de términos y
+
+66
+00:01:33,830 --> 00:01:33,840
+haciendo clic en el link de términos y
+ 
+
+67
+00:01:33,840 --> 00:01:35,690
+haciendo clic en el link de términos y
+condiciones
+
+68
+00:01:35,690 --> 00:01:35,700
+condiciones
+ 
+
+69
+00:01:35,700 --> 00:01:38,390
+condiciones
+Haz clic en aceptar los términos y
+
+70
+00:01:38,390 --> 00:01:38,400
+Haz clic en aceptar los términos y
+ 
+
+71
+00:01:38,400 --> 00:01:39,550
+Haz clic en aceptar los términos y
+condiciones
+
+72
+00:01:39,550 --> 00:01:39,560
+condiciones
+ 
+
+73
+00:01:39,560 --> 00:01:43,670
+condiciones
+Haz clic en el botón Crear cuenta al
+
+74
+00:01:43,670 --> 00:01:43,680
+Haz clic en el botón Crear cuenta al
+ 
+
+75
+00:01:43,680 --> 00:01:46,310
+Haz clic en el botón Crear cuenta al
+finalizar la creación de tu cuenta serás
+
+76
+00:01:46,310 --> 00:01:46,320
+finalizar la creación de tu cuenta serás
+ 
+
+77
+00:01:46,320 --> 00:01:48,530
+finalizar la creación de tu cuenta serás
+redirigido hacia la página de inicio de
+
+78
+00:01:48,530 --> 00:01:48,540
+redirigido hacia la página de inicio de
+ 
+
+79
+00:01:48,540 --> 00:01:51,230
+redirigido hacia la página de inicio de
+sesión y se te enviará un correo
+
+80
+00:01:51,230 --> 00:01:51,240
+sesión y se te enviará un correo
+ 
+
+81
+00:01:51,240 --> 00:01:53,090
+sesión y se te enviará un correo
+electrónico con el nombre de usuario
+
+82
+00:01:53,090 --> 00:01:53,100
+electrónico con el nombre de usuario
+ 
+
+83
+00:01:53,100 --> 00:01:56,149
+electrónico con el nombre de usuario
+asignado para que puedas ingresar a la
+
+84
+00:01:56,149 --> 00:01:56,159
+asignado para que puedas ingresar a la
+ 
+
+85
+00:01:56,159 --> 00:01:58,380
+asignado para que puedas ingresar a la
+plataforma
+
+86
+00:01:58,380 --> 00:01:58,390
+
+ 
+
+87
+00:01:58,390 --> 00:02:01,450
+
+[Música]
+

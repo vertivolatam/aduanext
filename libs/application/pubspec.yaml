@@ -1,0 +1,17 @@
+name: aduanext_application
+description: AduaNext Application Layer — Use Cases, Commands, Queries, and the CountryAdapterFactory. Orchestrates domain logic.
+version: 0.1.0
+publish_to: none
+
+# Depends ONLY on libs/domain. Never on libs/adapters or apps/*.
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  aduanext_domain:
+    path: ../domain
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.1.0

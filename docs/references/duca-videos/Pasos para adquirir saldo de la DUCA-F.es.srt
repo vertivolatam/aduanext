@@ -1,0 +1,465 @@
+1
+00:00:02,659 --> 00:00:07,970
+
+pasos para adquirir saldo de la duca F
+
+2
+00:00:07,970 --> 00:00:07,980
+
+ 
+
+3
+00:00:07,980 --> 00:00:11,890
+
+para iniciar ingresa el sitio www
+
+4
+00:00:11,890 --> 00:00:11,900
+para iniciar ingresa el sitio www
+ 
+
+5
+00:00:11,900 --> 00:00:16,250
+para iniciar ingresa el sitio www
+aduanas-control saldo punto 7.int e
+
+6
+00:00:16,250 --> 00:00:16,260
+aduanas-control saldo punto 7.int e
+ 
+
+7
+00:00:16,260 --> 00:00:17,750
+aduanas-control saldo punto 7.int e
+iniciar sesión con tu usuario y
+
+8
+00:00:17,750 --> 00:00:17,760
+iniciar sesión con tu usuario y
+ 
+
+9
+00:00:17,760 --> 00:00:20,450
+iniciar sesión con tu usuario y
+contraseña
+
+10
+00:00:20,450 --> 00:00:20,460
+
+ 
+
+11
+00:00:20,460 --> 00:00:22,970
+
+al ingresar a la plataforma puedes ir al
+
+12
+00:00:22,970 --> 00:00:22,980
+al ingresar a la plataforma puedes ir al
+ 
+
+13
+00:00:22,980 --> 00:00:24,769
+al ingresar a la plataforma puedes ir al
+menú recargas que se encuentra en la
+
+14
+00:00:24,769 --> 00:00:24,779
+menú recargas que se encuentra en la
+ 
+
+15
+00:00:24,779 --> 00:00:27,170
+menú recargas que se encuentra en la
+parte superior izquierda y hacer clic en
+
+16
+00:00:27,170 --> 00:00:27,180
+parte superior izquierda y hacer clic en
+ 
+
+17
+00:00:27,180 --> 00:00:30,589
+parte superior izquierda y hacer clic en
+la opción realizar recarga
+
+18
+00:00:30,589 --> 00:00:30,599
+la opción realizar recarga
+ 
+
+19
+00:00:30,599 --> 00:00:33,170
+la opción realizar recarga
+esto abrirá la ventana para crear una
+
+20
+00:00:33,170 --> 00:00:33,180
+esto abrirá la ventana para crear una
+ 
+
+21
+00:00:33,180 --> 00:00:35,389
+esto abrirá la ventana para crear una
+nueva recarga donde podrás seleccionar
+
+22
+00:00:35,389 --> 00:00:35,399
+nueva recarga donde podrás seleccionar
+ 
+
+23
+00:00:35,399 --> 00:00:39,889
+nueva recarga donde podrás seleccionar
+la cantidad de tokens o saldo a comprar
+
+24
+00:00:39,889 --> 00:00:39,899
+la cantidad de tokens o saldo a comprar
+ 
+
+25
+00:00:39,899 --> 00:00:42,530
+la cantidad de tokens o saldo a comprar
+automáticamente la plataforma convertirá
+
+26
+00:00:42,530 --> 00:00:42,540
+automáticamente la plataforma convertirá
+ 
+
+27
+00:00:42,540 --> 00:00:44,810
+automáticamente la plataforma convertirá
+los tokens o saldo a comprar en dólares
+
+28
+00:00:44,810 --> 00:00:44,820
+los tokens o saldo a comprar en dólares
+ 
+
+29
+00:00:44,820 --> 00:00:46,970
+los tokens o saldo a comprar en dólares
+que se cobrará de la tarjeta de crédito
+
+30
+00:00:46,970 --> 00:00:46,980
+que se cobrará de la tarjeta de crédito
+ 
+
+31
+00:00:46,980 --> 00:00:50,750
+que se cobrará de la tarjeta de crédito
+o débito a utilizar luego de ingresar la
+
+32
+00:00:50,750 --> 00:00:50,760
+o débito a utilizar luego de ingresar la
+ 
+
+33
+00:00:50,760 --> 00:00:52,670
+o débito a utilizar luego de ingresar la
+cantidad de tokens o saldo a comprar
+
+34
+00:00:52,670 --> 00:00:52,680
+cantidad de tokens o saldo a comprar
+ 
+
+35
+00:00:52,680 --> 00:00:57,130
+cantidad de tokens o saldo a comprar
+podrás hacer clic en el botón proceder
+
+36
+00:00:57,130 --> 00:00:57,140
+
+ 
+
+37
+00:00:57,140 --> 00:00:59,689
+
+esto te redirigirá al sitio de la
+
+38
+00:00:59,689 --> 00:00:59,699
+esto te redirigirá al sitio de la
+ 
+
+39
+00:00:59,699 --> 00:01:01,610
+esto te redirigirá al sitio de la
+entidad bancaria donde se realizará el
+
+40
+00:01:01,610 --> 00:01:01,620
+entidad bancaria donde se realizará el
+ 
+
+41
+00:01:01,620 --> 00:01:04,609
+entidad bancaria donde se realizará el
+cobro con la tarjeta a utilizar ahora
+
+42
+00:01:04,609 --> 00:01:04,619
+cobro con la tarjeta a utilizar ahora
+ 
+
+43
+00:01:04,619 --> 00:01:06,649
+cobro con la tarjeta a utilizar ahora
+puedes ingresar los datos de la tarjeta
+
+44
+00:01:06,649 --> 00:01:06,659
+puedes ingresar los datos de la tarjeta
+ 
+
+45
+00:01:06,659 --> 00:01:09,530
+puedes ingresar los datos de la tarjeta
+Visa O mastercard que será utilizada
+
+46
+00:01:09,530 --> 00:01:09,540
+Visa O mastercard que será utilizada
+ 
+
+47
+00:01:09,540 --> 00:01:11,810
+Visa O mastercard que será utilizada
+para realizar la compra de tokens o
+
+48
+00:01:11,810 --> 00:01:11,820
+para realizar la compra de tokens o
+ 
+
+49
+00:01:11,820 --> 00:01:14,510
+para realizar la compra de tokens o
+saldo a comprar ingresa el nombre de la
+
+50
+00:01:14,510 --> 00:01:14,520
+saldo a comprar ingresa el nombre de la
+ 
+
+51
+00:01:14,520 --> 00:01:16,609
+saldo a comprar ingresa el nombre de la
+tarjeta
+
+52
+00:01:16,609 --> 00:01:16,619
+tarjeta
+ 
+
+53
+00:01:16,619 --> 00:01:21,230
+tarjeta
+el número de la tarjeta
+
+54
+00:01:21,230 --> 00:01:21,240
+
+ 
+
+55
+00:01:21,240 --> 00:01:23,469
+
+la fecha de expiración
+
+56
+00:01:23,469 --> 00:01:23,479
+la fecha de expiración
+ 
+
+57
+00:01:23,479 --> 00:01:26,260
+la fecha de expiración
+el código de seguridad
+
+58
+00:01:26,260 --> 00:01:26,270
+el código de seguridad
+ 
+
+59
+00:01:26,270 --> 00:01:27,950
+el código de seguridad
+[Música]
+
+60
+00:01:27,950 --> 00:01:27,960
+[Música]
+ 
+
+61
+00:01:27,960 --> 00:01:30,230
+[Música]
+y el correo electrónico al cual será
+
+62
+00:01:30,230 --> 00:01:30,240
+y el correo electrónico al cual será
+ 
+
+63
+00:01:30,240 --> 00:01:35,149
+y el correo electrónico al cual será
+enviado el comprobante de la transacción
+
+64
+00:01:35,149 --> 00:01:35,159
+
+ 
+
+65
+00:01:35,159 --> 00:01:37,550
+
+de manera automática se establecerá el
+
+66
+00:01:37,550 --> 00:01:37,560
+de manera automática se establecerá el
+ 
+
+67
+00:01:37,560 --> 00:01:39,950
+de manera automática se establecerá el
+monto de acuerdo a los tokens o saldo a
+
+68
+00:01:39,950 --> 00:01:39,960
+monto de acuerdo a los tokens o saldo a
+ 
+
+69
+00:01:39,960 --> 00:01:42,530
+monto de acuerdo a los tokens o saldo a
+comprar que se ha indicado y el tipo de
+
+70
+00:01:42,530 --> 00:01:42,540
+comprar que se ha indicado y el tipo de
+ 
+
+71
+00:01:42,540 --> 00:01:45,469
+comprar que se ha indicado y el tipo de
+pago Siempre será pago al contado luego
+
+72
+00:01:45,469 --> 00:01:45,479
+pago Siempre será pago al contado luego
+ 
+
+73
+00:01:45,479 --> 00:01:51,649
+pago Siempre será pago al contado luego
+podrás hacer clic en el botón pagar
+
+74
+00:01:51,649 --> 00:01:51,659
+
+ 
+
+75
+00:01:51,659 --> 00:01:54,289
+
+y automáticamente serás redirigido hacia
+
+76
+00:01:54,289 --> 00:01:54,299
+y automáticamente serás redirigido hacia
+ 
+
+77
+00:01:54,299 --> 00:01:56,690
+y automáticamente serás redirigido hacia
+el sitio de la sieca y podés hacer clic
+
+78
+00:01:56,690 --> 00:01:56,700
+el sitio de la sieca y podés hacer clic
+ 
+
+79
+00:01:56,700 --> 00:01:59,030
+el sitio de la sieca y podés hacer clic
+en el botón continuar para comprobar que
+
+80
+00:01:59,030 --> 00:01:59,040
+en el botón continuar para comprobar que
+ 
+
+81
+00:01:59,040 --> 00:02:00,710
+en el botón continuar para comprobar que
+se ha realizado la recarga de manera
+
+82
+00:02:00,710 --> 00:02:00,720
+se ha realizado la recarga de manera
+ 
+
+83
+00:02:00,720 --> 00:02:01,480
+se ha realizado la recarga de manera
+exitosa
+
+84
+00:02:01,480 --> 00:02:01,490
+exitosa
+ 
+
+85
+00:02:01,490 --> 00:02:03,770
+exitosa
+[Música]
+
+86
+00:02:03,770 --> 00:02:03,780
+[Música]
+ 
+
+87
+00:02:03,780 --> 00:02:06,530
+[Música]
+aviso importante el único portal
+
+88
+00:02:06,530 --> 00:02:06,540
+aviso importante el único portal
+ 
+
+89
+00:02:06,540 --> 00:02:08,630
+aviso importante el único portal
+autorizado para la compra de salto para
+
+90
+00:02:08,630 --> 00:02:08,640
+autorizado para la compra de salto para
+ 
+
+91
+00:02:08,640 --> 00:02:12,010
+autorizado para la compra de salto para
+transmitir tu kf es www
+
+92
+00:02:12,010 --> 00:02:12,020
+transmitir tu kf es www
+ 
+
+93
+00:02:12,020 --> 00:02:16,260
+transmitir tu kf es www
+aduanas-control saldo 7.int
+

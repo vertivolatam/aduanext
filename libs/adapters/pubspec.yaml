@@ -1,0 +1,20 @@
+name: aduanext_adapters
+description: AduaNext Secondary Adapters — Implements domain Ports for ATENA, RIMM, signing (gRPC), notifications, and persistence.
+version: 0.1.0
+publish_to: none
+
+# Implements Ports from libs/domain. Has I/O dependencies (gRPC, HTTP, DB).
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  aduanext_domain:
+    path: ../domain
+  grpc: ^4.0.1
+  protobuf: ^3.1.0
+  http: ^1.2.0
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.1.0

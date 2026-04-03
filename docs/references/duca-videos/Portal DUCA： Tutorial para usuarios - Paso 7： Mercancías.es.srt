@@ -1,0 +1,1605 @@
+1
+00:00:00,000 --> 00:00:03,860
+
+a société mercancías en este paso se
+
+2
+00:00:03,860 --> 00:00:03,870
+a société mercancías en este paso se
+ 
+
+3
+00:00:03,870 --> 00:00:05,720
+a société mercancías en este paso se
+deberá ingresar toda la información
+
+4
+00:00:05,720 --> 00:00:05,730
+deberá ingresar toda la información
+ 
+
+5
+00:00:05,730 --> 00:00:07,190
+deberá ingresar toda la información
+relacionada a las mercancías
+
+6
+00:00:07,190 --> 00:00:07,200
+relacionada a las mercancías
+ 
+
+7
+00:00:07,200 --> 00:00:09,650
+relacionada a las mercancías
+transportadas de conformidad con la
+
+8
+00:00:09,650 --> 00:00:09,660
+transportadas de conformidad con la
+ 
+
+9
+00:00:09,660 --> 00:00:12,169
+transportadas de conformidad con la
+información requerida en las casillas de
+
+10
+00:00:12,169 --> 00:00:12,179
+información requerida en las casillas de
+ 
+
+11
+00:00:12,179 --> 00:00:15,350
+información requerida en las casillas de
+la forma siguiente mercancía deberá
+
+12
+00:00:15,350 --> 00:00:15,360
+la forma siguiente mercancía deberá
+ 
+
+13
+00:00:15,360 --> 00:00:17,540
+la forma siguiente mercancía deberá
+ingresar o seleccionar la clasificación
+
+14
+00:00:17,540 --> 00:00:17,550
+ingresar o seleccionar la clasificación
+ 
+
+15
+00:00:17,550 --> 00:00:19,400
+ingresar o seleccionar la clasificación
+arancelaria que le corresponde a las
+
+16
+00:00:19,400 --> 00:00:19,410
+arancelaria que le corresponde a las
+ 
+
+17
+00:00:19,410 --> 00:00:21,830
+arancelaria que le corresponde a las
+mercancías declaradas de conformidad con
+
+18
+00:00:21,830 --> 00:00:21,840
+mercancías declaradas de conformidad con
+ 
+
+19
+00:00:21,840 --> 00:00:24,349
+mercancías declaradas de conformidad con
+el sistema arancelario centroamericano
+
+20
+00:00:24,349 --> 00:00:24,359
+el sistema arancelario centroamericano
+ 
+
+21
+00:00:24,359 --> 00:00:27,980
+el sistema arancelario centroamericano
+zach descripción luego de seleccionar si
+
+22
+00:00:27,980 --> 00:00:27,990
+zach descripción luego de seleccionar si
+ 
+
+23
+00:00:27,990 --> 00:00:29,480
+zach descripción luego de seleccionar si
+su arancelario se mostrará
+
+24
+00:00:29,480 --> 00:00:29,490
+su arancelario se mostrará
+ 
+
+25
+00:00:29,490 --> 00:00:31,669
+su arancelario se mostrará
+automáticamente la descripción comercial
+
+26
+00:00:31,669 --> 00:00:31,679
+automáticamente la descripción comercial
+ 
+
+27
+00:00:31,679 --> 00:00:34,130
+automáticamente la descripción comercial
+de las mercancías de forma clara para su
+
+28
+00:00:34,130 --> 00:00:34,140
+de las mercancías de forma clara para su
+ 
+
+29
+00:00:34,140 --> 00:00:35,479
+de las mercancías de forma clara para su
+identificación y clasificación
+
+30
+00:00:35,479 --> 00:00:35,489
+identificación y clasificación
+ 
+
+31
+00:00:35,489 --> 00:00:38,810
+identificación y clasificación
+arancelaria pudiéndose modificar en los
+
+32
+00:00:38,810 --> 00:00:38,820
+arancelaria pudiéndose modificar en los
+ 
+
+33
+00:00:38,820 --> 00:00:41,180
+arancelaria pudiéndose modificar en los
+casos que se desee y detallar de una
+
+34
+00:00:41,180 --> 00:00:41,190
+casos que se desee y detallar de una
+ 
+
+35
+00:00:41,190 --> 00:00:43,940
+casos que se desee y detallar de una
+mejor forma la misma cantidad de bultos
+
+36
+00:00:43,940 --> 00:00:43,950
+mejor forma la misma cantidad de bultos
+ 
+
+37
+00:00:43,950 --> 00:00:46,729
+mejor forma la misma cantidad de bultos
+en esta casilla deberá ingresar la
+
+38
+00:00:46,729 --> 00:00:46,739
+en esta casilla deberá ingresar la
+ 
+
+39
+00:00:46,739 --> 00:00:48,619
+en esta casilla deberá ingresar la
+cantidad de bultos por cada línea a
+
+40
+00:00:48,619 --> 00:00:48,629
+cantidad de bultos por cada línea a
+ 
+
+41
+00:00:48,629 --> 00:00:50,770
+cantidad de bultos por cada línea a
+utilizarse en la operación solicitada
+
+42
+00:00:50,770 --> 00:00:50,780
+utilizarse en la operación solicitada
+ 
+
+43
+00:00:50,780 --> 00:00:53,689
+utilizarse en la operación solicitada
+clase de vueltas deberás seleccionar el
+
+44
+00:00:53,689 --> 00:00:53,699
+clase de vueltas deberás seleccionar el
+ 
+
+45
+00:00:53,699 --> 00:00:55,490
+clase de vueltas deberás seleccionar el
+código y la descripción del tipo de
+
+46
+00:00:55,490 --> 00:00:55,500
+código y la descripción del tipo de
+ 
+
+47
+00:00:55,500 --> 00:00:57,830
+código y la descripción del tipo de
+empaque o embalaje utilizado para el
+
+48
+00:00:57,830 --> 00:00:57,840
+empaque o embalaje utilizado para el
+ 
+
+49
+00:00:57,840 --> 00:01:00,099
+empaque o embalaje utilizado para el
+traslado de mercancías por cada línea
+
+50
+00:01:00,099 --> 00:01:00,109
+traslado de mercancías por cada línea
+ 
+
+51
+00:01:00,109 --> 00:01:03,860
+traslado de mercancías por cada línea
+los bultos pueden consistir en cajas
+
+52
+00:01:03,860 --> 00:01:03,870
+los bultos pueden consistir en cajas
+ 
+
+53
+00:01:03,870 --> 00:01:06,109
+los bultos pueden consistir en cajas
+dos cilindros y demás formas de
+
+54
+00:01:06,109 --> 00:01:06,119
+dos cilindros y demás formas de
+ 
+
+55
+00:01:06,119 --> 00:01:08,480
+dos cilindros y demás formas de
+presentación de las mercancías según su
+
+56
+00:01:08,480 --> 00:01:08,490
+presentación de las mercancías según su
+ 
+
+57
+00:01:08,490 --> 00:01:11,719
+presentación de las mercancías según su
+naturaleza unidad de medida en el menú
+
+58
+00:01:11,719 --> 00:01:11,729
+naturaleza unidad de medida en el menú
+ 
+
+59
+00:01:11,729 --> 00:01:13,670
+naturaleza unidad de medida en el menú
+desplegable deberás seleccionar la
+
+60
+00:01:13,670 --> 00:01:13,680
+desplegable deberás seleccionar la
+ 
+
+61
+00:01:13,680 --> 00:01:15,469
+desplegable deberás seleccionar la
+unidad de medida correspondiente a la
+
+62
+00:01:15,469 --> 00:01:15,479
+unidad de medida correspondiente a la
+ 
+
+63
+00:01:15,479 --> 00:01:17,990
+unidad de medida correspondiente a la
+mercancía declarada por línea país de
+
+64
+00:01:17,990 --> 00:01:18,000
+mercancía declarada por línea país de
+ 
+
+65
+00:01:18,000 --> 00:01:20,270
+mercancía declarada por línea país de
+origen elija el país de origen en donde
+
+66
+00:01:20,270 --> 00:01:20,280
+origen elija el país de origen en donde
+ 
+
+67
+00:01:20,280 --> 00:01:22,430
+origen elija el país de origen en donde
+las mercancías fueron fabricadas
+
+68
+00:01:22,430 --> 00:01:22,440
+las mercancías fueron fabricadas
+ 
+
+69
+00:01:22,440 --> 00:01:25,730
+las mercancías fueron fabricadas
+producidas ensambladas cultivadas o
+
+70
+00:01:25,730 --> 00:01:25,740
+producidas ensambladas cultivadas o
+ 
+
+71
+00:01:25,740 --> 00:01:27,560
+producidas ensambladas cultivadas o
+extraídas por cada línea de las
+
+72
+00:01:27,560 --> 00:01:27,570
+extraídas por cada línea de las
+ 
+
+73
+00:01:27,570 --> 00:01:30,950
+extraídas por cada línea de las
+mercancías marca ingrese la marca de la
+
+74
+00:01:30,950 --> 00:01:30,960
+mercancías marca ingrese la marca de la
+ 
+
+75
+00:01:30,960 --> 00:01:34,580
+mercancías marca ingrese la marca de la
+mercancía cantidad ingrese la cantidad
+
+76
+00:01:34,580 --> 00:01:34,590
+mercancía cantidad ingrese la cantidad
+ 
+
+77
+00:01:34,590 --> 00:01:36,469
+mercancía cantidad ingrese la cantidad
+de la mercancía correspondiente a la
+
+78
+00:01:36,469 --> 00:01:36,479
+de la mercancía correspondiente a la
+ 
+
+79
+00:01:36,479 --> 00:01:39,980
+de la mercancía correspondiente a la
+línea de mercancía declarado peso bruto
+
+80
+00:01:39,980 --> 00:01:39,990
+línea de mercancía declarado peso bruto
+ 
+
+81
+00:01:39,990 --> 00:01:43,100
+línea de mercancía declarado peso bruto
+en kilogramos ingrese el peso bruto
+
+82
+00:01:43,100 --> 00:01:43,110
+en kilogramos ingrese el peso bruto
+ 
+
+83
+00:01:43,110 --> 00:01:45,980
+en kilogramos ingrese el peso bruto
+total de la mercancía incluyendo el peso
+
+84
+00:01:45,980 --> 00:01:45,990
+total de la mercancía incluyendo el peso
+ 
+
+85
+00:01:45,990 --> 00:01:47,719
+total de la mercancía incluyendo el peso
+de los embalajes y cubiertas de
+
+86
+00:01:47,719 --> 00:01:47,729
+de los embalajes y cubiertas de
+ 
+
+87
+00:01:47,729 --> 00:01:49,940
+de los embalajes y cubiertas de
+cualquier género declarada en cada línea
+
+88
+00:01:49,940 --> 00:01:49,950
+cualquier género declarada en cada línea
+ 
+
+89
+00:01:49,950 --> 00:01:53,690
+cualquier género declarada en cada línea
+de mercancía valor en aduanas ingrese la
+
+90
+00:01:53,690 --> 00:01:53,700
+de mercancía valor en aduanas ingrese la
+ 
+
+91
+00:01:53,700 --> 00:01:55,969
+de mercancía valor en aduanas ingrese la
+base imponible para la aplicación de los
+
+92
+00:01:55,969 --> 00:01:55,979
+base imponible para la aplicación de los
+ 
+
+93
+00:01:55,979 --> 00:01:57,889
+base imponible para la aplicación de los
+derechos arancelarios a la importación
+
+94
+00:01:57,889 --> 00:01:57,899
+derechos arancelarios a la importación
+ 
+
+95
+00:01:57,899 --> 00:02:00,740
+derechos arancelarios a la importación
+dye de las mercancías importadas o
+
+96
+00:02:00,740 --> 00:02:00,750
+dye de las mercancías importadas o
+ 
+
+97
+00:02:00,750 --> 00:02:03,050
+dye de las mercancías importadas o
+internadas al territorio aduanero de los
+
+98
+00:02:03,050 --> 00:02:03,060
+internadas al territorio aduanero de los
+ 
+
+99
+00:02:03,060 --> 00:02:05,680
+internadas al territorio aduanero de los
+estados parte valor de la transacción
+
+100
+00:02:05,680 --> 00:02:05,690
+estados parte valor de la transacción
+ 
+
+101
+00:02:05,690 --> 00:02:08,930
+estados parte valor de la transacción
+ingrese el precio realmente pagado o por
+
+102
+00:02:08,930 --> 00:02:08,940
+ingrese el precio realmente pagado o por
+ 
+
+103
+00:02:08,940 --> 00:02:09,980
+ingrese el precio realmente pagado o por
+pagar por la
+
+104
+00:02:09,980 --> 00:02:09,990
+pagar por la
+ 
+
+105
+00:02:09,990 --> 00:02:12,410
+pagar por la
+y mercancías declaradas en cada línea de
+
+106
+00:02:12,410 --> 00:02:12,420
+y mercancías declaradas en cada línea de
+ 
+
+107
+00:02:12,420 --> 00:02:14,240
+y mercancías declaradas en cada línea de
+conformidad con lo dispuesto en el
+
+108
+00:02:14,240 --> 00:02:14,250
+conformidad con lo dispuesto en el
+ 
+
+109
+00:02:14,250 --> 00:02:16,190
+conformidad con lo dispuesto en el
+acuerdo relativo a la aplicación del
+
+110
+00:02:16,190 --> 00:02:16,200
+acuerdo relativo a la aplicación del
+ 
+
+111
+00:02:16,200 --> 00:02:18,260
+acuerdo relativo a la aplicación del
+artículo séptimo del acuerdo general
+
+112
+00:02:18,260 --> 00:02:18,270
+artículo séptimo del acuerdo general
+ 
+
+113
+00:02:18,270 --> 00:02:20,710
+artículo séptimo del acuerdo general
+sobre aranceles aduaneros y comercio
+
+114
+00:02:20,710 --> 00:02:20,720
+sobre aranceles aduaneros y comercio
+ 
+
+115
+00:02:20,720 --> 00:02:23,630
+sobre aranceles aduaneros y comercio
+conocido como el acuerdo de valoración
+
+116
+00:02:23,630 --> 00:02:23,640
+conocido como el acuerdo de valoración
+ 
+
+117
+00:02:23,640 --> 00:02:25,560
+conocido como el acuerdo de valoración
+de la organización mundial de comercio
+
+118
+00:02:25,560 --> 00:02:25,570
+de la organización mundial de comercio
+ 
+
+119
+00:02:25,570 --> 00:02:26,800
+de la organización mundial de comercio
+[Música]
+
+120
+00:02:26,800 --> 00:02:26,810
+[Música]
+ 
+
+121
+00:02:26,810 --> 00:02:29,229
+[Música]
+al completar los datos deberá hacer
+
+122
+00:02:29,229 --> 00:02:29,239
+al completar los datos deberá hacer
+ 
+
+123
+00:02:29,239 --> 00:02:32,170
+al completar los datos deberá hacer
+click en el botón agregar mercancía los
+
+124
+00:02:32,170 --> 00:02:32,180
+click en el botón agregar mercancía los
+ 
+
+125
+00:02:32,180 --> 00:02:34,479
+click en el botón agregar mercancía los
+datos de la mercancía se desplegarán en
+
+126
+00:02:34,479 --> 00:02:34,489
+datos de la mercancía se desplegarán en
+ 
+
+127
+00:02:34,489 --> 00:02:37,390
+datos de la mercancía se desplegarán en
+la tabla de mercancías deberá repetir
+
+128
+00:02:37,390 --> 00:02:37,400
+la tabla de mercancías deberá repetir
+ 
+
+129
+00:02:37,400 --> 00:02:39,460
+la tabla de mercancías deberá repetir
+este proceso hasta que todas sus
+
+130
+00:02:39,460 --> 00:02:39,470
+este proceso hasta que todas sus
+ 
+
+131
+00:02:39,470 --> 00:02:41,610
+este proceso hasta que todas sus
+mercancías se encuentran registradas
+
+132
+00:02:41,610 --> 00:02:41,620
+mercancías se encuentran registradas
+ 
+
+133
+00:02:41,620 --> 00:02:44,710
+mercancías se encuentran registradas
+para editar una mercancía deberás
+
+134
+00:02:44,710 --> 00:02:44,720
+para editar una mercancía deberás
+ 
+
+135
+00:02:44,720 --> 00:02:47,410
+para editar una mercancía deberás
+seleccionar la opción editar que se
+
+136
+00:02:47,410 --> 00:02:47,420
+seleccionar la opción editar que se
+ 
+
+137
+00:02:47,420 --> 00:02:49,240
+seleccionar la opción editar que se
+encuentra en la línea de mercancía
+
+138
+00:02:49,240 --> 00:02:49,250
+encuentra en la línea de mercancía
+ 
+
+139
+00:02:49,250 --> 00:02:52,180
+encuentra en la línea de mercancía
+registrada de la tabla de mercancías al
+
+140
+00:02:52,180 --> 00:02:52,190
+registrada de la tabla de mercancías al
+ 
+
+141
+00:02:52,190 --> 00:02:54,520
+registrada de la tabla de mercancías al
+seleccionar esta opción se completarán
+
+142
+00:02:54,520 --> 00:02:54,530
+seleccionar esta opción se completarán
+ 
+
+143
+00:02:54,530 --> 00:02:56,380
+seleccionar esta opción se completarán
+las casillas con la información ya
+
+144
+00:02:56,380 --> 00:02:56,390
+las casillas con la información ya
+ 
+
+145
+00:02:56,390 --> 00:02:59,470
+las casillas con la información ya
+registrada para poder modificarla al
+
+146
+00:02:59,470 --> 00:02:59,480
+registrada para poder modificarla al
+ 
+
+147
+00:02:59,480 --> 00:03:01,120
+registrada para poder modificarla al
+estar conforme con la información
+
+148
+00:03:01,120 --> 00:03:01,130
+estar conforme con la información
+ 
+
+149
+00:03:01,130 --> 00:03:03,360
+estar conforme con la información
+editada podrás hacer click en el botón
+
+150
+00:03:03,360 --> 00:03:03,370
+editada podrás hacer click en el botón
+ 
+
+151
+00:03:03,370 --> 00:03:06,789
+editada podrás hacer click en el botón
+modificar mercancía para eliminar el
+
+152
+00:03:06,789 --> 00:03:06,799
+modificar mercancía para eliminar el
+ 
+
+153
+00:03:06,799 --> 00:03:08,920
+modificar mercancía para eliminar el
+registro de la mercancía se deberá
+
+154
+00:03:08,920 --> 00:03:08,930
+registro de la mercancía se deberá
+ 
+
+155
+00:03:08,930 --> 00:03:11,740
+registro de la mercancía se deberá
+seleccionar la opción eliminar que se
+
+156
+00:03:11,740 --> 00:03:11,750
+seleccionar la opción eliminar que se
+ 
+
+157
+00:03:11,750 --> 00:03:13,600
+seleccionar la opción eliminar que se
+encuentra en la línea de la mercancía
+
+158
+00:03:13,600 --> 00:03:13,610
+encuentra en la línea de la mercancía
+ 
+
+159
+00:03:13,610 --> 00:03:16,420
+encuentra en la línea de la mercancía
+registrada de la tabla de mercancías el
+
+160
+00:03:16,420 --> 00:03:16,430
+registrada de la tabla de mercancías el
+ 
+
+161
+00:03:16,430 --> 00:03:18,400
+registrada de la tabla de mercancías el
+sistema le mostrará un mensaje que le
+
+162
+00:03:18,400 --> 00:03:18,410
+sistema le mostrará un mensaje que le
+ 
+
+163
+00:03:18,410 --> 00:03:20,140
+sistema le mostrará un mensaje que le
+consultará si desea eliminar la
+
+164
+00:03:20,140 --> 00:03:20,150
+consultará si desea eliminar la
+ 
+
+165
+00:03:20,150 --> 00:03:23,350
+consultará si desea eliminar la
+mercancía al seleccionar si se eliminará
+
+166
+00:03:23,350 --> 00:03:23,360
+mercancía al seleccionar si se eliminará
+ 
+
+167
+00:03:23,360 --> 00:03:25,720
+mercancía al seleccionar si se eliminará
+completamente tras completar la
+
+168
+00:03:25,720 --> 00:03:25,730
+completamente tras completar la
+ 
+
+169
+00:03:25,730 --> 00:03:28,970
+completamente tras completar la
+información haga clic en siguiente
+
+170
+00:03:28,970 --> 00:03:28,980
+información haga clic en siguiente
+ 
+
+171
+00:03:28,980 --> 00:03:31,610
+información haga clic en siguiente
+si el exportador es de honduras el
+
+172
+00:03:31,610 --> 00:03:31,620
+si el exportador es de honduras el
+ 
+
+173
+00:03:31,620 --> 00:03:33,350
+si el exportador es de honduras el
+sistema solicitará completar la
+
+174
+00:03:33,350 --> 00:03:33,360
+sistema solicitará completar la
+ 
+
+175
+00:03:33,360 --> 00:03:35,149
+sistema solicitará completar la
+información adicional de mercancías
+
+176
+00:03:35,149 --> 00:03:35,159
+información adicional de mercancías
+ 
+
+177
+00:03:35,159 --> 00:03:37,430
+información adicional de mercancías
+requerida por el servicio de aduanas de
+
+178
+00:03:37,430 --> 00:03:37,440
+requerida por el servicio de aduanas de
+ 
+
+179
+00:03:37,440 --> 00:03:39,350
+requerida por el servicio de aduanas de
+honduras cuando la mercancía ha sido
+
+180
+00:03:39,350 --> 00:03:39,360
+honduras cuando la mercancía ha sido
+ 
+
+181
+00:03:39,360 --> 00:03:41,240
+honduras cuando la mercancía ha sido
+ingresada a un depósito privado de
+
+182
+00:03:41,240 --> 00:03:41,250
+ingresada a un depósito privado de
+ 
+
+183
+00:03:41,250 --> 00:03:43,430
+ingresada a un depósito privado de
+almacenamiento la información a
+
+184
+00:03:43,430 --> 00:03:43,440
+almacenamiento la información a
+ 
+
+185
+00:03:43,440 --> 00:03:46,479
+almacenamiento la información a
+completar es declaración a cancelar
+
+186
+00:03:46,479 --> 00:03:46,489
+completar es declaración a cancelar
+ 
+
+187
+00:03:46,489 --> 00:03:49,100
+completar es declaración a cancelar
+ingrese el número de la declaración con
+
+188
+00:03:49,100 --> 00:03:49,110
+ingrese el número de la declaración con
+ 
+
+189
+00:03:49,110 --> 00:03:51,490
+ingrese el número de la declaración con
+régimen en depósito de almacenamiento
+
+190
+00:03:51,490 --> 00:03:51,500
+régimen en depósito de almacenamiento
+ 
+
+191
+00:03:51,500 --> 00:03:55,009
+régimen en depósito de almacenamiento
+número de mercancía a cancelar ingrese
+
+192
+00:03:55,009 --> 00:03:55,019
+número de mercancía a cancelar ingrese
+ 
+
+193
+00:03:55,019 --> 00:03:57,140
+número de mercancía a cancelar ingrese
+el número de ítem correspondiente a la
+
+194
+00:03:57,140 --> 00:03:57,150
+el número de ítem correspondiente a la
+ 
+
+195
+00:03:57,150 --> 00:04:00,319
+el número de ítem correspondiente a la
+mercancía en la declaración unidad a
+
+196
+00:04:00,319 --> 00:04:00,329
+mercancía en la declaración unidad a
+ 
+
+197
+00:04:00,329 --> 00:04:03,140
+mercancía en la declaración unidad a
+cancelar seleccione la unidad informada
+
+198
+00:04:03,140 --> 00:04:03,150
+cancelar seleccione la unidad informada
+ 
+
+199
+00:04:03,150 --> 00:04:05,539
+cancelar seleccione la unidad informada
+en la declaración aduana
+
+200
+00:04:05,539 --> 00:04:05,549
+en la declaración aduana
+ 
+
+201
+00:04:05,549 --> 00:04:08,150
+en la declaración aduana
+cantidad a cancelar ingrese la cantidad
+
+202
+00:04:08,150 --> 00:04:08,160
+cantidad a cancelar ingrese la cantidad
+ 
+
+203
+00:04:08,160 --> 00:04:10,970
+cantidad a cancelar ingrese la cantidad
+de bultos a cancelar si la aduana de
+
+204
+00:04:10,970 --> 00:04:10,980
+de bultos a cancelar si la aduana de
+ 
+
+205
+00:04:10,980 --> 00:04:13,580
+de bultos a cancelar si la aduana de
+inicio es de tipo marítima debido a que
+
+206
+00:04:13,580 --> 00:04:13,590
+inicio es de tipo marítima debido a que
+ 
+
+207
+00:04:13,590 --> 00:04:15,619
+inicio es de tipo marítima debido a que
+éstas tienen que ingresar a un depósito
+
+208
+00:04:15,619 --> 00:04:15,629
+éstas tienen que ingresar a un depósito
+ 
+
+209
+00:04:15,629 --> 00:04:18,229
+éstas tienen que ingresar a un depósito
+temporal es necesario realizar la
+
+210
+00:04:18,229 --> 00:04:18,239
+temporal es necesario realizar la
+ 
+
+211
+00:04:18,239 --> 00:04:20,210
+temporal es necesario realizar la
+cancelación de la mercancía en el
+
+212
+00:04:20,210 --> 00:04:20,220
+cancelación de la mercancía en el
+ 
+
+213
+00:04:20,220 --> 00:04:22,670
+cancelación de la mercancía en el
+manifiesto se habilitará una nueva
+
+214
+00:04:22,670 --> 00:04:22,680
+manifiesto se habilitará una nueva
+ 
+
+215
+00:04:22,680 --> 00:04:25,219
+manifiesto se habilitará una nueva
+pestaña información adicional de
+
+216
+00:04:25,219 --> 00:04:25,229
+pestaña información adicional de
+ 
+
+217
+00:04:25,229 --> 00:04:27,159
+pestaña información adicional de
+honduras con las siguientes opciones
+
+218
+00:04:27,159 --> 00:04:27,169
+honduras con las siguientes opciones
+ 
+
+219
+00:04:27,169 --> 00:04:30,140
+honduras con las siguientes opciones
+número de manifiesto ingrese el número
+
+220
+00:04:30,140 --> 00:04:30,150
+número de manifiesto ingrese el número
+ 
+
+221
+00:04:30,150 --> 00:04:32,060
+número de manifiesto ingrese el número
+de manifiesto registrado por la naviera
+
+222
+00:04:32,060 --> 00:04:32,070
+de manifiesto registrado por la naviera
+ 
+
+223
+00:04:32,070 --> 00:04:35,060
+de manifiesto registrado por la naviera
+e ingresado a depósito temporal
+
+224
+00:04:35,060 --> 00:04:35,070
+e ingresado a depósito temporal
+ 
+
+225
+00:04:35,070 --> 00:04:38,660
+e ingresado a depósito temporal
+título ingrese el título del asociado al
+
+226
+00:04:38,660 --> 00:04:38,670
+título ingrese el título del asociado al
+ 
+
+227
+00:04:38,670 --> 00:04:41,110
+título ingrese el título del asociado al
+manifiesto que se procederá a cancelar
+
+228
+00:04:41,110 --> 00:04:41,120
+manifiesto que se procederá a cancelar
+ 
+
+229
+00:04:41,120 --> 00:04:44,330
+manifiesto que se procederá a cancelar
+cancela global seleccione una de las
+
+230
+00:04:44,330 --> 00:04:44,340
+cancela global seleccione una de las
+ 
+
+231
+00:04:44,340 --> 00:04:48,730
+cancela global seleccione una de las
+siguientes opciones si no no fraccionado
+
+232
+00:04:48,730 --> 00:04:48,740
+siguientes opciones si no no fraccionado
+ 
+
+233
+00:04:48,740 --> 00:04:52,100
+siguientes opciones si no no fraccionado
+haga clic en la opción nueva de la tabla
+
+234
+00:04:52,100 --> 00:04:52,110
+haga clic en la opción nueva de la tabla
+ 
+
+235
+00:04:52,110 --> 00:04:54,710
+haga clic en la opción nueva de la tabla
+manifiesto honduras se deberán ingresar
+
+236
+00:04:54,710 --> 00:04:54,720
+manifiesto honduras se deberán ingresar
+ 
+
+237
+00:04:54,720 --> 00:04:56,690
+manifiesto honduras se deberán ingresar
+los manifiestos asociados con el
+
+238
+00:04:56,690 --> 00:04:56,700
+los manifiestos asociados con el
+ 
+
+239
+00:04:56,700 --> 00:04:59,480
+los manifiestos asociados con el
+tránsito por cada manifiesto deberá
+
+240
+00:04:59,480 --> 00:04:59,490
+tránsito por cada manifiesto deberá
+ 
+
+241
+00:04:59,490 --> 00:05:02,450
+tránsito por cada manifiesto deberá
+llenar las siguientes opciones número de
+
+242
+00:05:02,450 --> 00:05:02,460
+llenar las siguientes opciones número de
+ 
+
+243
+00:05:02,460 --> 00:05:04,670
+llenar las siguientes opciones número de
+línea ingrese el número de línea a
+
+244
+00:05:04,670 --> 00:05:04,680
+línea ingrese el número de línea a
+ 
+
+245
+00:05:04,680 --> 00:05:06,860
+línea ingrese el número de línea a
+cancelar asociado en el título de
+
+246
+00:05:06,860 --> 00:05:06,870
+cancelar asociado en el título de
+ 
+
+247
+00:05:06,870 --> 00:05:09,290
+cancelar asociado en el título de
+transporte cantidad de unidades
+
+248
+00:05:09,290 --> 00:05:09,300
+transporte cantidad de unidades
+ 
+
+249
+00:05:09,300 --> 00:05:12,140
+transporte cantidad de unidades
+afectadas ingrese la cantidad de bultos
+
+250
+00:05:12,140 --> 00:05:12,150
+afectadas ingrese la cantidad de bultos
+ 
+
+251
+00:05:12,150 --> 00:05:16,130
+afectadas ingrese la cantidad de bultos
+a cancelar peso afectado ingrese el peso
+
+252
+00:05:16,130 --> 00:05:16,140
+a cancelar peso afectado ingrese el peso
+ 
+
+253
+00:05:16,140 --> 00:05:19,730
+a cancelar peso afectado ingrese el peso
+a cancelar al finalizar haga clic en la
+
+254
+00:05:19,730 --> 00:05:19,740
+a cancelar al finalizar haga clic en la
+ 
+
+255
+00:05:19,740 --> 00:05:22,730
+a cancelar al finalizar haga clic en la
+opción guardar el sistema almacenará los
+
+256
+00:05:22,730 --> 00:05:22,740
+opción guardar el sistema almacenará los
+ 
+
+257
+00:05:22,740 --> 00:05:25,180
+opción guardar el sistema almacenará los
+datos ingresados haga clic en la opción
+
+258
+00:05:25,180 --> 00:05:25,190
+datos ingresados haga clic en la opción
+ 
+
+259
+00:05:25,190 --> 00:05:29,000
+datos ingresados haga clic en la opción
+siguiente información adicional de costa
+
+260
+00:05:29,000 --> 00:05:29,010
+siguiente información adicional de costa
+ 
+
+261
+00:05:29,010 --> 00:05:31,880
+siguiente información adicional de costa
+rica si el exportador es de costa rica
+
+262
+00:05:31,880 --> 00:05:31,890
+rica si el exportador es de costa rica
+ 
+
+263
+00:05:31,890 --> 00:05:34,190
+rica si el exportador es de costa rica
+el sistema solicitará completar la
+
+264
+00:05:34,190 --> 00:05:34,200
+el sistema solicitará completar la
+ 
+
+265
+00:05:34,200 --> 00:05:36,140
+el sistema solicitará completar la
+información adicional del año de
+
+266
+00:05:36,140 --> 00:05:36,150
+información adicional del año de
+ 
+
+267
+00:05:36,150 --> 00:05:38,420
+información adicional del año de
+presentación el número de la declaración
+
+268
+00:05:38,420 --> 00:05:38,430
+presentación el número de la declaración
+ 
+
+269
+00:05:38,430 --> 00:05:40,390
+presentación el número de la declaración
+única aduanera tubo
+
+270
+00:05:40,390 --> 00:05:40,400
+única aduanera tubo
+ 
+
+271
+00:05:40,400 --> 00:05:42,640
+única aduanera tubo
+requerido por el servicio de aduanas de
+
+272
+00:05:42,640 --> 00:05:42,650
+requerido por el servicio de aduanas de
+ 
+
+273
+00:05:42,650 --> 00:05:45,610
+requerido por el servicio de aduanas de
+costa rica si la aduana de partida es de
+
+274
+00:05:45,610 --> 00:05:45,620
+costa rica si la aduana de partida es de
+ 
+
+275
+00:05:45,620 --> 00:05:47,280
+costa rica si la aduana de partida es de
+tipo marítima haga clic en la opción
+
+276
+00:05:47,280 --> 00:05:47,290
+tipo marítima haga clic en la opción
+ 
+
+277
+00:05:47,290 --> 00:05:50,499
+tipo marítima haga clic en la opción
+nueva de la tabla manifiesto costa rica-
+
+278
+00:05:50,499 --> 00:05:50,509
+nueva de la tabla manifiesto costa rica-
+ 
+
+279
+00:05:50,509 --> 00:05:53,110
+nueva de la tabla manifiesto costa rica-
+el sistema presentará una nueva pestaña
+
+280
+00:05:53,110 --> 00:05:53,120
+el sistema presentará una nueva pestaña
+ 
+
+281
+00:05:53,120 --> 00:05:55,330
+el sistema presentará una nueva pestaña
+con la información requerida por dicha
+
+282
+00:05:55,330 --> 00:05:55,340
+con la información requerida por dicha
+ 
+
+283
+00:05:55,340 --> 00:05:58,510
+con la información requerida por dicha
+aduana a continuación deberá llenar los
+
+284
+00:05:58,510 --> 00:05:58,520
+aduana a continuación deberá llenar los
+ 
+
+285
+00:05:58,520 --> 00:06:01,090
+aduana a continuación deberá llenar los
+siguientes campos modalidad de
+
+286
+00:06:01,090 --> 00:06:01,100
+siguientes campos modalidad de
+ 
+
+287
+00:06:01,100 --> 00:06:03,490
+siguientes campos modalidad de
+transporte seleccione el modo de
+
+288
+00:06:03,490 --> 00:06:03,500
+transporte seleccione el modo de
+ 
+
+289
+00:06:03,500 --> 00:06:06,969
+transporte seleccione el modo de
+transporte tipo de manifiesto seleccione
+
+290
+00:06:06,969 --> 00:06:06,979
+transporte tipo de manifiesto seleccione
+ 
+
+291
+00:06:06,979 --> 00:06:10,810
+transporte tipo de manifiesto seleccione
+el tipo de manifiesto identificación mi6
+
+292
+00:06:10,810 --> 00:06:10,820
+el tipo de manifiesto identificación mi6
+ 
+
+293
+00:06:10,820 --> 00:06:14,650
+el tipo de manifiesto identificación mi6
+ingrese la identificación m&c código de
+
+294
+00:06:14,650 --> 00:06:14,660
+ingrese la identificación m&c código de
+ 
+
+295
+00:06:14,660 --> 00:06:17,290
+ingrese la identificación m&c código de
+ubicación seleccione el código de la
+
+296
+00:06:17,290 --> 00:06:17,300
+ubicación seleccione el código de la
+ 
+
+297
+00:06:17,300 --> 00:06:20,800
+ubicación seleccione el código de la
+ubicación fecha estimada seleccione la
+
+298
+00:06:20,800 --> 00:06:20,810
+ubicación fecha estimada seleccione la
+ 
+
+299
+00:06:20,810 --> 00:06:24,490
+ubicación fecha estimada seleccione la
+fecha estimada secuenciador ingrese el
+
+300
+00:06:24,490 --> 00:06:24,500
+fecha estimada secuenciador ingrese el
+ 
+
+301
+00:06:24,500 --> 00:06:27,600
+fecha estimada secuenciador ingrese el
+número de secuenciador número de línea
+
+302
+00:06:27,600 --> 00:06:27,610
+número de secuenciador número de línea
+ 
+
+303
+00:06:27,610 --> 00:06:31,029
+número de secuenciador número de línea
+ingrese el número de línea cantidad de
+
+304
+00:06:31,029 --> 00:06:31,039
+ingrese el número de línea cantidad de
+ 
+
+305
+00:06:31,039 --> 00:06:34,029
+ingrese el número de línea cantidad de
+unidades afectadas ingrese la cantidad
+
+306
+00:06:34,029 --> 00:06:34,039
+unidades afectadas ingrese la cantidad
+ 
+
+307
+00:06:34,039 --> 00:06:37,060
+unidades afectadas ingrese la cantidad
+de unidades afectados al completar la
+
+308
+00:06:37,060 --> 00:06:37,070
+de unidades afectados al completar la
+ 
+
+309
+00:06:37,070 --> 00:06:38,890
+de unidades afectados al completar la
+información haga clic en la opción
+
+310
+00:06:38,890 --> 00:06:38,900
+información haga clic en la opción
+ 
+
+311
+00:06:38,900 --> 00:06:41,950
+información haga clic en la opción
+guardan la información ingresada se
+
+312
+00:06:41,950 --> 00:06:41,960
+guardan la información ingresada se
+ 
+
+313
+00:06:41,960 --> 00:06:44,020
+guardan la información ingresada se
+desplegará en manda habla manifiesto
+
+314
+00:06:44,020 --> 00:06:44,030
+desplegará en manda habla manifiesto
+ 
+
+315
+00:06:44,030 --> 00:06:46,120
+desplegará en manda habla manifiesto
+costa rica tras completar la información
+
+316
+00:06:46,120 --> 00:06:46,130
+costa rica tras completar la información
+ 
+
+317
+00:06:46,130 --> 00:06:47,110
+costa rica tras completar la información
+haga
+
+318
+00:06:47,110 --> 00:06:47,120
+haga
+ 
+
+319
+00:06:47,120 --> 00:06:50,560
+haga
+clic en siguiente
+
+320
+00:06:50,560 --> 00:06:50,570
+
+ 
+
+321
+00:06:50,570 --> 00:06:54,949
+
+[Música]
+

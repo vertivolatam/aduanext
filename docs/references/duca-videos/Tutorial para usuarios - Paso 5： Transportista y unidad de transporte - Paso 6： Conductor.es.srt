@@ -1,0 +1,885 @@
+1
+00:00:00,000 --> 00:00:02,960
+
+paso 5 transportista y unidad de
+
+2
+00:00:02,960 --> 00:00:02,970
+paso 5 transportista y unidad de
+ 
+
+3
+00:00:02,970 --> 00:00:05,420
+paso 5 transportista y unidad de
+transporte en este paso deberá de
+
+4
+00:00:05,420 --> 00:00:05,430
+transporte en este paso deberá de
+ 
+
+5
+00:00:05,430 --> 00:00:07,700
+transporte en este paso deberá de
+ingresar o seleccionar el código de
+
+6
+00:00:07,700 --> 00:00:07,710
+ingresar o seleccionar el código de
+ 
+
+7
+00:00:07,710 --> 00:00:09,830
+ingresar o seleccionar el código de
+transportista otorgado por el servicio
+
+8
+00:00:09,830 --> 00:00:09,840
+transportista otorgado por el servicio
+ 
+
+9
+00:00:09,840 --> 00:00:11,839
+transportista otorgado por el servicio
+aduanero y que consta en la base de
+
+10
+00:00:11,839 --> 00:00:11,849
+aduanero y que consta en la base de
+ 
+
+11
+00:00:11,849 --> 00:00:14,150
+aduanero y que consta en la base de
+datos regional de transportistas el
+
+12
+00:00:14,150 --> 00:00:14,160
+datos regional de transportistas el
+ 
+
+13
+00:00:14,160 --> 00:00:16,220
+datos regional de transportistas el
+sistema completará automáticamente
+
+14
+00:00:16,220 --> 00:00:16,230
+sistema completará automáticamente
+ 
+
+15
+00:00:16,230 --> 00:00:18,050
+sistema completará automáticamente
+el nombre del transportista y la
+
+16
+00:00:18,050 --> 00:00:18,060
+el nombre del transportista y la
+ 
+
+17
+00:00:18,060 --> 00:00:20,480
+el nombre del transportista y la
+dirección usted puede ingresar el correo
+
+18
+00:00:20,480 --> 00:00:20,490
+dirección usted puede ingresar el correo
+ 
+
+19
+00:00:20,490 --> 00:00:22,670
+dirección usted puede ingresar el correo
+electrónico tomando en consideración que
+
+20
+00:00:22,670 --> 00:00:22,680
+electrónico tomando en consideración que
+ 
+
+21
+00:00:22,680 --> 00:00:24,830
+electrónico tomando en consideración que
+no es un campo obligatorio y que se
+
+22
+00:00:24,830 --> 00:00:24,840
+no es un campo obligatorio y que se
+ 
+
+23
+00:00:24,840 --> 00:00:26,900
+no es un campo obligatorio y que se
+puede cambiar luego de haber
+
+24
+00:00:26,900 --> 00:00:26,910
+puede cambiar luego de haber
+ 
+
+25
+00:00:26,910 --> 00:00:29,029
+puede cambiar luego de haber
+seleccionado el código de transportista
+
+26
+00:00:29,029 --> 00:00:29,039
+seleccionado el código de transportista
+ 
+
+27
+00:00:29,039 --> 00:00:31,730
+seleccionado el código de transportista
+deberá ingresar o seleccionar el número
+
+28
+00:00:31,730 --> 00:00:31,740
+deberá ingresar o seleccionar el número
+ 
+
+29
+00:00:31,740 --> 00:00:33,440
+deberá ingresar o seleccionar el número
+de identificación de la unidad de
+
+30
+00:00:33,440 --> 00:00:33,450
+de identificación de la unidad de
+ 
+
+31
+00:00:33,450 --> 00:00:36,160
+de identificación de la unidad de
+transporte la información referente a
+
+32
+00:00:36,160 --> 00:00:36,170
+transporte la información referente a
+ 
+
+33
+00:00:36,170 --> 00:00:40,670
+transporte la información referente a
+marca modelo número de chasis fin número
+
+34
+00:00:40,670 --> 00:00:40,680
+marca modelo número de chasis fin número
+ 
+
+35
+00:00:40,680 --> 00:00:42,860
+marca modelo número de chasis fin número
+de motor y país de registro se
+
+36
+00:00:42,860 --> 00:00:42,870
+de motor y país de registro se
+ 
+
+37
+00:00:42,870 --> 00:00:45,440
+de motor y país de registro se
+completará de forma automática logrando
+
+38
+00:00:45,440 --> 00:00:45,450
+completará de forma automática logrando
+ 
+
+39
+00:00:45,450 --> 00:00:47,840
+completará de forma automática logrando
+así agilizar el proceso de llenado de la
+
+40
+00:00:47,840 --> 00:00:47,850
+así agilizar el proceso de llenado de la
+ 
+
+41
+00:00:47,850 --> 00:00:49,850
+así agilizar el proceso de llenado de la
+declaración tras completar la
+
+42
+00:00:49,850 --> 00:00:49,860
+declaración tras completar la
+ 
+
+43
+00:00:49,860 --> 00:00:52,910
+declaración tras completar la
+información haga clic en siguiente paso
+
+44
+00:00:52,910 --> 00:00:52,920
+información haga clic en siguiente paso
+ 
+
+45
+00:00:52,920 --> 00:00:57,020
+información haga clic en siguiente paso
+6 conductor en esta sección dispondrá de
+
+46
+00:00:57,020 --> 00:00:57,030
+6 conductor en esta sección dispondrá de
+ 
+
+47
+00:00:57,030 --> 00:00:59,150
+6 conductor en esta sección dispondrá de
+dos maneras para ingresar la información
+
+48
+00:00:59,150 --> 00:00:59,160
+dos maneras para ingresar la información
+ 
+
+49
+00:00:59,160 --> 00:01:01,180
+dos maneras para ingresar la información
+correspondiente al conductor
+
+50
+00:01:01,180 --> 00:01:01,190
+correspondiente al conductor
+ 
+
+51
+00:01:01,190 --> 00:01:04,009
+correspondiente al conductor
+funcionalidad de búsqueda esta
+
+52
+00:01:04,009 --> 00:01:04,019
+funcionalidad de búsqueda esta
+ 
+
+53
+00:01:04,019 --> 00:01:06,050
+funcionalidad de búsqueda esta
+funcionalidad le permitirá llenar de
+
+54
+00:01:06,050 --> 00:01:06,060
+funcionalidad le permitirá llenar de
+ 
+
+55
+00:01:06,060 --> 00:01:06,590
+funcionalidad le permitirá llenar de
+forma
+
+56
+00:01:06,590 --> 00:01:06,600
+forma
+ 
+
+57
+00:01:06,600 --> 00:01:09,140
+forma
+a los datos del conductor por medio de
+
+58
+00:01:09,140 --> 00:01:09,150
+a los datos del conductor por medio de
+ 
+
+59
+00:01:09,150 --> 00:01:11,990
+a los datos del conductor por medio de
+una búsqueda utilizando el tipo y número
+
+60
+00:01:11,990 --> 00:01:12,000
+una búsqueda utilizando el tipo y número
+ 
+
+61
+00:01:12,000 --> 00:01:14,030
+una búsqueda utilizando el tipo y número
+de documento de identificación del
+
+62
+00:01:14,030 --> 00:01:14,040
+de documento de identificación del
+ 
+
+63
+00:01:14,040 --> 00:01:16,420
+de documento de identificación del
+conductor esta opción es funcional
+
+64
+00:01:16,420 --> 00:01:16,430
+conductor esta opción es funcional
+ 
+
+65
+00:01:16,430 --> 00:01:18,890
+conductor esta opción es funcional
+únicamente si el conductor ya ha sido
+
+66
+00:01:18,890 --> 00:01:18,900
+únicamente si el conductor ya ha sido
+ 
+
+67
+00:01:18,900 --> 00:01:21,410
+únicamente si el conductor ya ha sido
+registrado previamente en cualquier otra
+
+68
+00:01:21,410 --> 00:01:21,420
+registrado previamente en cualquier otra
+ 
+
+69
+00:01:21,420 --> 00:01:23,960
+registrado previamente en cualquier otra
+declaración de lo contrario deberá
+
+70
+00:01:23,960 --> 00:01:23,970
+declaración de lo contrario deberá
+ 
+
+71
+00:01:23,970 --> 00:01:26,139
+declaración de lo contrario deberá
+ingresar la información requerida
+
+72
+00:01:26,139 --> 00:01:26,149
+ingresar la información requerida
+ 
+
+73
+00:01:26,149 --> 00:01:29,270
+ingresar la información requerida
+ingreso de información requerida esta
+
+74
+00:01:29,270 --> 00:01:29,280
+ingreso de información requerida esta
+ 
+
+75
+00:01:29,280 --> 00:01:31,430
+ingreso de información requerida esta
+información de ingreso se debe realizar
+
+76
+00:01:31,430 --> 00:01:31,440
+información de ingreso se debe realizar
+ 
+
+77
+00:01:31,440 --> 00:01:33,770
+información de ingreso se debe realizar
+si es la primera vez que se registra la
+
+78
+00:01:33,770 --> 00:01:33,780
+si es la primera vez que se registra la
+ 
+
+79
+00:01:33,780 --> 00:01:35,690
+si es la primera vez que se registra la
+información del conductor en el sistema
+
+80
+00:01:35,690 --> 00:01:35,700
+información del conductor en el sistema
+ 
+
+81
+00:01:35,700 --> 00:01:39,080
+información del conductor en el sistema
+para ello deberá ingresar primer nombre
+
+82
+00:01:39,080 --> 00:01:39,090
+para ello deberá ingresar primer nombre
+ 
+
+83
+00:01:39,090 --> 00:01:41,210
+para ello deberá ingresar primer nombre
+se debe ingresar el primer nombre del
+
+84
+00:01:41,210 --> 00:01:41,220
+se debe ingresar el primer nombre del
+ 
+
+85
+00:01:41,220 --> 00:01:42,980
+se debe ingresar el primer nombre del
+conductor del medio de transporte que
+
+86
+00:01:42,980 --> 00:01:42,990
+conductor del medio de transporte que
+ 
+
+87
+00:01:42,990 --> 00:01:45,859
+conductor del medio de transporte que
+movilizan las mercancías segundo nombre
+
+88
+00:01:45,859 --> 00:01:45,869
+movilizan las mercancías segundo nombre
+ 
+
+89
+00:01:45,869 --> 00:01:48,710
+movilizan las mercancías segundo nombre
+se debe ingresar el segundo nombre del
+
+90
+00:01:48,710 --> 00:01:48,720
+se debe ingresar el segundo nombre del
+ 
+
+91
+00:01:48,720 --> 00:01:50,540
+se debe ingresar el segundo nombre del
+conductor del medio de transporte que
+
+92
+00:01:50,540 --> 00:01:50,550
+conductor del medio de transporte que
+ 
+
+93
+00:01:50,550 --> 00:01:53,320
+conductor del medio de transporte que
+moviliza las mercancías primer apellido
+
+94
+00:01:53,320 --> 00:01:53,330
+moviliza las mercancías primer apellido
+ 
+
+95
+00:01:53,330 --> 00:01:56,270
+moviliza las mercancías primer apellido
+se debe ingresar el primer apellido del
+
+96
+00:01:56,270 --> 00:01:56,280
+se debe ingresar el primer apellido del
+ 
+
+97
+00:01:56,280 --> 00:01:57,980
+se debe ingresar el primer apellido del
+conductor del medio de transporte que
+
+98
+00:01:57,980 --> 00:01:57,990
+conductor del medio de transporte que
+ 
+
+99
+00:01:57,990 --> 00:02:00,770
+conductor del medio de transporte que
+moviliza las mercancías segundo apellido
+
+100
+00:02:00,770 --> 00:02:00,780
+moviliza las mercancías segundo apellido
+ 
+
+101
+00:02:00,780 --> 00:02:03,230
+moviliza las mercancías segundo apellido
+se debe ingresar el segundo apellido del
+
+102
+00:02:03,230 --> 00:02:03,240
+se debe ingresar el segundo apellido del
+ 
+
+103
+00:02:03,240 --> 00:02:05,059
+se debe ingresar el segundo apellido del
+conductor del medio de transporte que
+
+104
+00:02:05,059 --> 00:02:05,069
+conductor del medio de transporte que
+ 
+
+105
+00:02:05,069 --> 00:02:07,490
+conductor del medio de transporte que
+moviliza las mercancías tipo de
+
+106
+00:02:07,490 --> 00:02:07,500
+moviliza las mercancías tipo de
+ 
+
+107
+00:02:07,500 --> 00:02:10,100
+moviliza las mercancías tipo de
+documento de identificación se deberá
+
+108
+00:02:10,100 --> 00:02:10,110
+documento de identificación se deberá
+ 
+
+109
+00:02:10,110 --> 00:02:11,990
+documento de identificación se deberá
+seleccionar el tipo de documento de
+
+110
+00:02:11,990 --> 00:02:12,000
+seleccionar el tipo de documento de
+ 
+
+111
+00:02:12,000 --> 00:02:13,220
+seleccionar el tipo de documento de
+identificación
+
+112
+00:02:13,220 --> 00:02:13,230
+identificación
+ 
+
+113
+00:02:13,230 --> 00:02:15,259
+identificación
+el conductor del medio de transporte que
+
+114
+00:02:15,259 --> 00:02:15,269
+el conductor del medio de transporte que
+ 
+
+115
+00:02:15,269 --> 00:02:17,990
+el conductor del medio de transporte que
+moviliza la mercancía número de
+
+116
+00:02:17,990 --> 00:02:18,000
+moviliza la mercancía número de
+ 
+
+117
+00:02:18,000 --> 00:02:20,630
+moviliza la mercancía número de
+documento de identificación deberá
+
+118
+00:02:20,630 --> 00:02:20,640
+documento de identificación deberá
+ 
+
+119
+00:02:20,640 --> 00:02:22,460
+documento de identificación deberá
+ingresar el número de documento de
+
+120
+00:02:22,460 --> 00:02:22,470
+ingresar el número de documento de
+ 
+
+121
+00:02:22,470 --> 00:02:24,500
+ingresar el número de documento de
+identificación del conductor del medio
+
+122
+00:02:24,500 --> 00:02:24,510
+identificación del conductor del medio
+ 
+
+123
+00:02:24,510 --> 00:02:26,030
+identificación del conductor del medio
+de transporte que moviliza las
+
+124
+00:02:26,030 --> 00:02:26,040
+de transporte que moviliza las
+ 
+
+125
+00:02:26,040 --> 00:02:28,910
+de transporte que moviliza las
+mercancías fecha de vencimiento del
+
+126
+00:02:28,910 --> 00:02:28,920
+mercancías fecha de vencimiento del
+ 
+
+127
+00:02:28,920 --> 00:02:31,309
+mercancías fecha de vencimiento del
+documento de identificación deberá
+
+128
+00:02:31,309 --> 00:02:31,319
+documento de identificación deberá
+ 
+
+129
+00:02:31,319 --> 00:02:33,140
+documento de identificación deberá
+ingresar la fecha de vencimiento del
+
+130
+00:02:33,140 --> 00:02:33,150
+ingresar la fecha de vencimiento del
+ 
+
+131
+00:02:33,150 --> 00:02:35,270
+ingresar la fecha de vencimiento del
+documento del conductor del medio de
+
+132
+00:02:35,270 --> 00:02:35,280
+documento del conductor del medio de
+ 
+
+133
+00:02:35,280 --> 00:02:37,390
+documento del conductor del medio de
+transporte que moviliza las mercancías
+
+134
+00:02:37,390 --> 00:02:37,400
+transporte que moviliza las mercancías
+ 
+
+135
+00:02:37,400 --> 00:02:40,759
+transporte que moviliza las mercancías
+número de licencia deberá ingresar el
+
+136
+00:02:40,759 --> 00:02:40,769
+número de licencia deberá ingresar el
+ 
+
+137
+00:02:40,769 --> 00:02:42,710
+número de licencia deberá ingresar el
+número de licencia de conducir del
+
+138
+00:02:42,710 --> 00:02:42,720
+número de licencia de conducir del
+ 
+
+139
+00:02:42,720 --> 00:02:44,509
+número de licencia de conducir del
+conductor del medio de transporte que
+
+140
+00:02:44,509 --> 00:02:44,519
+conductor del medio de transporte que
+ 
+
+141
+00:02:44,519 --> 00:02:47,180
+conductor del medio de transporte que
+moviliza las mercancías país de
+
+142
+00:02:47,180 --> 00:02:47,190
+moviliza las mercancías país de
+ 
+
+143
+00:02:47,190 --> 00:02:49,550
+moviliza las mercancías país de
+expedición del documento deberá ingresar
+
+144
+00:02:49,550 --> 00:02:49,560
+expedición del documento deberá ingresar
+ 
+
+145
+00:02:49,560 --> 00:02:51,740
+expedición del documento deberá ingresar
+el país de emisión del documento de
+
+146
+00:02:51,740 --> 00:02:51,750
+el país de emisión del documento de
+ 
+
+147
+00:02:51,750 --> 00:02:54,020
+el país de emisión del documento de
+identificación del conductor del medio
+
+148
+00:02:54,020 --> 00:02:54,030
+identificación del conductor del medio
+ 
+
+149
+00:02:54,030 --> 00:02:55,670
+identificación del conductor del medio
+de transporte que moviliza las
+
+150
+00:02:55,670 --> 00:02:55,680
+de transporte que moviliza las
+ 
+
+151
+00:02:55,680 --> 00:02:59,330
+de transporte que moviliza las
+mercancías país de residencia en esta
+
+152
+00:02:59,330 --> 00:02:59,340
+mercancías país de residencia en esta
+ 
+
+153
+00:02:59,340 --> 00:03:01,849
+mercancías país de residencia en esta
+casilla el usuario deberá seleccionar el
+
+154
+00:03:01,849 --> 00:03:01,859
+casilla el usuario deberá seleccionar el
+ 
+
+155
+00:03:01,859 --> 00:03:03,830
+casilla el usuario deberá seleccionar el
+país de residencia del conductor del
+
+156
+00:03:03,830 --> 00:03:03,840
+país de residencia del conductor del
+ 
+
+157
+00:03:03,840 --> 00:03:06,020
+país de residencia del conductor del
+medio de transporte que moviliza las
+
+158
+00:03:06,020 --> 00:03:06,030
+medio de transporte que moviliza las
+ 
+
+159
+00:03:06,030 --> 00:03:08,780
+medio de transporte que moviliza las
+mercancías fecha de nacimiento en este
+
+160
+00:03:08,780 --> 00:03:08,790
+mercancías fecha de nacimiento en este
+ 
+
+161
+00:03:08,790 --> 00:03:11,210
+mercancías fecha de nacimiento en este
+calendario el usuario deberá ingresar o
+
+162
+00:03:11,210 --> 00:03:11,220
+calendario el usuario deberá ingresar o
+ 
+
+163
+00:03:11,220 --> 00:03:13,610
+calendario el usuario deberá ingresar o
+seleccionar la fecha de nacimiento del
+
+164
+00:03:13,610 --> 00:03:13,620
+seleccionar la fecha de nacimiento del
+ 
+
+165
+00:03:13,620 --> 00:03:15,680
+seleccionar la fecha de nacimiento del
+conductor el medio de transporte que
+
+166
+00:03:15,680 --> 00:03:15,690
+conductor el medio de transporte que
+ 
+
+167
+00:03:15,690 --> 00:03:17,480
+conductor el medio de transporte que
+moviliza las mercancías
+
+168
+00:03:17,480 --> 00:03:17,490
+moviliza las mercancías
+ 
+
+169
+00:03:17,490 --> 00:03:20,270
+moviliza las mercancías
+sexo en esta casilla el usuario deberá
+
+170
+00:03:20,270 --> 00:03:20,280
+sexo en esta casilla el usuario deberá
+ 
+
+171
+00:03:20,280 --> 00:03:22,550
+sexo en esta casilla el usuario deberá
+seleccionar el sexo del conductor del
+
+172
+00:03:22,550 --> 00:03:22,560
+seleccionar el sexo del conductor del
+ 
+
+173
+00:03:22,560 --> 00:03:24,500
+seleccionar el sexo del conductor del
+medio de transporte que moviliza las
+
+174
+00:03:24,500 --> 00:03:24,510
+medio de transporte que moviliza las
+ 
+
+175
+00:03:24,510 --> 00:03:26,840
+medio de transporte que moviliza las
+mercancías tras completar la información
+
+176
+00:03:26,840 --> 00:03:26,850
+mercancías tras completar la información
+ 
+
+177
+00:03:26,850 --> 00:03:31,100
+mercancías tras completar la información
+haga clic en siguiente
+
