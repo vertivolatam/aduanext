@@ -18,14 +18,14 @@
 | Transmision a ATENA sandbox | SI | Produccion (solo sandbox) |
 | Estado de DUA (polling) | SI (manual refresh) | Real-time WebSocket |
 | Notificacion Telegram | SI (1 canal) | WhatsApp, email, digest |
-| Flutter app | NO | Solo backend + web basic |
+| Flutter Web (tablet-first, M3) | SI | Atomic Design, responsive, sin instalacion |
 | Marketplace agentes | NO | Matching manual |
 | Vetted sourcers | NO | Fase posterior |
 | Multi-pais | NO | Solo Costa Rica |
 
 ### Lo que NO se construye para el MVP:
 
-- No Flutter mobile app — solo web dashboard basico (Serverpod endpoints + HTML simple)
+- Flutter Web para tablets (Material 3 + Atomic Design) — sin instalacion, acceso via URL. Tablet-first (landscape), responsive para laptop. Mismo codebase que la futura app mobile.
 - No AI classification — el agente clasifica manualmente con RIMM search
 - No matching automatico — Vertivo contacta al agente freelance directamente
 - No multi-tenant — hardcoded para Vertivo como unico tenant

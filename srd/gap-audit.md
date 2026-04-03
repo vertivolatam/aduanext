@@ -60,7 +60,7 @@
 | T1-1 | **Declaration state machine** (15+ estados) | $30K | J03 | M — 1 semana |
 | T1-2 | **Notificaciones Telegram** | $12K | J03 | S — 3 días |
 | T1-3 | **Risk pre-validation engine** (25 reglas) | $22K | J01 | M — 1 semana |
-| T1-4 | **Flutter mobile dashboard** (lista DUAs + estado) | $14K | J03, J04 | L — 2 semanas |
+| T1-4 | **Flutter Web dashboard** (tablet-first, Material 3, Atomic Design) | $14K | J03, J04 | L — 2 semanas |
 | T1-5 | **Onboarding Importer-Led** (registro + invitación agente) | $14K | J04 | M — 1 semana |
 
 ### T2 — Diferenciadores (expanden mercado y retención)

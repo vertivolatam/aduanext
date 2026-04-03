@@ -161,7 +161,7 @@ Referral: Cada pyme refiere 0.3 pymes/mes
 | Implementar gRPC sidecar (hacienda-cr wrapper) | T0 | Sprint 1 |
 | Implementar AtenaAuthAdapter + RIMM adapter | T0 | Sprint 1 |
 | Serverpod endpoints para CRUD Declaration | T0 | Sprint 2 |
-| Flutter app: onboarding pyme + invitacion agente | T1 | Sprint 3 |
+| Flutter Web (tablet-first, Material 3, Atomic Design): onboarding pyme + invitacion agente | T1 | Sprint 3 |
 | Risk pre-validation engine (25 reglas) | T1 | Sprint 3 |
 | Notificaciones Telegram | T1 | Sprint 4 |
 | Beta con Vertivo (primera importacion real) | Validacion | Sprint 4 |
