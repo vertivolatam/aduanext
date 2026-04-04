@@ -1,0 +1,31 @@
+{
+  "name": "@aduanext/hacienda-sidecar",
+  "version": "0.1.0",
+  "description": "gRPC sidecar wrapping @dojocoding/hacienda-sdk for AduaNext",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.6.0",
+    "@dojocoding/hacienda-sdk": "^0.2.0",
+    "@grpc/grpc-js": "^1.12.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "ts-proto": "^2.11.6",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "private": true
+}
