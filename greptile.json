@@ -1,0 +1,21 @@
+{
+  "reviewSettings": {
+    "enabled": true,
+    "minConfidence": 3,
+    "autoReview": true,
+    "reviewLanguage": "es"
+  },
+  "contextPaths": [
+    "CLAUDE.md",
+    "srd/claude-directive.yml",
+    "docs/superpowers/specs/2026-04-03-ui-design.md"
+  ],
+  "ignorePaths": [
+    "*.generated.*",
+    "apps/server/lib/src/generated/**",
+    "apps/hacienda-sidecar/src/generated/**",
+    "*.lock",
+    "build/**",
+    "docs/references/**"
+  ]
+}

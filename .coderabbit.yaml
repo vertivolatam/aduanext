@@ -1,0 +1,41 @@
+language: es
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  path_instructions:
+    - path: "libs/domain/**"
+      instructions: |
+        This is the DOMAIN LAYER — pure Dart with ZERO I/O dependencies.
+        Flag any import of external packages beyond 'meta'.
+        Ensure all classes are immutable (@immutable).
+        Ports (abstract classes) must never reference concrete implementations.
+    - path: "libs/adapters/**"
+      instructions: |
+        SECONDARY ADAPTERS — implement domain Ports.
+        Must only depend on libs/domain, never on libs/application or apps/.
+        gRPC clients here call the hacienda-sidecar.
+    - path: "libs/application/**"
+      instructions: |
+        APPLICATION LAYER — Use Cases and CQRS.
+        Must only depend on libs/domain, never on libs/adapters or apps/.
+        CountryAdapterFactory lives here.
+    - path: "apps/hacienda-sidecar/**"
+      instructions: |
+        TypeScript gRPC sidecar wrapping @dojocoding/hacienda-sdk.
+        Must import hacienda-sdk as npm dependency, NEVER fork code from it.
+        ESM only. No hardcoded ATENA URLs — use atena-environments.ts config.
+    - path: "apps/mobile/**"
+      instructions: |
+        Flutter Web app. Material 3 + Dark Mode + Atomic Design.
+        Font: Ubuntu. State management: Air Framework (NOT Riverpod).
+        Tablet-first (landscape), responsive for laptop.
+    - path: "libs/proto/**"
+      instructions: |
+        Proto definitions. If modified, ensure both Dart and TypeScript stubs
+        are regenerated via scripts/compile-proto.sh.
+chat:
+  auto_reply: true
