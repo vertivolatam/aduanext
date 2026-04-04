@@ -1,0 +1,80 @@
+:root {
+  /* Brand Colors */
+  --color-brand-primary: #3B6FE0;
+  --color-brand-primary-light: #6B9FFF;
+  --color-brand-success: #4CAF50;
+  --color-brand-warning: #FF9800;
+  --color-brand-error: #EF5350;
+  --color-brand-info: #64B5F6;
+
+  /* Surface Colors (Dark Mode) */
+  --color-surface-rail: #0A0A14;
+  --color-surface-panel: #0F0F1E;
+  --color-surface-content: #12121E;
+  --color-surface-card: #1A1A2E;
+  --color-surface-elevated: #222240;
+
+  /* Border Colors */
+  --color-border-subtle: #2A2A40;
+  --color-border-active: #3B6FE0;
+
+  /* Text Colors */
+  --color-text-primary: #E0E0F0;
+  --color-text-secondary: #666680;
+  --color-text-disabled: #444460;
+
+  /* Status: Levante */
+  --color-status-levante-fg: #4CAF50;
+  --color-status-levante-bg: #0D2E1A;
+  --color-status-levante-border: #1B5E20;
+
+  /* Status: Validando */
+  --color-status-validando-fg: #FF9800;
+  --color-status-validando-bg: #2E1A00;
+  --color-status-validando-border: #E65100;
+
+  /* Status: Rechazada */
+  --color-status-rechazada-fg: #EF5350;
+  --color-status-rechazada-bg: #2E0D0D;
+  --color-status-rechazada-border: #C62828;
+
+  /* Status: Borrador */
+  --color-status-borrador-fg: #64B5F6;
+  --color-status-borrador-bg: #0D1A2E;
+  --color-status-borrador-border: #1565C0;
+
+  /* Stepper Semaforo */
+  --color-stepper-verde-fg: #4CAF50;
+  --color-stepper-verde-bg: #1B5E20;
+  --color-stepper-amarillo-fg: #FF9800;
+  --color-stepper-amarillo-bg: #4A3800;
+  --color-stepper-azul-fg: #3B6FE0;
+  --color-stepper-azul-bg: #1A2540;
+  --color-stepper-rojo-fg: #EF5350;
+  --color-stepper-rojo-bg: #3A1010;
+
+  /* Typography */
+  --font-family-primary: 'Ubuntu', sans-serif;
+
+  /* Spacing */
+  --spacing-rail-width: 56px;
+  --spacing-panel-width: 210px;
+  --spacing-panel-width-laptop: 260px;
+  --spacing-drawer-width: 420px;
+
+  /* Border Radius */
+  --radius-small: 6px;
+  --radius-medium: 8px;
+  --radius-large: 10px;
+  --radius-pill: 12px;
+
+  /* Motion */
+  --duration-short: 150ms;
+  --duration-medium: 200ms;
+  --duration-long: 300ms;
+
+  /* Breakpoints */
+  --breakpoint-tablet-portrait: 768px;
+  --breakpoint-tablet-landscape: 1024px;
+  --breakpoint-laptop: 1280px;
+}
