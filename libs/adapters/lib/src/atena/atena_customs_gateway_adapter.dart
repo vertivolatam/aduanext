@@ -40,14 +40,18 @@ class CustomsGatewayException implements Exception {
 class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
   final GrpcChannelManager _channelManager;
 
-  HaciendaApiClient? _client;
-
   AtenaCustomsGatewayAdapter({
     required GrpcChannelManager channelManager,
   }) : _channelManager = channelManager;
 
+  /// Returns a fresh gRPC stub backed by the current channel.
+  ///
+  /// The stub is intentionally NOT cached: [GrpcChannelManager] can be
+  /// shutdown/terminated externally, so caching would leave this adapter
+  /// holding a stub bound to a closed channel and surface cryptic gRPC
+  /// errors instead of the clear [StateError] raised by [GrpcChannelManager].
   HaciendaApiClient get _apiClient =>
-      _client ??= HaciendaApiClient(_channelManager.channel);
+      HaciendaApiClient(_channelManager.channel);
 
   @override
   Future<DeclarationResult> submitDeclaration(Declaration declaration) async {
@@ -80,10 +84,20 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
     try {
       // registrationKey format: "officeCode-serial-number-year"
       final parts = registrationKey.split('-');
-      if (parts.length < 4) {
+      if (parts.length != 4) {
         throw CustomsGatewayException(
           'Invalid registration key format. '
-          'Expected "officeCode-serial-number-year", got "$registrationKey".',
+          'Expected "officeCode-serial-number-year" (4 segments), '
+          'got "$registrationKey".',
+        );
+      }
+
+      final number = int.tryParse(parts[2]);
+      final year = int.tryParse(parts[3]);
+      if (number == null || year == null) {
+        throw CustomsGatewayException(
+          'Invalid registration key format. '
+          'Expected numeric number/year segments, got "$registrationKey".',
         );
       }
 
@@ -91,8 +105,8 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
         GetDeclarationRequest(
           customsOfficeCode: parts[0],
           serial: parts[1],
-          number: int.tryParse(parts[2]) ?? 0,
-          year: int.tryParse(parts[3]) ?? 0,
+          number: number,
+          year: year,
         ),
       );
 
@@ -104,9 +118,25 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
       }
 
       final json = jsonDecode(response.jsonPayload) as Map<String, dynamic>;
-      final statusCode = json['status'] as String? ?? 'DRAFT';
+      final statusCode = json['status'] as String?;
 
-      return DeclarationStatus.fromCode(statusCode);
+      if (statusCode == null || statusCode.isEmpty) {
+        throw CustomsGatewayException(
+          'Declaration status missing in ATENA response. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      }
+
+      try {
+        return DeclarationStatus.fromCode(statusCode);
+      } on StateError {
+        throw CustomsGatewayException(
+          'Unknown declaration status "$statusCode" in ATENA response. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      }
     } on GrpcError catch (e) {
       throw CustomsGatewayException(
         e.message ?? 'gRPC error fetching declaration status',

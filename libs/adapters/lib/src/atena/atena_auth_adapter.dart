@@ -7,6 +7,8 @@
 /// Architecture: Secondary Adapter (Driven side, Explicit Architecture).
 library;
 
+import 'dart:developer' as developer;
+
 import 'package:aduanext_domain/domain.dart';
 import 'package:grpc/grpc.dart';
 
@@ -52,8 +54,6 @@ class AtenaAuthAdapter implements AuthProviderPort {
   @override
   Future<AuthToken> authenticate(Credentials credentials) async {
     try {
-      _lastCredentials = credentials;
-
       final request = AuthenticateRequest(
         idType: credentials.idType,
         idNumber: credentials.idNumber,
@@ -78,6 +78,11 @@ class AtenaAuthAdapter implements AuthProviderPort {
           clientId: credentials.clientId ?? _defaultClientId,
         ),
       );
+
+      // Store credentials only after successful authentication and token
+      // retrieval so that refreshToken/isAuthenticated/invalidate only rely on
+      // verified state.
+      _lastCredentials = credentials;
 
       return AuthToken(
         accessToken: tokenResponse.token,
@@ -138,7 +143,17 @@ class AtenaAuthAdapter implements AuthProviderPort {
       );
 
       return response.authenticated;
-    } on GrpcError {
+    } on GrpcError catch (e, stackTrace) {
+      // Connectivity or session failures are treated as "not authenticated"
+      // but logged for observability so operators can diagnose sidecar
+      // reachability issues in production.
+      developer.log(
+        'isAuthenticated check failed via hacienda-sidecar gRPC: '
+        '${e.message ?? e.toString()} (code: ${e.codeName})',
+        name: 'AtenaAuthAdapter',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return false;
     }
   }

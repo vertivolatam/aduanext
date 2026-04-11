@@ -37,23 +37,28 @@ class HaciendaSigningAdapter implements SigningPort {
   final List<int> _p12Bytes;
   final String _p12Pin;
 
-  HaciendaSignerClient? _client;
-
   /// Creates a signing adapter with the given certificate.
   ///
   /// [channelManager] manages the gRPC channel lifecycle.
-  /// [p12Bytes] is the raw PKCS#12 certificate file content.
+  /// [p12Bytes] is the raw PKCS#12 certificate file content. A defensive
+  /// unmodifiable copy is taken so the adapter's key material cannot be
+  /// mutated from outside after construction.
   /// [p12Pin] is the PIN/password for the certificate.
   HaciendaSigningAdapter({
     required GrpcChannelManager channelManager,
     required List<int> p12Bytes,
     required String p12Pin,
   })  : _channelManager = channelManager,
-        _p12Bytes = p12Bytes,
+        _p12Bytes = List<int>.unmodifiable(p12Bytes),
         _p12Pin = p12Pin;
 
+  /// Returns a fresh gRPC stub backed by the current channel.
+  ///
+  /// Not cached — see [AtenaCustomsGatewayAdapter] for rationale: the
+  /// channel lifecycle is managed externally and caching a stub risks
+  /// leaking a closed channel reference across shutdown/terminate.
   HaciendaSignerClient get _signerClient =>
-      _client ??= HaciendaSignerClient(_channelManager.channel);
+      HaciendaSignerClient(_channelManager.channel);
 
   @override
   Future<SigningResult> sign(String content) async {

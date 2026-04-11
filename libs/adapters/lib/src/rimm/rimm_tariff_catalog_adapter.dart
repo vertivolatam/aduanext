@@ -35,14 +35,17 @@ class TariffCatalogException implements Exception {
 class RimmTariffCatalogAdapter implements TariffCatalogPort {
   final GrpcChannelManager _channelManager;
 
-  HaciendaApiClient? _client;
-
   RimmTariffCatalogAdapter({
     required GrpcChannelManager channelManager,
   }) : _channelManager = channelManager;
 
+  /// Returns a fresh gRPC stub backed by the current channel.
+  ///
+  /// Not cached — see [AtenaCustomsGatewayAdapter] for rationale: the
+  /// channel lifecycle is managed externally and caching a stub risks
+  /// leaking a closed channel reference across shutdown/terminate.
   HaciendaApiClient get _apiClient =>
-      _client ??= HaciendaApiClient(_channelManager.channel);
+      HaciendaApiClient(_channelManager.channel);
 
   @override
   Future<List<CommodityEntry>> searchCommodities(
@@ -88,9 +91,19 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
         throw TariffCatalogException(response.error);
       }
 
-      return response.resultList
-          .map(_parseCommodityEntry)
-          .toList();
+      try {
+        return response.resultList.map(_parseCommodityEntry).toList();
+      } on TariffCatalogException {
+        rethrow;
+      } on FormatException catch (e) {
+        throw TariffCatalogException(
+          'Failed to decode commodity search payload from sidecar: ${e.message}',
+        );
+      } on TypeError catch (e) {
+        throw TariffCatalogException(
+          'Unexpected commodity entry shape from sidecar: $e',
+        );
+      }
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error during commodity search',
@@ -126,7 +139,19 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
 
       if (response.resultList.isEmpty) return null;
 
-      return _parseCommodityEntry(response.resultList.first);
+      try {
+        return _parseCommodityEntry(response.resultList.first);
+      } on TariffCatalogException {
+        rethrow;
+      } on FormatException catch (e) {
+        throw TariffCatalogException(
+          'Failed to decode commodity payload for code "$code": ${e.message}',
+        );
+      } on TypeError catch (e) {
+        throw TariffCatalogException(
+          'Unexpected commodity entry shape for code "$code": $e',
+        );
+      }
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching commodity by code',
@@ -171,17 +196,29 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
         );
       }
 
-      final json =
-          jsonDecode(response.resultList.first) as Map<String, dynamic>;
-      final rate = json['exchangeRate'] ?? json['rate'] ?? json['value'];
+      try {
+        final json =
+            jsonDecode(response.resultList.first) as Map<String, dynamic>;
+        final rate = json['exchangeRate'] ?? json['rate'] ?? json['value'];
 
-      if (rate == null) {
+        if (rate == null) {
+          throw TariffCatalogException(
+            'Exchange rate response missing rate field for $currencyCode',
+          );
+        }
+
+        return (rate is num) ? rate.toDouble() : double.parse(rate.toString());
+      } on TariffCatalogException {
+        rethrow;
+      } on FormatException catch (e) {
         throw TariffCatalogException(
-          'Exchange rate response missing rate field for $currencyCode',
+          'Failed to decode exchange rate payload for $currencyCode: ${e.message}',
+        );
+      } on TypeError catch (e) {
+        throw TariffCatalogException(
+          'Unexpected exchange rate shape for $currencyCode: $e',
         );
       }
-
-      return (rate is num) ? rate.toDouble() : double.parse(rate.toString());
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching exchange rate',
@@ -223,7 +260,17 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
         );
       }
 
-      return jsonDecode(response.resultList.first) as Map<String, dynamic>;
+      try {
+        return jsonDecode(response.resultList.first) as Map<String, dynamic>;
+      } on FormatException catch (e) {
+        throw TariffCatalogException(
+          'Failed to decode delivery terms payload for code "$code": ${e.message}',
+        );
+      } on TypeError catch (e) {
+        throw TariffCatalogException(
+          'Unexpected delivery terms shape for code "$code": $e',
+        );
+      }
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching delivery terms',
@@ -265,7 +312,17 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
         );
       }
 
-      return jsonDecode(response.resultList.first) as Map<String, dynamic>;
+      try {
+        return jsonDecode(response.resultList.first) as Map<String, dynamic>;
+      } on FormatException catch (e) {
+        throw TariffCatalogException(
+          'Failed to decode customs office payload for code "$code": ${e.message}',
+        );
+      } on TypeError catch (e) {
+        throw TariffCatalogException(
+          'Unexpected customs office shape for code "$code": $e',
+        );
+      }
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching customs office',
@@ -279,6 +336,12 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
   // ---------------------------------------------------------------------------
 
   /// Parses a JSON string from RIMM into a [CommodityEntry].
+  ///
+  /// Throws a [TariffCatalogException] if required fields are missing or
+  /// invalid (notably [CommodityEntry.validFromDate]). We intentionally do
+  /// NOT fabricate a `DateTime.now()` fallback for validity dates because
+  /// that would silently turn broken payloads into valid-looking commodity
+  /// entries and poison tariff filtering downstream.
   CommodityEntry _parseCommodityEntry(String jsonString) {
     final json = jsonDecode(jsonString) as Map<String, dynamic>;
 
@@ -292,23 +355,47 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
       }
     }
 
-    // Parse validity dates.
-    final validFrom = json['validFromDate'] as String? ??
-        json['validityStartDate'] as String? ??
-        '';
-    final validTo = json['validToDate'] as String? ??
+    final code = json['code'] as String? ?? '';
+    final hsCode = json['hsCode'] as String? ?? code;
+
+    // Parse validity dates. Fail explicitly on missing/invalid data.
+    final validFromRaw = json['validFromDate'] as String? ??
+        json['validityStartDate'] as String?;
+    if (validFromRaw == null || validFromRaw.isEmpty) {
+      throw TariffCatalogException(
+        'RIMM commodity entry missing validFromDate '
+        '(code="$code", hsCode="$hsCode").',
+      );
+    }
+    final validFromDate = DateTime.tryParse(validFromRaw);
+    if (validFromDate == null) {
+      throw TariffCatalogException(
+        'RIMM commodity entry has unparseable validFromDate="$validFromRaw" '
+        '(code="$code", hsCode="$hsCode").',
+      );
+    }
+
+    final validToRaw = json['validToDate'] as String? ??
         json['validityEndDate'] as String?;
+    DateTime? validToDate;
+    if (validToRaw != null && validToRaw.isNotEmpty) {
+      validToDate = DateTime.tryParse(validToRaw);
+      if (validToDate == null) {
+        throw TariffCatalogException(
+          'RIMM commodity entry has unparseable validToDate="$validToRaw" '
+          '(code="$code", hsCode="$hsCode").',
+        );
+      }
+    }
 
     return CommodityEntry(
-      code: json['code'] as String? ?? '',
-      hsCode: json['hsCode'] as String? ??
-          json['code'] as String? ??
-          '',
+      code: code,
+      hsCode: hsCode,
       description: json['description'] as String? ?? '',
       descriptionTranslated: json['descriptionTranslated'] as String? ??
           json['translatedDescription'] as String?,
-      validFromDate: DateTime.tryParse(validFrom) ?? DateTime.now(),
-      validToDate: validTo != null ? DateTime.tryParse(validTo) : null,
+      validFromDate: validFromDate,
+      validToDate: validToDate,
       nationalPrecision1: json['nationalPrecision1'] as String?,
       nationalPrecision2: json['nationalPrecision2'] as String?,
       nationalPrecision3: json['nationalPrecision3'] as String?,

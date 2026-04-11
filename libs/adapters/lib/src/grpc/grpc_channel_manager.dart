@@ -21,7 +21,14 @@ class GrpcChannelManager {
   final ChannelCredentials credentials;
 
   ClientChannel? _channel;
-  bool _isShutdown = false;
+
+  /// True once a graceful [shutdown] has been requested. Blocks new channel
+  /// access but does NOT block [terminate] from escalating to a forced close.
+  bool _isClosing = false;
+
+  /// True once the channel has been fully closed (either gracefully or
+  /// forcefully). After this point the manager rejects further usage.
+  bool _isClosed = false;
 
   /// Creates a channel manager targeting the given [host] and [port].
   ///
@@ -37,9 +44,9 @@ class GrpcChannelManager {
   /// Returns the lazily-initialized [ClientChannel].
   ///
   /// Creates the channel on first access. Throws [StateError] if
-  /// [shutdown] has already been called.
+  /// [shutdown] or [terminate] has already been called.
   ClientChannel get channel {
-    if (_isShutdown) {
+    if (_isClosing || _isClosed) {
       throw StateError(
         'GrpcChannelManager has been shut down. '
         'Create a new instance to reconnect.',
@@ -55,27 +62,45 @@ class GrpcChannelManager {
   /// Whether the channel has been created (lazy init has occurred).
   bool get isInitialized => _channel != null;
 
-  /// Whether [shutdown] has been called.
-  bool get isShutdown => _isShutdown;
+  /// Whether [shutdown] or [terminate] has been called (closing or closed).
+  bool get isShutdown => _isClosing || _isClosed;
 
   /// Gracefully shuts down the channel, allowing pending RPCs to complete.
   ///
   /// After calling this, [channel] will throw [StateError].
-  /// This method is idempotent.
+  /// This method is idempotent. If a graceful shutdown is in progress and
+  /// [terminate] is called concurrently, the terminate path will still force
+  /// a close on the underlying channel.
   Future<void> shutdown() async {
-    if (_isShutdown) return;
-    _isShutdown = true;
-    await _channel?.shutdown();
-    _channel = null;
+    if (_isClosed) return;
+    if (_isClosing) return;
+    _isClosing = true;
+    try {
+      await _channel?.shutdown();
+    } finally {
+      _isClosed = true;
+      _channel = null;
+    }
   }
 
   /// Forcefully terminates the channel, cancelling pending RPCs.
   ///
-  /// Use [shutdown] for graceful termination. This is for emergency cleanup.
+  /// Use [shutdown] for graceful termination. This is for emergency cleanup
+  /// and will still act on the channel even if a graceful [shutdown] is
+  /// currently awaiting pending RPCs.
   Future<void> terminate() async {
-    if (_isShutdown) return;
-    _isShutdown = true;
-    await _channel?.terminate();
-    _channel = null;
+    if (_isClosed) return;
+    _isClosing = true;
+    final channel = _channel;
+    if (channel == null) {
+      _isClosed = true;
+      return;
+    }
+    try {
+      await channel.terminate();
+    } finally {
+      _isClosed = true;
+      _channel = null;
+    }
   }
 }
