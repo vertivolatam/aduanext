@@ -11,7 +11,14 @@ environment:
 dependencies:
   aduanext_domain:
     path: ../domain
+  meta: ^1.16.0
+  # UUID v4 for decision ids. Pure Dart, no I/O, no platform channels.
+  uuid: ^4.5.1
 
 dev_dependencies:
+  # We depend on the in-memory audit adapter for handler tests. This
+  # keeps us honest about the Port contract without pulling I/O deps.
+  aduanext_adapters:
+    path: ../adapters
   test: ^1.25.0
   lints: ^5.1.0
