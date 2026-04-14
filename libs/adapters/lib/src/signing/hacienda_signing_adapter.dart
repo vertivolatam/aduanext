@@ -33,9 +33,16 @@ class SigningException implements Exception {
 /// The PKCS#12 certificate bytes and PIN are provided at construction time
 /// and reused for every signing operation.
 class HaciendaSigningAdapter implements SigningPort {
+  /// Default per-RPC deadline for signing operations. XAdES signing is
+  /// CPU-bound in the sidecar but should comfortably complete well under
+  /// this budget; the timeout is here to prevent pathological hangs when
+  /// the sidecar is unresponsive.
+  static const Duration defaultSigningTimeout = Duration(seconds: 15);
+
   final GrpcChannelManager _channelManager;
   final List<int> _p12Bytes;
   final String _p12Pin;
+  final Duration _signingTimeout;
 
   /// Creates a signing adapter with the given certificate.
   ///
@@ -44,13 +51,24 @@ class HaciendaSigningAdapter implements SigningPort {
   /// unmodifiable copy is taken so the adapter's key material cannot be
   /// mutated from outside after construction.
   /// [p12Pin] is the PIN/password for the certificate.
+  /// [signingTimeout] is the deadline passed to every gRPC call. Defaults to
+  /// [defaultSigningTimeout]. Tune down for latency-sensitive callers or up
+  /// when signing large batched payloads.
   HaciendaSigningAdapter({
     required GrpcChannelManager channelManager,
     required List<int> p12Bytes,
     required String p12Pin,
+    Duration signingTimeout = defaultSigningTimeout,
   })  : _channelManager = channelManager,
         _p12Bytes = List<int>.unmodifiable(p12Bytes),
-        _p12Pin = p12Pin;
+        _p12Pin = p12Pin,
+        _signingTimeout = signingTimeout;
+
+  /// Returns fresh [CallOptions] with the configured deadline.
+  ///
+  /// A new instance is returned per-call so the deadline is applied from the
+  /// moment the RPC is issued rather than shared across calls.
+  CallOptions _callOptions() => CallOptions(timeout: _signingTimeout);
 
   /// Returns a fresh gRPC stub backed by the current channel.
   ///
@@ -69,6 +87,7 @@ class HaciendaSigningAdapter implements SigningPort {
           p12Buffer: _p12Bytes,
           p12Pin: _p12Pin,
         ),
+        options: _callOptions(),
       );
 
       if (response.hasError() && response.error.isNotEmpty) {
@@ -99,6 +118,7 @@ class HaciendaSigningAdapter implements SigningPort {
           p12Buffer: _p12Bytes,
           p12Pin: _p12Pin,
         ),
+        options: _callOptions(),
       );
 
       if (response.hasError() && response.error.isNotEmpty) {
@@ -125,6 +145,7 @@ class HaciendaSigningAdapter implements SigningPort {
     try {
       final response = await _signerClient.verifySignature(
         VerifySignatureRequest(signedXml: signedContent),
+        options: _callOptions(),
       );
 
       if (response.hasError() && response.error.isNotEmpty) {

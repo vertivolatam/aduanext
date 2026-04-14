@@ -33,8 +33,6 @@ class AtenaAuthAdapter implements AuthProviderPort {
   final GrpcChannelManager _channelManager;
   final String? _defaultClientId;
 
-  HaciendaAuthClient? _client;
-
   /// Stores the last-used credentials for token refresh.
   Credentials? _lastCredentials;
 
@@ -48,8 +46,14 @@ class AtenaAuthAdapter implements AuthProviderPort {
   })  : _channelManager = channelManager,
         _defaultClientId = defaultClientId;
 
+  /// Returns a fresh gRPC stub backed by the current channel.
+  ///
+  /// Not cached — the channel lifecycle is managed externally and caching a
+  /// stub risks leaking a closed channel reference across shutdown/terminate,
+  /// which would surface cryptic gRPC errors instead of the clear [StateError]
+  /// raised by [GrpcChannelManager].
   HaciendaAuthClient get _authClient =>
-      _client ??= HaciendaAuthClient(_channelManager.channel);
+      HaciendaAuthClient(_channelManager.channel);
 
   @override
   Future<AuthToken> authenticate(Credentials credentials) async {
@@ -79,9 +83,21 @@ class AtenaAuthAdapter implements AuthProviderPort {
         ),
       );
 
-      // Store credentials only after successful authentication and token
-      // retrieval so that refreshToken/isAuthenticated/invalidate only rely on
-      // verified state.
+      // Guard against an "authenticated" response that carries no usable
+      // token — mirror the refreshToken() contract so a missing token is
+      // surfaced as AuthenticationException and _lastCredentials is NOT
+      // assigned (otherwise subsequent refresh/isAuthenticated/invalidate
+      // calls would operate on unverified state).
+      if (tokenResponse.token.isEmpty) {
+        throw const AuthenticationException(
+          'Authentication succeeded but sidecar returned an empty access '
+          'token. Refusing to cache credentials.',
+        );
+      }
+
+      // Store credentials only after successful authentication AND a valid
+      // token has been obtained, so refreshToken/isAuthenticated/invalidate
+      // only rely on verified state.
       _lastCredentials = credentials;
 
       return AuthToken(
