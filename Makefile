@@ -187,6 +187,43 @@ argocd-admin-password: ## Retrieve the auto-generated admin password
 argocd-sync: ## Force a sync of the aduanext Application (requires argocd CLI)
 	argocd app sync aduanext
 
+# ── Harbor (container registry) ──────────────────────────────────────
+HARBOR_NAMESPACE ?= harbor
+HARBOR_RELEASE   ?= harbor
+HARBOR_PROJECT   ?= aduanext
+
+.PHONY: harbor-install
+harbor-install: ## Install Harbor registry into the harbor namespace
+	./infrastructure/harbor/install.sh
+
+.PHONY: harbor-uninstall
+harbor-uninstall: ## Uninstall Harbor (preserves namespace + PVCs)
+	helm uninstall $(HARBOR_RELEASE) --namespace $(HARBOR_NAMESPACE)
+
+.PHONY: harbor-ui
+harbor-ui: ## Print the URL for the Harbor web UI (via minikube service)
+	minikube -p $(MINIKUBE_PROFILE) service $(HARBOR_RELEASE) --namespace $(HARBOR_NAMESPACE) --url | head -1
+
+.PHONY: harbor-admin-password
+harbor-admin-password: ## Print the Harbor admin password (dev: Harbor12345)
+	@helm get values $(HARBOR_RELEASE) --namespace $(HARBOR_NAMESPACE) 2>/dev/null \
+		| grep -E '^harborAdminPassword:' | awk '{print $$2}' | tr -d '"' || \
+		echo "Harbor12345  # default from infrastructure/harbor/values.yaml"
+
+.PHONY: harbor-login
+harbor-login: ## docker login against the in-cluster Harbor
+	@URL=$$(minikube -p $(MINIKUBE_PROFILE) service $(HARBOR_RELEASE) -n $(HARBOR_NAMESPACE) --url | head -1 | sed 's|http://||'); \
+		echo "Logging in to $$URL as admin"; \
+		docker login $$URL -u admin
+
+.PHONY: harbor-push-server
+harbor-push-server: ## PLACEHOLDER: tag + push the server image to Harbor
+	@echo "This target is a placeholder until the Serverpod build pipeline exists."
+	@echo "Manual push (example):"
+	@echo "  URL=\$$(minikube -p $(MINIKUBE_PROFILE) service harbor -n harbor --url | head -1 | sed 's|http://||')"
+	@echo "  docker tag nginx:alpine \$$URL/$(HARBOR_PROJECT)/server:dev"
+	@echo "  docker push \$$URL/$(HARBOR_PROJECT)/server:dev"
+
 # ── Help ─────────────────────────────────────────────────────────────
 .PHONY: help
 help: ## Print this help
