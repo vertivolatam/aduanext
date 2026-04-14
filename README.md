@@ -6,6 +6,7 @@ Plataforma multi-hacienda de cumplimiento aduanero para LATAM. Integra directame
 
 [![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE.md)
 [![Linear](https://img.shields.io/badge/Linear-AduaNext-blue)](https://linear.app/vertivolatam/project/aduanext-9392981cd39d)
+[![Dart CI](https://github.com/vertivolatam/aduanext/actions/workflows/dart-ci.yml/badge.svg?branch=main)](https://github.com/vertivolatam/aduanext/actions/workflows/dart-ci.yml)
 
 ## El Problema
 

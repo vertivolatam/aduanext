@@ -1,0 +1,72 @@
+name: Dart CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/**'
+      - '.github/workflows/dart-ci.yml'
+  pull_request:
+    paths:
+      - 'libs/**'
+      - '.github/workflows/dart-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dart-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    name: ${{ matrix.package }} (analyze + test)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # libs/application has no Dart source files yet — add it here once code lands.
+        package:
+          - libs/domain
+          - libs/adapters
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Cache pub-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ matrix.package }}-${{ hashFiles(format('{0}/pubspec.yaml', matrix.package)) }}
+          restore-keys: |
+            pub-${{ runner.os }}-${{ matrix.package }}-
+            pub-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze
+        run: dart analyze --fatal-infos
+
+      - name: Detect tests
+        id: detect_tests
+        shell: bash
+        run: |
+          if [ -d test ] && [ -n "$(find test -type f -name '*_test.dart' -print -quit)" ]; then
+            echo "has_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_tests=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test
+        if: steps.detect_tests.outputs.has_tests == 'true'
+        run: dart test --reporter=github
