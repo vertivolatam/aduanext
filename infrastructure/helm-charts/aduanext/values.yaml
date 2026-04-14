@@ -1,0 +1,132 @@
+# AduaNext umbrella chart — default values (Minikube dev profile).
+#
+# Production overrides should live in a separate values file (e.g.
+# `values-prod.yaml`) loaded by the ArgoCD Application (VRTV-57). This
+# file is intentionally permissive (no resource limits, plaintext local
+# passwords) so `make helm-install` works on a fresh laptop.
+
+global:
+  # Image registry — overridden by Harbor URL in VRTV-58.
+  imageRegistry: ""
+  imagePullSecrets: []
+  # Bitnami's postgresql subchart requires this flag when we override
+  # `image.repository` away from the bitnami-built image (we use
+  # pgvector/pgvector:pg16 because we need the `vector` extension that
+  # bitnami's stock postgres doesn't ship). See
+  # https://github.com/bitnami/charts/issues/30850
+  security:
+    allowInsecureImages: true
+
+# ── PostgreSQL (subchart bitnami/postgresql) ─────────────────────────
+postgresql:
+  enabled: true
+  # Use pgvector image so the same `vector` extension available locally
+  # via docker-compose is available in K8s. Required for RAG over RIMM
+  # (classification embeddings).
+  image:
+    registry: docker.io
+    repository: pgvector/pgvector
+    tag: pg16
+  auth:
+    username: aduanext
+    database: aduanext
+    # DEV ONLY — overridden by sealed-secret in real deploys.
+    postgresPassword: changeme-postgres
+    password: changeme-aduanext
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+    # The upstream pgvector/pgvector image is Debian-based and expects
+    # to write to /var/run/postgresql, which collides with Bitnami's
+    # hardened readOnlyRootFilesystem. Relax the container security
+    # context so the upstream image runs. In production we should build
+    # a Bitnami-compatible pgvector image instead.
+    containerSecurityContext:
+      enabled: false
+    podSecurityContext:
+      enabled: false
+    # Enable pgvector in the bootstrap initdb so it is ready for the
+    # first adapter call. We hardcode the user/db (matching `auth.username`
+    # and `auth.database` above) because Bitnami's chart processes this
+    # script through its Helm template engine, which mangles `$$`-escaped
+    # env var references.
+    initdb:
+      scripts:
+        enable_pgvector.sh: |
+          #!/bin/bash
+          set -euo pipefail
+          psql -U aduanext -d aduanext \
+            -c 'CREATE EXTENSION IF NOT EXISTS vector;'
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+# ── Redis (subchart bitnami/redis) ───────────────────────────────────
+redis:
+  enabled: true
+  architecture: standalone
+  # Bitnami migrated public image tags to bitnamilegacy/* in 2025. The
+  # chart default still points at `bitnami/redis:<tag>` which now 404s.
+  # Override to the legacy namespace so fresh installs work.
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+    tag: 7.4.3-debian-12-r0
+  auth:
+    enabled: true
+    password: changeme-redis
+  master:
+    persistence:
+      enabled: true
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+
+# ── AduaNext Server (placeholder Deployment) ─────────────────────────
+# DISABLED by default in this chart release: the image lives at Harbor
+# (harbor.aduanext.local/aduanext/server), which is provisioned by VRTV-58,
+# and the real server build pipeline lands in a later iteration. Flip
+# `server.enabled=true` once Harbor is running and an image has been pushed.
+server:
+  enabled: false
+  image:
+    # Real path supplied by VRTV-58 (Harbor): harbor.aduanext.local/aduanext/server
+    repository: harbor.aduanext.local/aduanext/server
+    tag: dev
+    pullPolicy: IfNotPresent
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: false
+    host: api.aduanext.local
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+# ── AduaNext Web (Flutter Web placeholder Deployment) ────────────────
+# DISABLED by default — same reasoning as `server` above. Flip
+# `web.enabled=true` once Harbor has a real web image.
+web:
+  enabled: false
+  image:
+    repository: harbor.aduanext.local/aduanext/web
+    tag: dev
+    pullPolicy: IfNotPresent
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: false
+    host: app.aduanext.local
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi

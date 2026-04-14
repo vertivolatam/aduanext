@@ -1,0 +1,23 @@
+# Non-secret app config consumed by Serverpod and Flutter Web.
+#
+# Real secrets (DB passwords, ATENA OIDC client secret, signing keys)
+# live in Sealed Secrets — see secret-template.yaml.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aduanext-config
+  namespace: aduanext
+  labels:
+    app.kubernetes.io/name: aduanext
+data:
+  # Server runtime mode: dev | sandbox | prod
+  RUNTIME_MODE: "dev"
+  # ATENA environment selector — switched per overlay (kustomize/helm values).
+  ATENA_ENV: "sandbox"
+  # Sidecars communicate over loopback inside the Pod.
+  HACIENDA_SIDECAR_GRPC_HOST: "127.0.0.1"
+  HACIENDA_SIDECAR_GRPC_PORT: "50051"
+  AGENTIC_CORE_GRPC_HOST: "127.0.0.1"
+  AGENTIC_CORE_GRPC_PORT: "50052"
+  # Audit log: which adapter (postgres | sqlite | memory).
+  AUDIT_LOG_ADAPTER: "postgres"

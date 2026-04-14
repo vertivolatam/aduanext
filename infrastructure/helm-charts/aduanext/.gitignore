@@ -1,0 +1,4 @@
+# Subchart tarballs fetched by `helm dependency update` — regenerated on
+# each `make helm-deps`. Track `Chart.lock` for reproducibility but not
+# the binaries themselves.
+charts/

@@ -1,0 +1,12 @@
+# AduaNext namespace.
+#
+# All AduaNext workloads (server, hacienda-sidecar, agentic-core, web)
+# live here. ArgoCD (in `argocd` namespace) is the only thing that
+# writes into this namespace post-bootstrap.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aduanext
+  labels:
+    app.kubernetes.io/name: aduanext
+    app.kubernetes.io/part-of: aduanext-platform

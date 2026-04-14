@@ -1,0 +1,18 @@
+# Re-export the base ConfigMap inside the chart so `helm install` is a
+# single self-contained command (no need to apply k8s/base/ separately).
+# The base file in `infrastructure/k8s/base/configmap.yaml` is kept as
+# the canonical source — this template mirrors it.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aduanext-config
+  labels:
+    {{- include "aduanext.labels" . | nindent 4 }}
+data:
+  RUNTIME_MODE: "dev"
+  ATENA_ENV: "sandbox"
+  HACIENDA_SIDECAR_GRPC_HOST: "127.0.0.1"
+  HACIENDA_SIDECAR_GRPC_PORT: "50051"
+  AGENTIC_CORE_GRPC_HOST: "127.0.0.1"
+  AGENTIC_CORE_GRPC_PORT: "50052"
+  AUDIT_LOG_ADAPTER: "postgres"

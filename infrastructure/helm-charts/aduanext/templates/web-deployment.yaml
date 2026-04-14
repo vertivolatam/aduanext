@@ -1,0 +1,53 @@
+{{- if .Values.web.enabled }}
+# Placeholder Deployment for the Flutter Web bundle (served by nginx).
+# Image path points at Harbor (VRTV-58); build pipeline lands in a
+# later iteration.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aduanext-web
+  labels:
+    {{- include "aduanext.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web
+spec:
+  replicas: {{ .Values.web.replicas }}
+  selector:
+    matchLabels:
+      {{- include "aduanext.webSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aduanext.webSelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: web
+          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aduanext-web
+  labels:
+    {{- include "aduanext.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web
+spec:
+  type: {{ .Values.web.service.type }}
+  ports:
+    - port: {{ .Values.web.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "aduanext.webSelectorLabels" . | nindent 4 }}
+{{- end }}

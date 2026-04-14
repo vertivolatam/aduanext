@@ -1,0 +1,14 @@
+# Dockerfile.web — AduaNext Flutter Web bundle served by nginx.
+#
+# PLACEHOLDER. Real build will:
+#   1. Use a Flutter SDK base image to run `flutter build web --release`.
+#   2. Copy build/web/ into nginx:alpine.
+#   3. Inject runtime config (API URL) via an entrypoint script.
+#
+# Currently the web bundle target lives at apps/mobile/ (Flutter app
+# with web target). This Dockerfile will be wired once the build
+# pipeline is added.
+
+FROM nginx:alpine
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

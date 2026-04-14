@@ -140,6 +140,54 @@ Corre `make help` para la lista completa. Los mas usados:
 | `make db-psql-test` | Abre psql al DB de test |
 | `make test-dart` | Corre `dart test` en `libs/domain` + `libs/adapters` |
 
+## K8s Local Cluster
+
+Para pruebas mas cerca de produccion AduaNext usa Minikube + Helm umbrella chart que compone los subcharts de Bitnami (postgresql con `pgvector/pgvector:pg16` + redis).
+
+### Requisitos
+
+- `minikube` >= 1.38
+- `kubectl` en el PATH
+- `helm` >= 3.14
+- Docker corriendo localmente (NO rootless — el Makefile fuerza `--rootless=false`)
+
+### Setup
+
+```bash
+# 1. Levantar minikube (profile: aduanext, 4 CPU / 6GB RAM)
+make minikube-up
+
+# 2. Descargar dependencias del chart (bitnami/postgresql + redis)
+make helm-deps
+
+# 3. Lint del chart
+make helm-lint
+
+# 4. Instalar el release
+make helm-install
+
+# 5. Verificar
+kubectl get pods -n aduanext
+kubectl exec -n aduanext aduanext-postgresql-0 -- \
+  env PGPASSWORD=changeme-aduanext psql -U aduanext -d aduanext \
+  -c "SELECT extname, extversion FROM pg_extension WHERE extname='vector';"
+# -> vector | 0.8.2
+```
+
+### Estructura
+
+```
+infrastructure/
+|-- docker/                      # Placeholder Dockerfiles (server, web)
+|-- k8s/base/                    # Base ConfigMap + Secret template
+`-- helm-charts/aduanext/        # Umbrella chart
+    |-- Chart.yaml               # Deps: bitnami/postgresql + redis
+    |-- values.yaml              # Defaults (Minikube dev profile)
+    `-- templates/               # server + web + configmap
+```
+
+Los Deployments `aduanext-server` y `aduanext-web` estan deshabilitados por defecto (`.enabled: false`) — las imagenes apuntan a `harbor.aduanext.local` que se provisiona en VRTV-58. Se activan cuando Harbor tiene las imagenes reales.
+
 ## Documentacion
 
 | Documento | Descripcion |
