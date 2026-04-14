@@ -188,6 +188,19 @@ infrastructure/
 
 Los Deployments `aduanext-server` y `aduanext-web` estan deshabilitados por defecto (`.enabled: false`) — las imagenes apuntan a `harbor.aduanext.local` que se provisiona en VRTV-58. Se activan cuando Harbor tiene las imagenes reales.
 
+### GitOps con ArgoCD
+
+ArgoCD observa `infrastructure/helm-charts/aduanext/` en `main` y mantiene el namespace `aduanext` sincronizado. Setup:
+
+```bash
+make argocd-install        # instala ArgoCD v2.13.3
+make argocd-app-create     # crea AppProject + Application
+make argocd-port-forward   # UI en https://localhost:8081
+make argocd-admin-password # credenciales iniciales
+```
+
+Ver [infrastructure/argocd/README.md](infrastructure/argocd/README.md) para detalles, troubleshooting, y procedimiento de upgrade.
+
 ## Documentacion
 
 | Documento | Descripcion |

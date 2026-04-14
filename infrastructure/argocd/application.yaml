@@ -1,0 +1,63 @@
+# ArgoCD Application — watches `infrastructure/helm-charts/aduanext/`
+# on this repo's `main` branch and keeps the `aduanext` namespace in
+# sync with it.
+#
+# Sync policy:
+#   - automated: ArgoCD syncs automatically on new commits (poll every 3m
+#     by default; can be reduced with `argocd-cm.timeout.reconciliation`).
+#   - prune: objects removed from the chart are deleted from the cluster.
+#   - self-heal: out-of-band mutations (kubectl edit, etc.) are reverted
+#     to the chart state.
+#
+# Escape hatch: `argocd app terminate-op aduanext` cancels an in-flight
+# sync if it stalls.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aduanext
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: aduanext
+    app.kubernetes.io/part-of: aduanext-platform
+  # Prevent accidental `kubectl delete` from cascading into the workloads.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: aduanext
+  source:
+    repoURL: https://github.com/vertivolatam/aduanext.git
+    targetRevision: main
+    path: infrastructure/helm-charts/aduanext
+    helm:
+      # ArgoCD's helm runner resolves dependencies (bitnami/postgresql +
+      # redis) transparently. No separate `helm dep update` step.
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: aduanext
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  # Bitnami subcharts mutate `volumeClaimTemplates` metadata (resource
+  # version, labels) after the StatefulSet is created. These mutations
+  # are internal to the subchart; ArgoCD sees them as drift and keeps
+  # reporting OutOfSync. Ignore them so the UI shows Synced cleanly.
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/volumeClaimTemplates
+  revisionHistoryLimit: 10

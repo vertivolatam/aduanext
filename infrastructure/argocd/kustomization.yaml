@@ -1,0 +1,20 @@
+# Kustomize entry-point for ArgoCD.
+#
+# Pins the upstream release so every developer + CI run gets the same
+# control plane. Upgrades are intentional: bump the version string in a
+# PR, not a silent rolling install.
+#
+# Refresh procedure:
+#   1. Bump the version in `resources:` below
+#   2. Run `kubectl apply -k infrastructure/argocd/` on a scratch cluster
+#   3. Smoke test
+#   4. Merge the PR
+#
+# See: https://argo-cd.readthedocs.io/en/stable/getting_started/
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.13.3/manifests/install.yaml
