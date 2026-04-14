@@ -95,6 +95,51 @@ protoc --dart_out=grpc:apps/server/lib/src/generated \
        libs/proto/hacienda.proto
 ```
 
+## Local Development
+
+AduaNext usa `docker-compose` + `Makefile` para orquestar infra local. Mismo patron que los repos hermanos (`vertivolatam/monorepo`, `altrupets/monorepo`) pero con puertos desplazados para evitar conflictos cuando se corren todos a la vez.
+
+### Servicios y puertos
+
+| Servicio | Puerto (host) | Proposito |
+|----------|--------------|-----------|
+| `postgres` (dev) | `8190` | PostgreSQL 16 + pgvector — datos de desarrollo |
+| `redis` (dev) | `8191` | Redis 6.2 — cache de desarrollo |
+| `postgres_test` | `9190` | PostgreSQL 16 + pgvector — tests de integracion (tmpfs, efimero) |
+| `redis_test` | `9191` | Redis 6.2 — tests de integracion (tmpfs, efimero) |
+
+> pgvector, no postgres plano: las clasificaciones arancelarias usan RAG sobre embeddings de RIMM.
+
+### Setup
+
+```bash
+# 1. Copiar template de variables de entorno
+cp .env.example .env
+# Editar .env con passwords fuertes: openssl rand -base64 32
+
+# 2. Levantar servicios
+make db-up
+
+# 3. Verificar que pgvector esta disponible
+make db-verify-pgvector
+
+# 4. Abrir shell psql
+make db-psql
+```
+
+### Targets del Makefile
+
+Corre `make help` para la lista completa. Los mas usados:
+
+| Target | Descripcion |
+|--------|-------------|
+| `make db-up` | Levanta postgres + redis (dev + test) |
+| `make db-down` | Detiene servicios (preserva volumenes) |
+| `make db-reset` | Destructivo: detiene + borra volumenes + recrea |
+| `make db-psql` | Abre psql al DB de desarrollo |
+| `make db-psql-test` | Abre psql al DB de test |
+| `make test-dart` | Corre `dart test` en `libs/domain` + `libs/adapters` |
+
 ## Documentacion
 
 | Documento | Descripcion |

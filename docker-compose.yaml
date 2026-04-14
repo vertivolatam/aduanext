@@ -1,0 +1,88 @@
+# AduaNext — Local development infrastructure.
+#
+# Mirrors the pattern used by sibling repos (vertivolatam/monorepo,
+# altrupets/monorepo) so engineers can switch context without relearning
+# the local setup. Ports are deliberately offset (8190/8191 dev, 9190/9191
+# test) to avoid conflicts when running vertivolatam (8090/8091/9090/9091)
+# and aduanext side by side on the same machine.
+#
+# Usage: `make db-up` (see ../Makefile)
+#
+# pgvector/pgvector:pg16 is used (not plain postgres) because classification
+# RAG + embeddings require the `vector` extension. See reference_agentic_core.
+services:
+  # ── Development services ─────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aduanext_postgres
+    restart: unless-stopped
+    ports:
+      - "8190:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-aduanext}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+    volumes:
+      - aduanext_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-aduanext}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:6.2
+    container_name: aduanext_redis
+    restart: unless-stopped
+    ports:
+      - "8191:6379"
+    command: redis-server --requirepass "${REDIS_PASSWORD:?REDIS_PASSWORD must be set in .env}"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    volumes:
+      - aduanext_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── Test services (ephemeral — tmpfs) ────────────────────────────────
+  postgres_test:
+    image: pgvector/pgvector:pg16
+    container_name: aduanext_postgres_test
+    restart: unless-stopped
+    ports:
+      - "9190:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_TEST_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_TEST_DB:-aduanext_test}
+      POSTGRES_PASSWORD: ${POSTGRES_TEST_PASSWORD:?POSTGRES_TEST_PASSWORD must be set in .env}
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_TEST_USER:-postgres} -d ${POSTGRES_TEST_DB:-aduanext_test}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis_test:
+    image: redis:6.2
+    container_name: aduanext_redis_test
+    restart: unless-stopped
+    ports:
+      - "9191:6379"
+    command: redis-server --requirepass "${REDIS_TEST_PASSWORD:?REDIS_TEST_PASSWORD must be set in .env}"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    tmpfs:
+      - /data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_TEST_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  aduanext_data:
+  aduanext_redis_data:
