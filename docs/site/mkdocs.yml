@@ -1,0 +1,167 @@
+# =============================================================================
+# Material for MkDocs - AduaNext Documentation
+# Plataforma multi-hacienda de cumplimiento aduanero para LATAM
+# =============================================================================
+
+site_name: AduaNext
+site_description: "Plataforma de cumplimiento aduanero para Centroamerica — SOPs, normativa y arquitectura"
+site_url: https://vertivolatam.github.io/aduanext
+repo_url: https://github.com/vertivolatam/aduanext
+repo_name: vertivolatam/aduanext
+edit_uri: edit/main/docs/site/content/
+
+docs_dir: content
+site_dir: site
+
+# =============================================================================
+# Theme Configuration
+# =============================================================================
+theme:
+  name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+# =============================================================================
+# Plugins
+# =============================================================================
+plugins:
+  - search:
+      lang: es
+  # Optional plugins — require pip install -r requirements.txt
+  # GitHub Actions workflow installs all deps automatically
+  # For local dev: mkdocs serve works with just search plugin
+  # - mermaid2:
+  #     version: 11.4.1
+  #     zoom: true
+  #     theme: base
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  # - git-committers:
+  #     repository: vertivolatam/aduanext
+  # - minify:
+  #     minify_html: true
+
+# =============================================================================
+# Markdown Extensions
+# =============================================================================
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: En esta pagina
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: vertivolatam
+      repo: aduanext
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+# =============================================================================
+# Navigation
+# =============================================================================
+nav:
+  - Inicio: index.md
+  - SOPs:
+    - docs/sops/index.md
+    - "A: Ciclo del Agente": docs/sops/categoria-a-ciclo-agente.md
+    - "B: Despacho Exportacion": docs/sops/categoria-b-despacho-exportacion.md
+    - "C: Post-Despacho": docs/sops/categoria-c-post-despacho.md
+    - "D: Compliance Continuo": docs/sops/categoria-d-compliance.md
+  - Normativa:
+    - docs/legal/index.md
+    - Ley 7557 (LGA): docs/legal/ley-7557-lga.md
+    - Decreto 25270 (RLGA): docs/legal/decreto-25270-rlga.md
+    - Ley 8360 (CAUCA): docs/legal/ley-8360-cauca.md
+  - Compliance:
+    - docs/compliance/index.md
+    - "Auditoria 2026-04-12": docs/compliance/audit-2026-04-12.md
+
+# =============================================================================
+# Extra
+# =============================================================================
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/vertivolatam/aduanext
+  generator: false
+
+dev_addr: 0.0.0.0:8001
+
+extra_css:
+  - stylesheets/aduanext.css
+
+extra_javascript:
+  - javascripts/mermaid-init.mjs

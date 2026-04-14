@@ -1,0 +1,166 @@
+/* =============================================================================
+   AduaNext Brand Palette
+   Navy (authority) + Amber (commerce) + Sky (technology) + Emerald (clearance)
+   ============================================================================= */
+
+:root {
+  /* Primary: Customs Authority Navy */
+  --an-primary: #1E3A5F;
+  --an-primary-light: #2563EB;
+  --an-primary-dark: #0F1D30;
+  /* Secondary: Trade Gold */
+  --an-secondary: #D97706;
+  --an-secondary-light: #F59E0B;
+  /* Accent: Digital Sky */
+  --an-accent: #0EA5E9;
+  /* Neutrals */
+  --an-bg: #F8FAFC;
+  --an-text: #1E293B;
+  --an-muted: #64748B;
+  /* Status */
+  --an-success: #059669;
+  --an-warning: #D97706;
+  --an-error: #DC2626;
+}
+
+[data-md-color-scheme="slate"] {
+  --an-bg: #0F172A;
+  --an-text: #E2E8F0;
+  --an-muted: #94A3B8;
+}
+
+/* Material overrides */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--an-primary);
+  --md-primary-fg-color--light: var(--an-primary-light);
+  --md-primary-fg-color--dark: var(--an-primary-dark);
+  --md-accent-fg-color: var(--an-accent);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--an-primary-light);
+  --md-primary-fg-color--light: var(--an-primary);
+  --md-accent-fg-color: var(--an-accent);
+  --md-default-bg-color: var(--an-bg);
+}
+
+/* Typography */
+.md-typeset h1 {
+  font-weight: 700;
+  border-bottom: 3px solid var(--an-secondary);
+  padding-bottom: 0.3em;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  color: var(--an-primary);
+}
+
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  color: var(--an-primary-light);
+}
+
+/* Code blocks */
+.md-typeset code {
+  border-radius: 4px;
+}
+
+.md-typeset pre > code {
+  font-size: 0.82em;
+}
+
+/* Tables */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--an-primary);
+  color: white;
+  font-weight: 600;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: var(--an-primary-dark);
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background: rgba(30, 58, 95, 0.05);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:hover td {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+/* Admonitions */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-left-color: var(--an-success);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-left-color: var(--an-warning);
+}
+
+.md-typeset .admonition.danger,
+.md-typeset details.danger {
+  border-left-color: var(--an-error);
+}
+
+.md-typeset .admonition.info,
+.md-typeset details.info {
+  border-left-color: var(--an-accent);
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  cursor: grab;
+  border-radius: 8px;
+  padding: 1em;
+  background: var(--an-bg);
+}
+
+[data-md-color-scheme="slate"] .mermaid {
+  background: #1E293B;
+}
+
+/* Nav tabs */
+.md-tabs {
+  background: var(--an-primary-dark);
+}
+
+/* Footer */
+.md-footer {
+  background: var(--an-primary-dark);
+}
+
+/* Custom: SOP status badges */
+.sop-status-implemented {
+  background: var(--an-success);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.sop-status-partial {
+  background: var(--an-warning);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.sop-status-pending {
+  background: var(--an-muted);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
