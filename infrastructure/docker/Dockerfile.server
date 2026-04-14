@@ -1,0 +1,25 @@
+# Dockerfile.server — AduaNext Serverpod backend.
+#
+# PLACEHOLDER. The actual multi-stage build (Dart compile + minimal
+# runtime image with hacienda-sidecar Node.js + agentic-core Python
+# co-located) ships in a follow-up issue once the Serverpod app exists
+# under apps/server/.
+#
+# The end state will be a single image with three processes orchestrated
+# by tini or s6-overlay so the Pod has only one container — matching
+# the "3 sidecars, 1 Pod" architecture in CLAUDE.md.
+#
+# Until then, this file exists so the Helm chart's image: reference is
+# not pointing at vapor.
+
+FROM dart:stable AS build
+WORKDIR /app
+# COPY pubspec.yaml pubspec.lock ./
+# RUN dart pub get
+# COPY . .
+# RUN dart compile exe bin/server.dart -o /app/bin/server
+
+FROM debian:bookworm-slim
+# COPY --from=build /app/bin/server /app/bin/server
+EXPOSE 8080
+CMD ["echo", "AduaNext server image not yet built — see infrastructure/docker/Dockerfile.server"]

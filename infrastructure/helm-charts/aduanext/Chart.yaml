@@ -1,0 +1,34 @@
+# AduaNext umbrella Helm chart.
+#
+# Composes:
+#   - bitnami/postgresql (with pgvector image)
+#   - bitnami/redis
+#   - aduanext-server     (placeholder Deployment; real image from Harbor — VRTV-58)
+#   - aduanext-web        (placeholder Deployment; real image from Harbor — VRTV-58)
+apiVersion: v2
+name: aduanext
+description: AduaNext — multi-tenant LATAM customs compliance platform
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - customs
+  - compliance
+  - latam
+  - costa-rica
+  - atena
+maintainers:
+  - name: Vertivolatam
+    url: https://linear.app/vertivolatam
+home: https://github.com/vertivolatam/aduanext
+sources:
+  - https://github.com/vertivolatam/aduanext
+dependencies:
+  - name: postgresql
+    version: "16.x.x"
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: "20.x.x"
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
