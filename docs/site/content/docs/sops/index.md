@@ -59,7 +59,7 @@ Estos procedimientos se fundamentan en la legislacion aduanera vigente de Costa 
 El siguiente diagrama muestra el flujo macro que cubre el conjunto de los 18 SOPs:
 
 ```mermaid
-graph LR
+graph TD
     A[MANDATO] --> B[CLASIFICACION]
     B --> C[VALORACION]
     C --> D[PREPARACION DUA]
@@ -70,18 +70,6 @@ graph LR
     H --> I[T1 MOVILIZACION]
     I --> J[EMBARQUE]
     J --> K[CONFIRMACION]
-
-    style A fill:#1a1a2e,stroke:#e94560,color:#fff
-    style B fill:#1a1a2e,stroke:#e94560,color:#fff
-    style C fill:#1a1a2e,stroke:#e94560,color:#fff
-    style D fill:#1a1a2e,stroke:#e94560,color:#fff
-    style E fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style F fill:#1a1a2e,stroke:#0f3460,color:#fff
-    style G fill:#1a1a2e,stroke:#16213e,color:#fff
-    style H fill:#1a1a2e,stroke:#16213e,color:#fff
-    style I fill:#1a1a2e,stroke:#533483,color:#fff
-    style J fill:#1a1a2e,stroke:#533483,color:#fff
-    style K fill:#1a1a2e,stroke:#533483,color:#fff
 ```
 
 ---

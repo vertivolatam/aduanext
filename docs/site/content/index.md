@@ -39,14 +39,14 @@
 ## Arquitectura
 
 ```mermaid
-graph LR
+graph TD
     A[Flutter Web] -->|REST| B[Serverpod]
     B -->|gRPC| C[hacienda-sidecar]
+    B -->|gRPC| H[agentic-core]
     C -->|OIDC| D[Keycloak ATENA]
     C -->|REST| E[ATENA DUA API]
     C -->|REST| F[ATENA RIMM API]
     C -->|XAdES| G[Firma Digital BCCR]
-    B -->|gRPC| H[agentic-core]
     H -->|RAG| I[Clasificacion AI]
 ```
 
