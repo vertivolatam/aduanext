@@ -117,7 +117,22 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
         );
       }
 
-      final json = jsonDecode(response.jsonPayload) as Map<String, dynamic>;
+      final Map<String, dynamic> json;
+      try {
+        json = jsonDecode(response.jsonPayload) as Map<String, dynamic>;
+      } on FormatException catch (e) {
+        throw CustomsGatewayException(
+          'Malformed JSON in ATENA declaration status response: ${e.message}. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      } on TypeError catch (e) {
+        throw CustomsGatewayException(
+          'Unexpected shape in ATENA declaration status response: $e. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      }
       final statusCode = json['status'] as String?;
 
       if (statusCode == null || statusCode.isEmpty) {
@@ -167,7 +182,10 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
 
   @override
   Future<DeclarationResult> rectifyDeclaration(
-    Declaration original,
+    // The port requires `original` for multi-country adapters, but ATENA only
+    // needs the corrected payload. Keep the positional parameter but mark it
+    // as intentionally unused.
+    Declaration _,
     Declaration corrected,
   ) async {
     try {
@@ -229,9 +247,36 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
         );
       }
 
-      // The response JSON contains the upload path.
-      final json = jsonDecode(response.jsonPayload) as Map<String, dynamic>;
-      return json['path'] as String? ?? response.jsonPayload;
+      // The response JSON must contain the upload path under 'path'. We do
+      // NOT fall back to the raw payload because callers persist this string
+      // as a reference to the uploaded file — writing the full JSON blob
+      // would masquerade as a real path and break every downstream consumer.
+      final Map<String, dynamic> json;
+      try {
+        json = jsonDecode(response.jsonPayload) as Map<String, dynamic>;
+      } on FormatException catch (e) {
+        throw CustomsGatewayException(
+          'Malformed JSON in ATENA upload response: ${e.message}. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      } on TypeError catch (e) {
+        throw CustomsGatewayException(
+          'Unexpected shape in ATENA upload response: $e. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      }
+
+      final path = json['path'] as String?;
+      if (path == null || path.isEmpty) {
+        throw CustomsGatewayException(
+          'ATENA upload response missing required "path" field. '
+          'Raw payload: ${response.jsonPayload}',
+          httpStatus: response.httpStatus,
+        );
+      }
+      return path;
     } on GrpcError catch (e) {
       throw CustomsGatewayException(
         e.message ?? 'gRPC error during document upload',
@@ -651,9 +696,33 @@ class AtenaCustomsGatewayAdapter implements CustomsGatewayPort {
         errors: errors,
         warnings: warnings,
       );
-    } on FormatException {
+    } on FormatException catch (e) {
+      // A malformed JSON body means we cannot verify whether the declaration
+      // passed ATENA validation. Err on the side of INVALID so the caller
+      // does not proceed with a potentially bad declaration just because
+      // the HTTP status happened to be 2xx.
       return ValidationResult(
-        valid: response.httpStatus >= 200 && response.httpStatus < 300,
+        valid: false,
+        errors: [
+          ValidationError(
+            code: 'MALFORMED_RESPONSE',
+            message:
+                'Malformed validation response JSON (http ${response.httpStatus}): '
+                '${e.message}. Raw payload: ${response.jsonPayload}',
+          ),
+        ],
+      );
+    } on TypeError catch (e) {
+      return ValidationResult(
+        valid: false,
+        errors: [
+          ValidationError(
+            code: 'MALFORMED_RESPONSE',
+            message:
+                'Unexpected validation response shape (http ${response.httpStatus}): '
+                '$e. Raw payload: ${response.jsonPayload}',
+          ),
+        ],
       );
     }
   }
