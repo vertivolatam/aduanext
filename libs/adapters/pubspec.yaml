@@ -14,6 +14,10 @@ dependencies:
   grpc: ^4.0.1
   protobuf: ^3.1.0
   http: ^1.2.0
+  crypto: ^3.0.3
+  meta: ^1.16.0
+  sqflite_common: ^2.5.4
+  sqflite_common_ffi: ^2.3.3
 
 dev_dependencies:
   test: ^1.25.0

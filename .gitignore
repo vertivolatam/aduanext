@@ -73,6 +73,9 @@ apps/widgetbook/build/
 .pub/
 /build/
 
+# Library packages (not applications) — lockfiles are not committed.
+libs/**/pubspec.lock
+
 # Binarios y archivos generados en apps/mobile/
 apps/mobile/.dart_tool/
 apps/mobile/.flutter-plugins
