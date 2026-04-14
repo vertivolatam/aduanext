@@ -23,6 +23,30 @@ jobs:
   analyze-and-test:
     name: ${{ matrix.package }} (analyze + test)
     runs-on: ubuntu-latest
+    # Postgres+pgvector service container for PostgresAuditLogAdapter
+    # integration tests in libs/adapters. Other packages ignore it.
+    # Port mirrors docker-compose (`postgres_test` @ 9190).
+    services:
+      postgres_test:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: aduanext_test
+          POSTGRES_PASSWORD: ci-test-password
+        ports:
+          - 9190:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d aduanext_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      # Consumed by test/audit/postgres_audit_log_adapter_test.dart.
+      POSTGRES_TEST_HOST: localhost
+      POSTGRES_TEST_PORT: "9190"
+      POSTGRES_TEST_DB: aduanext_test
+      POSTGRES_TEST_USER: postgres
+      POSTGRES_TEST_PASSWORD: ci-test-password
     strategy:
       fail-fast: false
       matrix:
