@@ -12,6 +12,7 @@ export 'src/ports/signing_port.dart';
 export 'src/ports/tariff_catalog_port.dart';
 
 // Entities.
+export 'src/entities/classification_decision.dart';
 export 'src/entities/declaration.dart';
 
 // Value Objects.

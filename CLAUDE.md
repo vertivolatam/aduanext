@@ -60,6 +60,14 @@ Current answer: No.
 - SRD: srd/SRD.md | Business Model: business/README.md
 - hacienda-cr SDK: github.com/DojoCodingLabs/hacienda-cr (npm: @dojocoding/hacienda-sdk)
 
+## Application Layer Conventions
+
+- CQRS: every write is a `Command<TResult>` handled by a `CommandHandler<TCmd, TResult>`. Queries follow the same shape in separate files.
+- Hybrid error model: `Result<T>` (sealed `Ok`/`Err`) for expected business errors (validation, rule violations, business "not found"). Typed exceptions for infrastructure failures (DB down, port unavailable) — the boundary (Serverpod endpoint) catches those.
+- Vertical slice layout under `libs/application/lib/src/<feature>/`: command, handler, failure, and (future) queries live together. Shared primitives (`Command`, `Result`, `Failure`) live under `src/shared/`.
+- Handlers take Ports (from `libs/domain`) by constructor injection. Tests use `InMemoryAuditLogAdapter` from `aduanext_adapters` (dev dep) to exercise the contract without I/O.
+- Every classification/signing/transmission decision MUST log to `AuditLogPort` with a snapshot payload (SRD priority rule #4). Audit append failures propagate as exceptions — never swallow.
+
 ## Conventions
 
 - Dart: snake_case files, PascalCase classes, camelCase functions

@@ -50,10 +50,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # libs/application has no Dart source files yet — add it here once code lands.
         package:
           - libs/domain
           - libs/adapters
+          - libs/application
     defaults:
       run:
         working-directory: ${{ matrix.package }}
