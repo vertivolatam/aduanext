@@ -1,0 +1,100 @@
+# Harbor values — Minikube local dev profile.
+#
+# Installs a self-contained Harbor registry inside the aduanext cluster.
+# This is the "build image -> push to Harbor -> ArgoCD picks up chart
+# change -> pulls from Harbor -> deploys" loop completing the GitOps
+# pipeline from VRTV-57.
+#
+# Production deploys should use an external Harbor instance (or a
+# managed registry like AWS ECR / GCP AR) and override these values.
+
+# ── Exposure ─────────────────────────────────────────────────────────
+# ClusterIP + NodePort works out of the box with minikube. The Makefile
+# uses `minikube service` to hand out a reachable URL.
+expose:
+  type: nodePort
+  tls:
+    enabled: false  # DEV ONLY — harbor-admin is over plain HTTP locally
+  nodePort:
+    name: harbor
+    ports:
+      http:
+        port: 80
+        nodePort: 30002
+
+# ── External URL ─────────────────────────────────────────────────────
+# NodePort is dynamic-ish; we pin 30002 above so this URL is stable.
+externalURL: http://harbor.aduanext.local:30002
+
+# ── Credentials (DEV ONLY) ───────────────────────────────────────────
+# Production should use sealed-secrets / Vault.
+harborAdminPassword: "Harbor12345"
+
+# ── Persistence ──────────────────────────────────────────────────────
+# Use the minikube default StorageClass (standard). Small sizes are
+# sufficient for laptop dev.
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    registry:
+      size: 5Gi
+    jobservice:
+      jobLog:
+        size: 1Gi
+    database:
+      size: 1Gi
+    redis:
+      size: 1Gi
+    trivy:
+      size: 1Gi
+
+# ── Disable components we do not need locally ────────────────────────
+# Trivy (vulnerability scanning) + ChartMuseum are nice-to-haves in prod
+# but eat a lot of RAM on a 6GB minikube. Re-enable when the laptop can
+# spare the headroom.
+trivy:
+  enabled: false
+chartmuseum:
+  enabled: false
+notary:
+  enabled: false
+
+# ── Resource requests (conservative for minikube) ────────────────────
+core:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+registry:
+  registry:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  controller:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+jobservice:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+portal:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+database:
+  internal:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+redis:
+  internal:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi

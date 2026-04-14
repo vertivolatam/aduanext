@@ -201,6 +201,19 @@ make argocd-admin-password # credenciales iniciales
 
 Ver [infrastructure/argocd/README.md](infrastructure/argocd/README.md) para detalles, troubleshooting, y procedimiento de upgrade.
 
+### Harbor (registry de contenedores)
+
+Harbor corre en el cluster como destino del pipeline **build -> push -> ArgoCD pulls -> deploy**. Multi-tenant (soporta multiples haciendas como proyectos separados cuando la plataforma escale).
+
+```bash
+make harbor-install          # instala Harbor (5-10 min primera vez)
+make harbor-ui               # imprime URL de la UI (via minikube service)
+make harbor-admin-password   # password inicial (dev: Harbor12345)
+make harbor-login            # docker login al registry
+```
+
+Ver [infrastructure/harbor/README.md](infrastructure/harbor/README.md) para push de imagenes, wiring del imagePullSecret, y hardening para produccion.
+
 ## Documentacion
 
 | Documento | Descripcion |
