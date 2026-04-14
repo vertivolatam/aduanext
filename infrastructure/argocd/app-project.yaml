@@ -1,0 +1,39 @@
+# ArgoCD AppProject — confines AduaNext Applications to this repo only.
+#
+# Defense in depth: even if someone accidentally submits an Application
+# manifest pointing at a hostile repo, ArgoCD will reject it because the
+# source repo URL is outside the `sourceRepos` allow-list.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: aduanext
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: aduanext
+    app.kubernetes.io/part-of: aduanext-platform
+spec:
+  description: AduaNext Helm-based GitOps project
+  # Allow-list of source repositories. Only this repo can push manifests.
+  sourceRepos:
+    - https://github.com/vertivolatam/aduanext.git
+    - https://github.com/vertivolatam/aduanext
+  # Allow-list of destination clusters + namespaces.
+  destinations:
+    - namespace: aduanext
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  orphanedResources:
+    warn: true

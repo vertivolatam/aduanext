@@ -136,6 +136,57 @@ helm-uninstall: ## helm uninstall the release (preserves the namespace)
 k8s-logs: ## Tail logs from all aduanext-labeled pods
 	kubectl logs -n $(K8S_NAMESPACE) -l app.kubernetes.io/name=aduanext --all-containers --tail=100 -f
 
+# ── ArgoCD (GitOps) ──────────────────────────────────────────────────
+ARGOCD_DIR       ?= infrastructure/argocd
+ARGOCD_NAMESPACE ?= argocd
+
+.PHONY: argocd-install
+argocd-install: ## Install ArgoCD (pinned v2.13.3) into the argocd namespace
+	kubectl apply -f $(ARGOCD_DIR)/install.yaml
+	kubectl apply -k $(ARGOCD_DIR)/
+	@echo ""
+	@echo "Waiting for argocd-server to become Ready (up to 5 min)..."
+	kubectl wait --namespace $(ARGOCD_NAMESPACE) \
+		--for=condition=available deployment/argocd-server \
+		--timeout=5m
+	@echo ""
+	@echo "ArgoCD is up. Next steps:"
+	@echo "  make argocd-admin-password   # get initial admin credentials"
+	@echo "  make argocd-port-forward     # open UI at https://localhost:8081"
+	@echo "  make argocd-app-create       # bootstrap the aduanext Application"
+
+.PHONY: argocd-uninstall
+argocd-uninstall: ## Uninstall ArgoCD (preserves argocd namespace)
+	kubectl delete -k $(ARGOCD_DIR)/ --ignore-not-found
+	@echo "To remove the namespace too: kubectl delete namespace $(ARGOCD_NAMESPACE)"
+
+.PHONY: argocd-app-create
+argocd-app-create: ## Create the AppProject + Application (hand GitOps the keys)
+	kubectl apply -f $(ARGOCD_DIR)/app-project.yaml
+	kubectl apply -f $(ARGOCD_DIR)/application.yaml
+	@echo ""
+	@echo "Application submitted. Watch initial sync with:"
+	@echo "  kubectl get application -n $(ARGOCD_NAMESPACE) -w"
+
+.PHONY: argocd-app-delete
+argocd-app-delete: ## Delete the Application (children pruned via finalizer)
+	kubectl delete -f $(ARGOCD_DIR)/application.yaml --ignore-not-found
+	kubectl delete -f $(ARGOCD_DIR)/app-project.yaml --ignore-not-found
+
+.PHONY: argocd-port-forward
+argocd-port-forward: ## Port-forward the ArgoCD UI to https://localhost:8081
+	@echo "ArgoCD UI: https://localhost:8081 (self-signed cert — ignore browser warning)"
+	kubectl port-forward svc/argocd-server -n $(ARGOCD_NAMESPACE) 8081:443
+
+.PHONY: argocd-admin-password
+argocd-admin-password: ## Retrieve the auto-generated admin password
+	@kubectl -n $(ARGOCD_NAMESPACE) get secret argocd-initial-admin-secret \
+		-o jsonpath='{.data.password}' | base64 -d; echo
+
+.PHONY: argocd-sync
+argocd-sync: ## Force a sync of the aduanext Application (requires argocd CLI)
+	argocd app sync aduanext
+
 # ── Help ─────────────────────────────────────────────────────────────
 .PHONY: help
 help: ## Print this help

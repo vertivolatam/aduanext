@@ -1,0 +1,16 @@
+# ArgoCD namespace (pre-requisite for the kustomize install).
+#
+# `make argocd-install` runs:
+#   1. kubectl apply -f infrastructure/argocd/install.yaml   (this file)
+#   2. kubectl apply -k infrastructure/argocd/               (kustomization.yaml)
+#
+# Splitting the namespace out avoids the chicken-and-egg problem where
+# kustomize tries to mutate resources into a namespace that doesn't
+# exist yet.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  labels:
+    app.kubernetes.io/name: argocd
+    app.kubernetes.io/part-of: aduanext-platform
