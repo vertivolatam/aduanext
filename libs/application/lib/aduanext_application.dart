@@ -26,3 +26,8 @@ export 'src/shared/result.dart';
 export 'src/classification/record_classification_command.dart';
 export 'src/classification/record_classification_failure.dart';
 export 'src/classification/record_classification_handler.dart';
+
+// Submission feature slice (SOP-B05, North Star use case).
+export 'src/submission/submit_declaration_command.dart';
+export 'src/submission/submit_declaration_failure.dart';
+export 'src/submission/submit_declaration_handler.dart';

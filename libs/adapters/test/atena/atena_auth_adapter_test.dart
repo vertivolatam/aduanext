@@ -102,7 +102,7 @@ void main() {
         throwsA(
           isA<AuthenticationException>()
               .having((e) => e.message, 'message', contains('Invalid'))
-              .having((e) => e.grpcCode, 'grpcCode', 'INVALID_GRANT'),
+              .having((e) => e.vendorCode, "vendorCode", 'INVALID_GRANT'),
         ),
       );
     });
@@ -149,7 +149,7 @@ void main() {
         adapter.authenticate(creds),
         throwsA(
           isA<AuthenticationException>()
-              .having((e) => e.grpcCode, 'grpcCode', 'UNAVAILABLE'),
+              .having((e) => e.vendorCode, "vendorCode", 'UNAVAILABLE'),
         ),
       );
     });
@@ -193,7 +193,7 @@ void main() {
         adapter.refreshToken(),
         throwsA(
           isA<AuthenticationException>()
-              .having((e) => e.grpcCode, 'grpcCode', 'DEADLINE_EXCEEDED'),
+              .having((e) => e.vendorCode, "vendorCode", 'DEADLINE_EXCEEDED'),
         ),
       );
     });
@@ -247,7 +247,7 @@ void main() {
         adapter.invalidate(),
         throwsA(
           isA<AuthenticationException>()
-              .having((e) => e.grpcCode, 'grpcCode', 'PERMISSION_DENIED'),
+              .having((e) => e.vendorCode, "vendorCode", 'PERMISSION_DENIED'),
         ),
       );
     });

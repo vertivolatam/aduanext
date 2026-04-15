@@ -15,18 +15,6 @@ import 'package:grpc/grpc.dart';
 import '../generated/hacienda.pbgrpc.dart';
 import '../grpc/grpc_channel_manager.dart';
 
-/// Domain exception for authentication failures.
-class AuthenticationException implements Exception {
-  final String message;
-  final String? grpcCode;
-
-  const AuthenticationException(this.message, {this.grpcCode});
-
-  @override
-  String toString() => 'AuthenticationException: $message'
-      '${grpcCode != null ? ' (gRPC: $grpcCode)' : ''}';
-}
-
 /// Implements [AuthProviderPort] by delegating to the hacienda-sidecar
 /// [HaciendaAuthClient] gRPC service.
 class AtenaAuthAdapter implements AuthProviderPort {
@@ -72,7 +60,7 @@ class AtenaAuthAdapter implements AuthProviderPort {
           response.message.isNotEmpty
               ? response.message
               : 'Authentication failed',
-          grpcCode: response.errorCode.isNotEmpty ? response.errorCode : null,
+          vendorCode: response.errorCode.isNotEmpty ? response.errorCode : null,
         );
       }
 
@@ -111,7 +99,7 @@ class AtenaAuthAdapter implements AuthProviderPort {
     } on GrpcError catch (e) {
       throw AuthenticationException(
         e.message ?? 'gRPC communication error',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -144,7 +132,7 @@ class AtenaAuthAdapter implements AuthProviderPort {
     } on GrpcError catch (e) {
       throw AuthenticationException(
         e.message ?? 'gRPC communication error during token refresh',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -187,7 +175,7 @@ class AtenaAuthAdapter implements AuthProviderPort {
     } on GrpcError catch (e) {
       throw AuthenticationException(
         e.message ?? 'gRPC communication error during session invalidation',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
