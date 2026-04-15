@@ -65,21 +65,17 @@ jobs:
           log.level = ERROR
           EOF
 
-          softhsm2-util --init-token --free --label aduanext-test \
-            --so-pin 1234 --pin "${SOFTHSM2_USER_PIN}"
-
-          # SoftHSM2 picks the slot id at random when --free is used.
-          # Find the slot whose label is aduanext-test.
-          SLOT=$(softhsm2-util --show-slots | awk '
-            /^Slot [0-9]+$/ { slot = $2 }
-            /Label:/ {
-              label = $0
-              gsub(/^[[:space:]]*Label:[[:space:]]*/, "", label)
-              if (label == "aduanext-test") { print slot; exit }
-            }')
+          # softhsm2-util --init-token --free picks slot 0 internally
+          # and reports the REASSIGNED slot id on stdout. We capture
+          # that directly — much more reliable than parsing show-slots.
+          INIT_OUT=$(softhsm2-util --init-token --free --label aduanext-test \
+            --so-pin 1234 --pin "${SOFTHSM2_USER_PIN}")
+          echo "$INIT_OUT"
+          SLOT=$(echo "$INIT_OUT" | awk '/reassigned to slot/ { print $NF }')
           if [ -z "$SLOT" ]; then
-            echo "could not locate aduanext-test slot" >&2
-            softhsm2-util --show-slots
+            echo "could not extract reassigned slot id from softhsm2-util output" >&2
+            echo "$INIT_OUT" >&2
+            softhsm2-util --show-slots >&2 || true
             exit 1
           fi
           echo "SOFTHSM2_SLOT_ID=$SLOT" >> "$GITHUB_ENV"
