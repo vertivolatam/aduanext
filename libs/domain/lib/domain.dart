@@ -19,6 +19,7 @@ export 'src/ports/signing_port.dart';
 export 'src/ports/tariff_catalog_port.dart';
 export 'src/ports/audit_log_port.dart';
 export 'src/ports/notification_port.dart';
+export 'src/ports/pkcs11_signing_port.dart';
 
 // Authorization entities + value objects.
 export 'src/authorization/role.dart';
