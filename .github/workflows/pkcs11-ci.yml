@@ -1,0 +1,216 @@
+name: PKCS#11 Helper CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/pkcs11-helper/**'
+      - '.github/workflows/pkcs11-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/pkcs11-helper/**'
+      - '.github/workflows/pkcs11-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pkcs11-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Note: this workflow does NOT consume any user-controlled input
+# (issue titles, PR bodies, comment bodies, head_ref, etc.). All
+# template expansions reference trusted, system-controlled fields
+# (github.sha, github.run_number, github.event_name, github.ref).
+
+jobs:
+  helper:
+    name: build + unit + SoftHSM2 smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/pkcs11-helper
+    env:
+      SOFTHSM2_CONF: /tmp/softhsm2.conf
+      SOFTHSM2_MODULE: /usr/lib/softhsm/libsofthsm2.so
+      SOFTHSM2_USER_PIN: "1234"
+      GH_SHA_SHORT: ${{ github.sha }}
+      GH_RUN_NUMBER: ${{ github.run_number }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: apps/pkcs11-helper/go.sum
+
+      - name: Install SoftHSM2 + OpenSC + pkcs11 OpenSSL engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y softhsm2 opensc libsofthsm2 libengine-pkcs11-openssl
+
+      - name: Initialize SoftHSM2 token + provision test cert
+        # Sets up a fresh tokendir, initializes a token, generates an RSA
+        # keypair + self-signed cert, and exposes SOFTHSM2_SLOT_ID to
+        # subsequent steps via $GITHUB_ENV.
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/softhsm2-tokens
+          cat > /tmp/softhsm2.conf <<'EOF'
+          directories.tokendir = /tmp/softhsm2-tokens
+          objectstore.backend = file
+          log.level = ERROR
+          EOF
+
+          # softhsm2-util --init-token --free picks slot 0 internally
+          # and reports the REASSIGNED slot id on stdout. We capture
+          # that directly — much more reliable than parsing show-slots.
+          INIT_OUT=$(softhsm2-util --init-token --free --label aduanext-test \
+            --so-pin 1234 --pin "${SOFTHSM2_USER_PIN}")
+          echo "$INIT_OUT"
+          SLOT=$(echo "$INIT_OUT" | awk '/reassigned to slot/ { print $NF }')
+          if [ -z "$SLOT" ]; then
+            echo "could not extract reassigned slot id from softhsm2-util output" >&2
+            echo "$INIT_OUT" >&2
+            softhsm2-util --show-slots >&2 || true
+            exit 1
+          fi
+          echo "SOFTHSM2_SLOT_ID=$SLOT" >> "$GITHUB_ENV"
+          echo "Provisioned token in slot $SLOT"
+
+          # Generate an RSA-2048 key in the token.
+          pkcs11-tool --module "${SOFTHSM2_MODULE}" \
+            --login --pin "${SOFTHSM2_USER_PIN}" \
+            --keypairgen --key-type rsa:2048 \
+            --label aduanext-test-key --id 01 \
+            --slot "$SLOT"
+
+          # Generate a self-signed cert whose public key MATCHES the
+          # token key. We use OpenSSL's pkcs11 engine so the cert is
+          # signed by the token key itself — this is the only way the
+          # cert's pubkey will agree with the private key the token
+          # uses at Sign time (which is what the integration test
+          # roundtrip asserts).
+
+          # Locate the pkcs11 engine .so (path varies by distro/version).
+          PKCS11_ENGINE=$(dpkg -L libengine-pkcs11-openssl 2>/dev/null | grep -E 'pkcs11\.(so|so\.[0-9]+)$' | head -1)
+          if [ -z "$PKCS11_ENGINE" ]; then
+            echo "could not locate libengine-pkcs11-openssl's pkcs11.so" >&2
+            dpkg -L libengine-pkcs11-openssl >&2 || true
+            exit 1
+          fi
+          echo "Using pkcs11 engine: $PKCS11_ENGINE"
+
+          OPENSSL_CNF=/tmp/openssl.cnf
+          cat > "$OPENSSL_CNF" <<EOF
+          openssl_conf = openssl_init
+          [openssl_init]
+          engines = engine_section
+          [engine_section]
+          pkcs11 = pkcs11_section
+          [pkcs11_section]
+          engine_id = pkcs11
+          dynamic_path = ${PKCS11_ENGINE}
+          MODULE_PATH = ${SOFTHSM2_MODULE}
+          init = 0
+          [req]
+          distinguished_name = dn
+          prompt = no
+          [dn]
+          CN = AduaNext SoftHSM2 Test
+          O  = AduaNext CI
+          C  = CR
+          EOF
+
+          # PKCS#11 URI for the token key we just generated.
+          KEY_URI="pkcs11:token=aduanext-test;object=aduanext-test-key;type=private;pin-value=${SOFTHSM2_USER_PIN}"
+
+          OPENSSL_CONF="$OPENSSL_CNF" openssl req -new -x509 \
+            -engine pkcs11 -keyform engine \
+            -key "$KEY_URI" \
+            -days 30 \
+            -out /tmp/cert.pem
+
+          openssl x509 -in /tmp/cert.pem -noout -subject -issuer
+          openssl x509 -in /tmp/cert.pem -outform DER -out /tmp/cert.der
+
+          pkcs11-tool --module "${SOFTHSM2_MODULE}" \
+            --login --pin "${SOFTHSM2_USER_PIN}" \
+            --write-object /tmp/cert.der --type cert \
+            --label aduanext-test-cert --id 01 \
+            --slot "$SLOT"
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go build
+        run: |
+          GIT_SHA_SHORT="${GH_SHA_SHORT:0:8}"
+          BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          go build -o /tmp/pkcs11-helper \
+            -ldflags "-X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.GitSHA=${GIT_SHA_SHORT} \
+                      -X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.Version=ci-${GH_RUN_NUMBER} \
+                      -X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.BuildDate=${BUILD_DATE}" \
+            ./cmd/pkcs11-helper
+          /tmp/pkcs11-helper --version
+
+      - name: go test (unit + SoftHSM2 smoke)
+        run: go test ./... -race -v
+
+      - name: PIN-leak regression — grep stdout/stderr capture
+        # Defense in depth: re-run a sign request with a sentinel PIN
+        # and assert it never appears in either stream.
+        run: |
+          set -euo pipefail
+          OUT=$(mktemp)
+          ERR=$(mktemp)
+          PIN="LEAK_CHECK_PIN_$(date +%s)"
+          REQ=$(jq -nc --arg pin "$PIN" --arg mod "${SOFTHSM2_MODULE}" --arg slot "${SOFTHSM2_SLOT_ID}" '
+            {id:"leak",command:"sign",params:{
+              module:$mod, slotId:($slot|tonumber), pin:$pin,
+              dataB64:"SGVsbG8=", mechanism:"CKM_SHA256_RSA_PKCS"}}')
+          printf '%s\n' "$REQ" | /tmp/pkcs11-helper >"$OUT" 2>"$ERR" || true
+          if grep -q "$PIN" "$OUT" "$ERR"; then
+            echo "PIN leaked into helper output!" >&2
+            cat "$OUT" "$ERR" >&2
+            exit 1
+          fi
+          echo "PIN-leak check passed."
+
+  upload-binary:
+    name: upload binary artifact (debug aid)
+    needs: helper
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: apps/pkcs11-helper
+    env:
+      GH_SHA_SHORT: ${{ github.sha }}
+      GH_RUN_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: apps/pkcs11-helper/go.sum
+      - name: Build
+        run: |
+          GIT_SHA_SHORT="${GH_SHA_SHORT:0:8}"
+          BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          mkdir -p dist
+          go build -o dist/aduanext-pkcs11-helper-linux-amd64 \
+            -ldflags "-s -w \
+              -X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.GitSHA=${GIT_SHA_SHORT} \
+              -X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.Version=main-${GH_RUN_NUMBER} \
+              -X github.com/vertivolatam/aduanext/pkcs11-helper/internal/commands.BuildDate=${BUILD_DATE}" \
+            ./cmd/pkcs11-helper
+          (cd dist && sha256sum * > SHA256SUMS)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aduanext-pkcs11-helper-linux-amd64
+          path: apps/pkcs11-helper/dist/
+          retention-days: 14
