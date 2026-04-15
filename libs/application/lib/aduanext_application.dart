@@ -37,3 +37,7 @@ export 'src/validation/declaration_rules.dart';
 export 'src/validation/pre_validate_declaration_query.dart';
 export 'src/validation/validation_report.dart';
 export 'src/validation/validation_rule.dart';
+
+// Retention worker (VRTV-57, LGA Art. 30.b).
+export 'src/retention/purge_expired_records_command.dart';
+export 'src/retention/purge_expired_records_handler.dart';

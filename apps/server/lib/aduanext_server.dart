@@ -18,3 +18,4 @@ export 'src/http/request_context.dart';
 export 'src/http/routes.dart';
 export 'src/middleware/auth_middleware.dart';
 export 'src/middleware/role_guard.dart';
+export 'src/workers/retention_worker.dart';

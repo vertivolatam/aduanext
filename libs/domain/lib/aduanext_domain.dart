@@ -8,9 +8,16 @@ export 'src/ports/audit_log_port.dart';
 export 'src/ports/auth_provider_port.dart';
 export 'src/ports/authorization_port.dart';
 export 'src/ports/customs_gateway_port.dart';
+export 'src/ports/legal_hold_port.dart';
 export 'src/ports/notification_port.dart';
+export 'src/ports/retention_purgeable_port.dart';
 export 'src/ports/signing_port.dart';
+export 'src/ports/storage_backend_port.dart';
 export 'src/ports/tariff_catalog_port.dart';
+
+// Retention.
+export 'src/retention/legal_hold.dart';
+export 'src/retention/retention_policy.dart';
 
 // Entities.
 export 'src/entities/classification_decision.dart';
