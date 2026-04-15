@@ -20,11 +20,15 @@
 /// infrastructure failures into HTTP responses.
 library;
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:aduanext_domain/aduanext_domain.dart';
 
 import '../shared/command.dart';
 import '../shared/result.dart';
 import '../validation/pre_validate_declaration_query.dart';
+import 'signing_credentials.dart';
 import 'submit_declaration_command.dart';
 import 'submit_declaration_failure.dart';
 
@@ -43,6 +47,15 @@ class SubmitDeclarationHandler
   final AuthProviderPort authProvider;
   final CustomsGatewayPort customsGateway;
   final SigningPort signing;
+
+  /// Optional PKCS#11 hardware-token port. When the command carries
+  /// [HardwareTokenCredentials] this MUST be non-null — the handler
+  /// returns a [SigningFailedFailure] otherwise so misconfigured
+  /// deployments surface the problem early instead of silently
+  /// falling back to software signing (which would produce a
+  /// BCCR-noncompliant signature).
+  final Pkcs11SigningPort? pkcs11Signing;
+
   final AuditLogPort auditLog;
 
   /// Request-scoped authorization context. Required: we enforce
@@ -74,6 +87,7 @@ class SubmitDeclarationHandler
     required this.signing,
     required this.auditLog,
     required this.authorization,
+    this.pkcs11Signing,
     this.preValidate,
     DeclarationPayloadSerializer? serializePayload,
     DateTime Function()? clock,
@@ -239,20 +253,52 @@ class SubmitDeclarationHandler
     );
 
     // ── Step 3: sign ───────────────────────────────────────────────────
+    //
+    // Branches on the command's [SigningCredentials]:
+    //
+    //   * SoftwareCertCredentials → existing SigningPort (sidecar-hosted
+    //     .p12). Kept for dev + education sandbox.
+    //   * HardwareTokenCredentials → Pkcs11SigningPort, which drives the
+    //     PKCS#11 helper at the client's USB token. Required in
+    //     production because BCCR / ATENA reject signatures that are
+    //     not hardware-backed (LGA Art. 86 + Ley 8454).
     final payloadToSign = serializePayload(command.declaration);
-    final signingResult = await signing.sign(payloadToSign);
-    if (!signingResult.success) {
+    final _SignOutcome outcome;
+    try {
+      outcome = await _doSign(command, payloadToSign);
+    } on Pkcs11Exception catch (e) {
+      // Typed PKCS#11 failures map to a signing failure at the use-case
+      // boundary. The audit payload records the helper error code for
+      // support diagnostics; the PIN is never part of the Pkcs11Exception
+      // type (enforced by VRTV-70's adapter regression test), so
+      // including the exception message in the audit trail is safe.
       await _audit(
         command,
         'submit.signing-failed',
         actorRole: actorRole,
         payload: {
           'declarationId': command.declarationId,
-          'reason': signingResult.errorMessage ?? 'unknown',
+          'credentialType': _credentialType(command.signingCredentials),
+          'reason': e.message,
+          'pkcs11ErrorKind': e.runtimeType.toString(),
+        },
+      );
+      return Result.err(SigningFailedFailure(e.message));
+    }
+
+    if (!outcome.success) {
+      await _audit(
+        command,
+        'submit.signing-failed',
+        actorRole: actorRole,
+        payload: {
+          'declarationId': command.declarationId,
+          'credentialType': outcome.credentialType,
+          'reason': outcome.errorMessage ?? 'unknown',
         },
       );
       return Result.err(SigningFailedFailure(
-        signingResult.errorMessage ?? 'unknown signing error',
+        outcome.errorMessage ?? 'unknown signing error',
       ));
     }
 
@@ -261,14 +307,20 @@ class SubmitDeclarationHandler
     // We log ONLY the size of the signed bytes — the signed content
     // itself is the privileged artifact and must not be duplicated in
     // the audit trail (the adapter persists it separately when needed).
-    final signedBytesLength = signingResult.signedContent?.length ?? 0;
+    // Hardware-token submissions additionally record the token serial
+    // (never the PIN) so the audit trail can attribute a signature to
+    // a specific physical device.
     await _audit(
       command,
       'submit.signed',
       actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
-        'signedBytesLength': signedBytesLength,
+        'credentialType': outcome.credentialType,
+        'signedBytesLength': outcome.signedBytesLength,
+        if (outcome.tokenSerial != null) 'tokenSerial': outcome.tokenSerial,
+        if (outcome.signerCommonName != null)
+          'signerCommonName': outcome.signerCommonName,
       },
     );
 
@@ -336,6 +388,74 @@ class SubmitDeclarationHandler
     return null;
   }
 
+  /// Dispatches the sign step to the right port based on the command's
+  /// signing credentials. Throws [Pkcs11Exception] on typed PKCS#11
+  /// failures; returns a [_SignOutcome] for software-path or
+  /// hardware-path successes + soft failures.
+  Future<_SignOutcome> _doSign(
+    SubmitDeclarationCommand command,
+    String payloadToSign,
+  ) async {
+    final creds = command.signingCredentials;
+    switch (creds) {
+      case SoftwareCertCredentials():
+        final r = await signing.sign(payloadToSign);
+        return _SignOutcome(
+          credentialType: 'software',
+          success: r.success,
+          errorMessage: r.errorMessage,
+          signedBytesLength: r.signedContent?.length ?? 0,
+          signerCommonName: r.signerCommonName,
+        );
+      case HardwareTokenCredentials(
+          :final pkcs11ModulePath,
+          :final slotId,
+          :final pin,
+        ):
+        final port = pkcs11Signing;
+        if (port == null) {
+          // Hardware credentials but no PKCS#11 port wired — fail fast
+          // at the use case boundary. Never fall back to software
+          // signing: ATENA would accept it and we'd have an audit
+          // trail of software signatures on hardware-credential
+          // submissions, which is worse than a loud error.
+          return const _SignOutcome(
+            credentialType: 'hardware',
+            success: false,
+            errorMessage:
+                'hardware-token credentials supplied but Pkcs11SigningPort '
+                'is not wired; refusing to fall back to software signing',
+            signedBytesLength: 0,
+          );
+        }
+        // The PKCS#11 helper signs the raw SHA-256-digested payload
+        // bytes. The caller provides the data-to-be-signed; the Go
+        // helper + token digests internally for CKM_SHA256_RSA_PKCS.
+        final data = Uint8List.fromList(utf8.encode(payloadToSign));
+        final result = await port.signWithToken(
+          pkcs11ModulePath: pkcs11ModulePath,
+          slotId: slotId,
+          pin: pin,
+          dataToSign: data,
+          algorithm: SignatureAlgorithm.rsaPkcs1Sha256,
+        );
+        return _SignOutcome(
+          credentialType: 'hardware',
+          success: true,
+          signedBytesLength: result.signatureBytes.length,
+          tokenSerial: result.tokenSerial,
+          signerCommonName: result.signerCommonName,
+        );
+    }
+  }
+
+  /// Small helper to label the credential variant for audit without
+  /// re-switching on the sealed type.
+  String _credentialType(SigningCredentials creds) => switch (creds) {
+        SoftwareCertCredentials() => 'software',
+        HardwareTokenCredentials() => 'hardware',
+      };
+
   Future<void> _audit(
     SubmitDeclarationCommand command,
     String action, {
@@ -361,6 +481,27 @@ class SubmitDeclarationHandler
       ),
     );
   }
+}
+
+/// Internal carrier of the sign-step result. Unifies the software and
+/// hardware paths so the handler's audit code has a single shape to
+/// consume.
+class _SignOutcome {
+  final String credentialType; // 'software' | 'hardware'
+  final bool success;
+  final String? errorMessage;
+  final int signedBytesLength;
+  final String? tokenSerial;
+  final String? signerCommonName;
+
+  const _SignOutcome({
+    required this.credentialType,
+    required this.success,
+    this.errorMessage,
+    required this.signedBytesLength,
+    this.tokenSerial,
+    this.signerCommonName,
+  });
 }
 
 /// Default payload serializer — stable, sorted-key JSON of the subset

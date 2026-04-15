@@ -32,6 +32,14 @@ class AppContainer {
   final CustomsGatewayPort customsGateway;
   final TariffCatalogPort tariffCatalog;
   final SigningPort? signing; // null if p12 not configured (dev without cert)
+
+  /// PKCS#11 hardware-token signing. Non-null when
+  /// `PKCS11_HELPER_PATH` resolves to an existing binary at boot.
+  /// When null, SubmitDeclarationHandler fails-closed for any command
+  /// carrying [HardwareTokenCredentials] rather than silently falling
+  /// back to software signing.
+  final Pkcs11SigningPort? pkcs11Signing;
+
   final AuditLogPort auditLog;
 
   /// Factory for the per-request [AuthorizationPort]. `null` when
@@ -51,6 +59,7 @@ class AppContainer {
     required this.customsGateway,
     required this.tariffCatalog,
     required this.signing,
+    required this.pkcs11Signing,
     required this.auditLog,
     required this.authPortFactory,
     required JwksCache? jwksCache,
@@ -89,6 +98,23 @@ class AppContainer {
         channelManager: grpcChannel,
         p12Bytes: await p12File.readAsBytes(),
         p12Pin: p12Pin,
+      );
+    }
+
+    // PKCS#11 hardware-token signing (VRTV-70). Only wired when the
+    // helper binary path resolves to an existing executable at boot.
+    // The adapter itself is lazy (fresh process per request) so we
+    // don't need to probe the binary here beyond existence.
+    Pkcs11SigningPort? pkcs11Signing;
+    final pkcs11Path = config.pkcs11HelperPath;
+    if (pkcs11Path != null && pkcs11Path.isNotEmpty) {
+      if (!File(pkcs11Path).existsSync()) {
+        throw StateError(
+          'PKCS11_HELPER_PATH points to a non-existent file: $pkcs11Path',
+        );
+      }
+      pkcs11Signing = SubprocessPkcs11SigningAdapter(
+        helperBinaryPath: pkcs11Path,
       );
     }
 
@@ -131,6 +157,7 @@ class AppContainer {
       customsGateway: customsGateway,
       tariffCatalog: tariffCatalog,
       signing: signing,
+      pkcs11Signing: pkcs11Signing,
       auditLog: auditLog,
       authPortFactory: authPortFactory,
       jwksCache: jwksCache,

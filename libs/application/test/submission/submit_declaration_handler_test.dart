@@ -9,6 +9,8 @@
 /// - the exact sequence + payload of audit events written to the chain.
 library;
 
+import 'dart:typed_data';
+
 import 'package:aduanext_adapters/audit.dart';
 import 'package:aduanext_adapters/authorization.dart';
 import 'package:aduanext_application/aduanext_application.dart';
@@ -522,6 +524,169 @@ void main() {
         expect(events.map((e) => e.action), containsAll(['submit.pre-validated']));
       },
     );
+
+    // -------------------------------------------------------------------------
+    // Hardware-token branch (VRTV-71)
+    // -------------------------------------------------------------------------
+    group('hardware-token signing', () {
+      late _FakePkcs11Signing pkcs11;
+      late SubmitDeclarationHandler handlerWithPkcs11;
+
+      const hwCreds = HardwareTokenCredentials(
+        pkcs11ModulePath: '/usr/lib/softhsm/libsofthsm2.so',
+        slotId: 7,
+        pin: 'SENTINEL_1234',
+      );
+
+      setUp(() {
+        pkcs11 = _FakePkcs11Signing();
+        gateway.submissionResult = const DeclarationResult(
+          success: true,
+          registrationNumber: 'CR-HW-OK',
+        );
+        handlerWithPkcs11 = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          pkcs11Signing: pkcs11,
+          auditLog: auditLog,
+          authorization: authorization,
+          clock: () => fixedNow,
+        );
+      });
+
+      test('routes to Pkcs11SigningPort when command has HardwareTokenCredentials', () async {
+        final result = await handlerWithPkcs11.handle(
+          _buildCommand(signingCredentials: hwCreds),
+        );
+        expect(result.isOk, isTrue);
+
+        // The hardware port WAS consulted with the right slot/pin.
+        expect(pkcs11.lastSlotId, 7);
+        expect(pkcs11.lastPinSeen, 'SENTINEL_1234');
+      });
+
+      test('records credentialType=hardware + tokenSerial (NOT pin) in submit.signed audit', () async {
+        await handlerWithPkcs11.handle(
+          _buildCommand(signingCredentials: hwCreds),
+        );
+
+        final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+        final signed = events.firstWhere((e) => e.action == 'submit.signed');
+        expect(signed.payload['credentialType'], 'hardware');
+        expect(signed.payload['tokenSerial'], 'HW-TOKEN-SERIAL-123');
+        expect(signed.payload['signerCommonName'], 'MARIA PEREZ (FIRMA)');
+        // CRITICAL regression: the PIN must NEVER appear in any audit
+        // payload, including the submit.signed event.
+        for (final e in events) {
+          final payloadStr = e.payload.toString();
+          expect(payloadStr, isNot(contains('SENTINEL_1234')),
+              reason: 'Audit payload must never contain the PIN');
+        }
+      });
+
+      test('software-path submissions record credentialType=software', () async {
+        final result = await handlerWithPkcs11.handle(
+          _buildCommand(
+            signingCredentials: const SoftwareCertCredentials(),
+          ),
+        );
+        expect(result.isOk, isTrue);
+        final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+        final signed = events.firstWhere((e) => e.action == 'submit.signed');
+        expect(signed.payload['credentialType'], 'software');
+        expect(signed.payload.containsKey('tokenSerial'), isFalse);
+        // The hardware port was NOT consulted.
+        expect(pkcs11.lastSlotId, isNull);
+      });
+
+      test(
+        'hardware creds without a Pkcs11SigningPort wired fail-closed '
+        '(no silent software fallback)',
+        () async {
+          final handlerMissingPort = SubmitDeclarationHandler(
+            authProvider: auth,
+            customsGateway: gateway,
+            signing: signing,
+            // pkcs11Signing intentionally omitted
+            auditLog: auditLog,
+            authorization: authorization,
+            clock: () => fixedNow,
+          );
+          final result = await handlerMissingPort.handle(
+            _buildCommand(signingCredentials: hwCreds),
+          );
+          expect(result.isErr, isTrue);
+          final failure =
+              (result as Err<DeclarationResult>).failure as SigningFailedFailure;
+          expect(failure.reason, contains('not wired'));
+
+          // The submit.signing-failed audit event MUST carry
+          // credentialType=hardware so ops can tell from the trail that
+          // this was a misconfiguration, not a transient signing error.
+          final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+          final failed =
+              events.firstWhere((e) => e.action == 'submit.signing-failed');
+          expect(failed.payload['credentialType'], 'hardware');
+        },
+      );
+
+      test(
+        'InvalidPinException propagates as SigningFailedFailure and logs '
+        'pkcs11ErrorKind=InvalidPinException',
+        () async {
+          pkcs11.throwOnSign =
+              const InvalidPinException('user PIN is incorrect');
+          final result = await handlerWithPkcs11.handle(
+            _buildCommand(signingCredentials: hwCreds),
+          );
+          expect(result.isErr, isTrue);
+          final failure =
+              (result as Err<DeclarationResult>).failure as SigningFailedFailure;
+          expect(failure.reason, contains('incorrect'));
+
+          final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+          final failed =
+              events.firstWhere((e) => e.action == 'submit.signing-failed');
+          expect(failed.payload['pkcs11ErrorKind'], 'InvalidPinException');
+          // PIN must still not appear in the audit payload.
+          expect(failed.payload.toString(),
+              isNot(contains('SENTINEL_1234')));
+        },
+      );
+
+      test(
+        'PinLockedException propagates and is distinguishable in audit',
+        () async {
+          pkcs11.throwOnSign = const PinLockedException('user PIN is locked');
+          final result = await handlerWithPkcs11.handle(
+            _buildCommand(signingCredentials: hwCreds),
+          );
+          expect(result.isErr, isTrue);
+          final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+          final failed =
+              events.firstWhere((e) => e.action == 'submit.signing-failed');
+          expect(failed.payload['pkcs11ErrorKind'], 'PinLockedException');
+        },
+      );
+
+      test(
+        'TokenNotPresentException propagates cleanly',
+        () async {
+          pkcs11.throwOnSign =
+              const TokenNotPresentException('no token in slot');
+          final result = await handlerWithPkcs11.handle(
+            _buildCommand(signingCredentials: hwCreds),
+          );
+          expect(result.isErr, isTrue);
+          final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+          final failed =
+              events.firstWhere((e) => e.action == 'submit.signing-failed');
+          expect(
+              failed.payload['pkcs11ErrorKind'], 'TokenNotPresentException');
+        },
+      );
+    });
   });
 }
 
@@ -576,6 +741,7 @@ SubmitDeclarationCommand _buildCommand({
   String declarationId = 'DECL-1',
   Declaration? declaration,
   Credentials? credentials,
+  SigningCredentials signingCredentials = const SoftwareCertCredentials(),
 }) {
   return SubmitDeclarationCommand(
     agentId: agentId,
@@ -589,6 +755,7 @@ SubmitDeclarationCommand _buildCommand({
           password: 'pw',
           clientId: 'atena-cli',
         ),
+    signingCredentials: signingCredentials,
   );
 }
 
@@ -623,6 +790,45 @@ DeclarationItem _item({
     ),
     itemValuation: const ItemValuation(),
   );
+}
+
+class _FakePkcs11Signing implements Pkcs11SigningPort {
+  /// If set, signWithToken throws this exception instead of returning a
+  /// success. Used to test the typed-exception mapping branch.
+  Pkcs11Exception? throwOnSign;
+
+  /// Capture of the last signWithToken call for assertions.
+  String? lastPinSeen;
+  int? lastSlotId;
+
+  SignResult result = SignResult(
+    signatureBytes: Uint8List.fromList(List<int>.generate(32, (i) => i)),
+    signerCertificateDer:
+        Uint8List.fromList(List<int>.generate(16, (i) => i + 100)),
+    signerCommonName: 'MARIA PEREZ (FIRMA)',
+    tokenSerial: 'HW-TOKEN-SERIAL-123',
+    signedAt: DateTime.utc(2026, 4, 14, 10, 30),
+  );
+
+  @override
+  Future<List<TokenSlot>> enumerateSlots(String pkcs11ModulePath) async {
+    return const [];
+  }
+
+  @override
+  Future<SignResult> signWithToken({
+    required String pkcs11ModulePath,
+    required int slotId,
+    required String pin,
+    required Uint8List dataToSign,
+    required SignatureAlgorithm algorithm,
+  }) async {
+    lastPinSeen = pin;
+    lastSlotId = slotId;
+    final ex = throwOnSign;
+    if (ex != null) throw ex;
+    return result;
+  }
 }
 
 class _FakeAuthProvider implements AuthProviderPort {
