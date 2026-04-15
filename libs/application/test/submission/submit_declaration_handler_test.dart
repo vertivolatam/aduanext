@@ -427,7 +427,143 @@ void main() {
         );
       },
     );
+
+    // -------------------------------------------------------------------------
+    // Pre-validation integration (VRTV-42)
+    // -------------------------------------------------------------------------
+    test(
+      'pre-validation errors short-circuit with PreValidationFailedFailure '
+      'and log submit.pre-validation-failed',
+      () async {
+        final preHandler = PreValidateDeclarationHandler(
+          rules: [_AlwaysFailsRule()],
+        );
+        final handlerWithPre = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: authorization,
+          preValidate: preHandler,
+          clock: () => fixedNow,
+        );
+        final result = await handlerWithPre.handle(_buildCommand());
+        expect(result.isErr, isTrue);
+        final fail = (result as Err<DeclarationResult>).failure
+            as PreValidationFailedFailure;
+        expect(fail.summary, contains('always-fails'));
+
+        final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+        expect(events.map((e) => e.action), [
+          'submit.requested',
+          'submit.authenticated',
+          'submit.pre-validation-failed',
+        ]);
+      },
+    );
+
+    test(
+      'pre-validation warnings log submit.pre-validated-with-warnings and '
+      'let the submission proceed',
+      () async {
+        final preHandler = PreValidateDeclarationHandler(
+          rules: [_WarnsOnceRule()],
+        );
+        final handlerWithPre = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: authorization,
+          preValidate: preHandler,
+          clock: () => fixedNow,
+        );
+        gateway.submissionResult = const DeclarationResult(
+          success: true,
+          registrationNumber: 'CR-OK',
+        );
+        final result = await handlerWithPre.handle(_buildCommand());
+        expect(result.isOk, isTrue);
+
+        final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+        expect(events.map((e) => e.action), [
+          'submit.requested',
+          'submit.authenticated',
+          'submit.pre-validated-with-warnings',
+          'submit.validated',
+          'submit.signed',
+          'submit.accepted',
+        ]);
+      },
+    );
+
+    test(
+      'clean pre-validation logs submit.pre-validated (no warnings)',
+      () async {
+        final preHandler = PreValidateDeclarationHandler(
+          rules: [_AlwaysPassesRule()],
+        );
+        final handlerWithPre = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: authorization,
+          preValidate: preHandler,
+          clock: () => fixedNow,
+        );
+        gateway.submissionResult = const DeclarationResult(
+          success: true,
+          registrationNumber: 'CR-OK',
+        );
+        final result = await handlerWithPre.handle(_buildCommand());
+        expect(result.isOk, isTrue);
+        final events = await auditLog.queryByEntity('Declaration', 'DECL-1');
+        expect(events.map((e) => e.action), containsAll(['submit.pre-validated']));
+      },
+    );
   });
+}
+
+class _AlwaysFailsRule implements ValidationRule<Declaration> {
+  @override
+  String get code => 'always-fails';
+
+  @override
+  RuleSeverity get defaultSeverity => RuleSeverity.error;
+
+  @override
+  Future<RuleResult> evaluate(Declaration _) async => Fail(
+        ruleCode: code,
+        severity: defaultSeverity,
+        message: 'always-fails rule triggered',
+      );
+}
+
+class _WarnsOnceRule implements ValidationRule<Declaration> {
+  @override
+  String get code => 'warns-once';
+
+  @override
+  RuleSeverity get defaultSeverity => RuleSeverity.warning;
+
+  @override
+  Future<RuleResult> evaluate(Declaration _) async => Fail(
+        ruleCode: code,
+        severity: defaultSeverity,
+        message: 'soft warning',
+      );
+}
+
+class _AlwaysPassesRule implements ValidationRule<Declaration> {
+  @override
+  String get code => 'always-passes';
+
+  @override
+  RuleSeverity get defaultSeverity => RuleSeverity.error;
+
+  @override
+  Future<RuleResult> evaluate(Declaration _) async => Pass(ruleCode: code);
 }
 
 // -----------------------------------------------------------------------------

@@ -222,7 +222,7 @@ void main() {
           adapter.searchCommodities(const TariffSearchParams(textQuery: 'x')),
           throwsA(
             isA<TariffCatalogException>()
-                .having((e) => e.grpcCode, 'grpcCode', 'RESOURCE_EXHAUSTED'),
+                .having((e) => e.vendorCode, "vendorCode", 'RESOURCE_EXHAUSTED'),
           ),
         );
       });

@@ -24,6 +24,7 @@ import 'package:aduanext_domain/aduanext_domain.dart';
 
 import '../shared/command.dart';
 import '../shared/result.dart';
+import '../validation/pre_validate_declaration_query.dart';
 import 'submit_declaration_command.dart';
 import 'submit_declaration_failure.dart';
 
@@ -50,6 +51,14 @@ class SubmitDeclarationHandler
   /// every action must be attributable).
   final AuthorizationPort authorization;
 
+  /// Optional pre-submission rule engine (VRTV-42). When provided, the
+  /// 9-rule pipeline runs BEFORE the ATENA dry-run `validateDeclaration`
+  /// — this saves a gateway round-trip for defects we can catch locally
+  /// (HS code format, required fields, incoterm/transport consistency,
+  /// ...). Errors short-circuit with [PreValidationFailedFailure];
+  /// warnings are logged but do not block.
+  final PreValidateDeclarationHandler? preValidate;
+
   /// Pure function converting the [Declaration] into the exact bytes
   /// that will be signed. Defaults to a stable JSON serialization so
   /// call sites that don't yet have the adapter's serializer wired can
@@ -65,6 +74,7 @@ class SubmitDeclarationHandler
     required this.signing,
     required this.auditLog,
     required this.authorization,
+    this.preValidate,
     DeclarationPayloadSerializer? serializePayload,
     DateTime Function()? clock,
   })  : serializePayload =
@@ -146,6 +156,48 @@ class SubmitDeclarationHandler
         'declarationId': command.declarationId,
       },
     );
+
+    // ── Step 1.5: pre-validate (VRTV-42) ──────────────────────────────
+    //
+    // When a rule engine is wired, run it BEFORE the ATENA dry-run so
+    // we avoid a round-trip for defects we can catch locally. The
+    // engine's output lands in the audit trail either way — errors
+    // short-circuit the submission; warnings keep going.
+    final preValidateHandler = preValidate;
+    if (preValidateHandler != null) {
+      final report = await preValidateHandler.handle(
+        PreValidateDeclarationQuery(declaration: command.declaration),
+      );
+      if (!report.isSubmittable) {
+        await _audit(
+          command,
+          'submit.pre-validation-failed',
+          actorRole: actorRole,
+          payload: {
+            'declarationId': command.declarationId,
+            ...report.toAuditSummary(),
+          },
+        );
+        final first = report.errors.first;
+        return Result.err(PreValidationFailedFailure(
+          report: report,
+          summary:
+              '${report.errors.length} error(s) + ${report.warnings.length} warning(s); '
+              'first: ${first.ruleCode} — ${first.message}',
+        ));
+      }
+      await _audit(
+        command,
+        report.isClean
+            ? 'submit.pre-validated'
+            : 'submit.pre-validated-with-warnings',
+        actorRole: actorRole,
+        payload: {
+          'declarationId': command.declarationId,
+          ...report.toAuditSummary(),
+        },
+      );
+    }
 
     // ── Step 2: validate declaration (dry-run) ─────────────────────────
     final validation =

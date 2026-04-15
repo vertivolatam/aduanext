@@ -70,6 +70,23 @@ class TariffSearchParams {
   });
 }
 
+/// Domain-level exception raised by [TariffCatalogPort] implementations
+/// when the catalog lookup fails.
+///
+/// Kept in the domain — not in the adapter — so application-layer rules
+/// can catch a single stable type without depending on country-specific
+/// adapters. Adapters extend with country-specific context.
+class TariffCatalogException implements Exception {
+  final String message;
+  final String? vendorCode;
+
+  const TariffCatalogException(this.message, {this.vendorCode});
+
+  @override
+  String toString() => 'TariffCatalogException: $message'
+      '${vendorCode != null ? ' (vendor: $vendorCode)' : ''}';
+}
+
 /// Port: Tariff Catalog — country-agnostic tariff lookup interface.
 abstract class TariffCatalogPort {
   /// Search commodities by text description or HS code.

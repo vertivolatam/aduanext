@@ -109,6 +109,32 @@ final class SigningFailedFailure extends SubmitDeclarationFailure {
   String get message => 'Digital signature failed: $reason';
 }
 
+/// Pre-submission rule engine (VRTV-42) rejected the declaration.
+/// Carries the full [ValidationReport] so the UI can surface every
+/// failing rule at once (field path + message per rule).
+@immutable
+final class PreValidationFailedFailure extends SubmitDeclarationFailure {
+  /// Opaque carrier — we keep it as `Object` to avoid a cycle between
+  /// the submission feature slice and the validation feature slice. The
+  /// boundary layer casts to `ValidationReport` for UI rendering.
+  final Object report;
+
+  /// Human-readable one-line summary (rule counts, first failure).
+  final String summary;
+
+  const PreValidationFailedFailure({
+    required this.report,
+    required this.summary,
+  });
+
+  @override
+  String get code => 'submit.pre-validation-failed';
+
+  @override
+  String get message =>
+      'Pre-submission validation blocked the declaration: $summary';
+}
+
 /// ATENA returned a non-success response to the submit RPC (e.g.
 /// business rule violation discovered at liquidation time that was not
 /// caught by validateDeclaration).
