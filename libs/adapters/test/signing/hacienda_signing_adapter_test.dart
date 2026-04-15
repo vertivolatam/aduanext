@@ -109,45 +109,96 @@ void main() {
       );
     });
 
-    test('verifySignature() returns valid bool on success', () async {
-      fake.onVerifySignature = (_) =>
-          VerifySignatureResponse(valid: true);
-      final adapter = build();
-      expect(await adapter.verifySignature('<Signed/>'), isTrue);
+    test(
+      'verifySignatureDetailed() returns degraded result with '
+      'structuralValid=true when the sidecar says valid',
+      () async {
+        fake.onVerifySignature = (_) => VerifySignatureResponse(
+              valid: true,
+              signerCn: 'PERSONA FISICA 123456',
+            );
+        final adapter = build();
+        final r = await adapter.verifySignatureDetailed('<Signed/>');
+        expect(r.structuralValid, isTrue);
+        expect(r.degraded, isTrue,
+            reason:
+                'Sidecar only performs structural check today — result '
+                'MUST be marked degraded so the UI warns the operator.');
+        expect(r.valid, isFalse,
+            reason: 'degraded results are NEVER overall-valid.');
+        expect(r.signerCommonName, 'PERSONA FISICA 123456');
+      },
+    );
 
-      fake.onVerifySignature = (_) =>
-          VerifySignatureResponse(valid: false);
-      expect(await adapter.verifySignature('<Signed/>'), isFalse);
-    });
+    test(
+      'verifySignatureDetailed() returns degraded result with '
+      'structuralValid=false when the sidecar says invalid',
+      () async {
+        fake.onVerifySignature = (_) => VerifySignatureResponse(valid: false);
+        final adapter = build();
+        final r = await adapter.verifySignatureDetailed('<Signed/>');
+        expect(r.structuralValid, isFalse);
+        expect(r.valid, isFalse);
+        expect(r.degraded, isTrue);
+      },
+    );
 
-    test('verifySignature() throws SigningException on response.error',
+    test(
+      'verifySignatureDetailed() returns failure (not degraded) when the '
+      'sidecar returns an explicit error',
+      () async {
+        fake.onVerifySignature = (_) =>
+            VerifySignatureResponse(error: 'cert not trusted');
+        final adapter = build();
+        final r = await adapter.verifySignatureDetailed('<Signed/>');
+        expect(r.valid, isFalse);
+        expect(r.reason, contains('cert not trusted'));
+        expect(r.degraded, isFalse);
+      },
+    );
+
+    test(
+      'verifySignature() boolean wrapper returns false whenever the detailed '
+      'result is degraded (never promotes degraded results to true)',
+      () async {
+        fake.onVerifySignature = (_) => VerifySignatureResponse(valid: true);
+        final adapter = build();
+        expect(await adapter.verifySignature('<Signed/>'), isFalse,
+            reason:
+                'A degraded result carries valid=false — the Boolean wrapper '
+                'must mirror that so callers never treat structural-only '
+                'verification as legally binding.');
+      },
+    );
+
+    test('verifySignatureDetailed() wraps GrpcError as SigningException',
         () async {
-      fake.onVerifySignature = (_) =>
-          VerifySignatureResponse(error: 'cert not trusted');
-      final adapter = build();
-      await expectLater(
-        adapter.verifySignature('<Signed/>'),
-        throwsA(
-          isA<SigningException>().having(
-            (e) => e.message,
-            'message',
-            contains('cert not trusted'),
-          ),
-        ),
-      );
-    });
-
-    test('verifySignature() wraps GrpcError', () async {
       fake.onVerifySignature = (_) =>
           throw GrpcError.deadlineExceeded('slow');
       final adapter = build();
       await expectLater(
-        adapter.verifySignature('<Signed/>'),
+        adapter.verifySignatureDetailed('<Signed/>'),
         throwsA(
           isA<SigningException>()
               .having((e) => e.grpcCode, 'grpcCode', 'DEADLINE_EXCEEDED'),
         ),
       );
+    });
+
+    test('toAuditPayload includes every field', () async {
+      fake.onVerifySignature = (_) => VerifySignatureResponse(
+            valid: true,
+            signerCn: 'JANE DOE',
+          );
+      final adapter = build();
+      final r = await adapter.verifySignatureDetailed('<Signed/>');
+      final payload = r.toAuditPayload();
+      expect(payload['valid'], isFalse);
+      expect(payload['structuralValid'], isTrue);
+      expect(payload['degraded'], isTrue);
+      expect(payload['signerCommonName'], 'JANE DOE');
+      expect(payload['ocspStatus'], 'skipped');
+      expect(payload['verifiedAt'], isA<String>());
     });
 
     test(
