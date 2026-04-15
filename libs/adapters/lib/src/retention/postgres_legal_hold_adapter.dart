@@ -134,16 +134,20 @@ class PostgresLegalHoldAdapter implements LegalHoldPort {
 
   @override
   Future<void> place(LegalHold hold) async {
-    // Wrap tenant-binding + active-check + INSERT in a single
-    // transaction so concurrent placers race cleanly against the
-    // partial unique index. The DB index is the final line of defense;
-    // the explicit check converts the race into a clean StateError
-    // matching the in-memory adapter's contract.
+    // Wrap active-check + INSERT in a single transaction so concurrent
+    // placers race cleanly against the partial unique index. The DB
+    // index is the final line of defense; the explicit check converts
+    // the race into a clean StateError matching the in-memory
+    // adapter's contract.
+    //
+    // NOTE on RLS: we do NOT call `set_app_tenant(hold.tenantId)` here.
+    // The caller is expected to have bound the session tenant via
+    // [setSessionTenant] (middleware does this per-request; tests do
+    // it per setUp). Binding inside the method would let a caller
+    // sneak in a tenant by forging the LegalHold.tenantId; leaving the
+    // session-scoped GUC intact means `INSERT WITH CHECK` rejects the
+    // write whenever `hold.tenantId != current_app_tenant()`.
     await _connection.runTx((tx) async {
-      await tx.execute(
-        Sql.named('SELECT set_app_tenant(@tenantId)'),
-        parameters: {'tenantId': hold.tenantId},
-      );
       final active = await tx.execute(
         Sql.named('''
           SELECT id, set_at, set_by_actor_id
@@ -199,11 +203,10 @@ class PostgresLegalHoldAdapter implements LegalHoldPort {
     required String releasedByActorId,
     required DateTime releasedAt,
   }) async {
+    // Caller must have bound the session tenant (see `place` docstring
+    // for rationale). UPDATE WITH CHECK enforces cross-tenant writes
+    // fail at the DB.
     await _connection.runTx((tx) async {
-      await tx.execute(
-        Sql.named('SELECT set_app_tenant(@tenantId)'),
-        parameters: {'tenantId': tenantId},
-      );
       // No-op when no active hold exists — matches in-memory behavior.
       await tx.execute(
         Sql.named('''
