@@ -47,10 +47,10 @@ jobs:
           go-version: '1.22'
           cache-dependency-path: apps/pkcs11-helper/go.sum
 
-      - name: Install SoftHSM2 + OpenSC
+      - name: Install SoftHSM2 + OpenSC + pkcs11 OpenSSL engine
         run: |
           sudo apt-get update
-          sudo apt-get install -y softhsm2 opensc libsofthsm2
+          sudo apt-get install -y softhsm2 opensc libsofthsm2 libengine-pkcs11-openssl
 
       - name: Initialize SoftHSM2 token + provision test cert
         # Sets up a fresh tokendir, initializes a token, generates an RSA
@@ -88,14 +88,24 @@ jobs:
             --label aduanext-test-key --id 01 \
             --slot "$SLOT"
 
-          # Generate a self-signed cert OFF the token and import its
-          # DER body ON the token. The tests only require a cert + key
-          # be reachable on the token; they do not require the cert
-          # have been signed by the token key (the integration test
-          # uses the cert returned by the sign call to verify, not a
-          # chain assertion).
+          # Generate a self-signed cert whose public key MATCHES the
+          # token key. We use OpenSSL's pkcs11 engine so the cert is
+          # signed by the token key itself — this is the only way the
+          # cert's pubkey will agree with the private key the token
+          # uses at Sign time (which is what the integration test
+          # roundtrip asserts).
           OPENSSL_CNF=/tmp/openssl.cnf
-          cat > "$OPENSSL_CNF" <<'EOF'
+          cat > "$OPENSSL_CNF" <<EOF
+          openssl_conf = openssl_init
+          [openssl_init]
+          engines = engine_section
+          [engine_section]
+          pkcs11 = pkcs11_section
+          [pkcs11_section]
+          engine_id = pkcs11
+          dynamic_path = /usr/lib/x86_64-linux-gnu/engines-3/pkcs11.so
+          MODULE_PATH = ${SOFTHSM2_MODULE}
+          init = 0
           [req]
           distinguished_name = dn
           prompt = no
@@ -105,9 +115,17 @@ jobs:
           C  = CR
           EOF
 
-          openssl req -x509 -newkey rsa:2048 -nodes -days 30 \
-            -keyout /tmp/cert.key -out /tmp/cert.pem \
+          # PKCS#11 URI for the token key we just generated (label=aduanext-test-key, id=01).
+          KEY_URI="pkcs11:token=aduanext-test;object=aduanext-test-key;type=private;pin-value=${SOFTHSM2_USER_PIN}"
+
+          OPENSSL_CONF="$OPENSSL_CNF" openssl req -new -x509 \
+            -engine pkcs11 -keyform engine \
+            -key "$KEY_URI" \
+            -days 30 \
+            -out /tmp/cert.pem \
             -config "$OPENSSL_CNF"
+
+          openssl x509 -in /tmp/cert.pem -noout -subject -issuer
           openssl x509 -in /tmp/cert.pem -outform DER -out /tmp/cert.der
 
           pkcs11-tool --module "${SOFTHSM2_MODULE}" \
