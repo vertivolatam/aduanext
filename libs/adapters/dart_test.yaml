@@ -1,0 +1,10 @@
+# AduaNext adapters — test runner configuration.
+#
+# The Postgres adapter tests (both `postgres_audit_log_adapter_test.dart`
+# and `postgres_audit_log_rls_test.dart`) share the single
+# `postgres_test` container from docker-compose. Running them in
+# parallel causes cross-file interference (TRUNCATE vs. concurrent
+# SELECT, SET ROLE leakage across sessions). We serialize tests globally
+# here; unit-only files pay a tiny startup cost but determinism is
+# worth it.
+concurrency: 1

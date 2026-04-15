@@ -41,6 +41,7 @@ import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:postgres/postgres.dart';
 
 import 'audit_chain_hasher.dart';
+import 'migrations/tenant_isolation_migration.dart';
 
 /// PostgreSQL-backed, tamper-evident audit log.
 class PostgresAuditLogAdapter implements AuditLogPort {
@@ -111,7 +112,12 @@ class PostgresAuditLogAdapter implements AuditLogPort {
   }
 
   /// Idempotent schema creation. Safe to call multiple times.
+  ///
+  /// Applies migrations in order:
+  ///   0001 — base `audit_events` table + per-entity index (inline).
+  ///   0002 — tenant isolation via RLS (see tenant_isolation_migration.dart).
   Future<void> ensureSchema() async {
+    // 0001 — base schema.
     await _connection.execute('''
       CREATE TABLE IF NOT EXISTS audit_events (
         id               BIGSERIAL PRIMARY KEY,
@@ -135,6 +141,13 @@ class PostgresAuditLogAdapter implements AuditLogPort {
       CREATE INDEX IF NOT EXISTS idx_audit_events_entity
       ON audit_events (entity_type, entity_id, sequence_number)
     ''');
+
+    // 0002 — RLS + tenant helpers. Statements are issued one at a
+    // time because the postgres Dart driver does not accept multi-
+    // statement batches on a prepared statement.
+    for (final stmt in tenantIsolationMigrationStatements) {
+      await _connection.execute(stmt);
+    }
   }
 
   /// Close the underlying connection. Idempotent.
@@ -164,6 +177,16 @@ class PostgresAuditLogAdapter implements AuditLogPort {
     // race past each other. The UNIQUE constraint is the safety net that
     // turns a lost race into a retriable error.
     return _connection.runTx<String>((tx) async {
+      // Set the transaction-local RLS tenant to match the event's
+      // tenant_id. This matches the INSERT WITH CHECK policy, so any
+      // attempt to smuggle a different tenant_id through would be
+      // rejected by Postgres itself (defense in depth vs. application
+      // bugs). The `true` argument scopes the setting to this
+      // transaction — rolled back on commit/rollback.
+      await tx.execute(
+        Sql.named("SELECT set_app_tenant(@tenantId)"),
+        parameters: {'tenantId': event.tenantId},
+      );
       final tail = await tx.execute(
         Sql.named('''
           SELECT sequence_number, event_hash
@@ -242,6 +265,10 @@ class PostgresAuditLogAdapter implements AuditLogPort {
   @override
   Future<List<AuditEvent>> queryByEntity(
       String entityType, String entityId) async {
+    // RLS filters by the session's `app.current_tenant_id`. Callers
+    // that want a cross-tenant view MUST wrap the call in
+    // [withAdminBypass] — doing so from a fiscalizador export
+    // endpoint is the only legitimate use.
     final rows = await _connection.execute(
       Sql.named('''
         SELECT entity_type, entity_id, sequence_number, action,
@@ -258,6 +285,47 @@ class PostgresAuditLogAdapter implements AuditLogPort {
       },
     );
     return rows.map(_rowToEvent).toList(growable: false);
+  }
+
+  /// Set the session-scoped tenant context. Callers that run the
+  /// adapter outside the shelf middleware (tests, fiscalizador export,
+  /// long-running workers) MUST call this before every
+  /// [queryByEntity] / [verifyChainIntegrity] call; otherwise RLS
+  /// filters every row and the result is empty (fail-secure default).
+  ///
+  /// The setting uses `set_config(..., false)` which scopes it to the
+  /// whole session. In a connection-pooled deployment, the middleware
+  /// MUST call this on every request to refresh the value, since the
+  /// connection is shared across users.
+  Future<void> setSessionTenant(String? tenantId) async {
+    if (tenantId == null) {
+      // Clearing: set to empty so `current_app_tenant()` returns NULL.
+      await _connection.execute(
+        Sql.named('''SELECT set_config('app.current_tenant_id', '', false)'''),
+      );
+      return;
+    }
+    await _connection.execute(
+      Sql.named(
+        '''SELECT set_config('app.current_tenant_id', @tenantId, false)''',
+      ),
+      parameters: {'tenantId': tenantId},
+    );
+  }
+
+  /// Toggle the admin-bypass flag for the session. When set to
+  /// `'admin'`, the SELECT policy lets rows through regardless of
+  /// tenant — callers MUST audit-log the bypass itself before flipping
+  /// it (contract, not enforced in code).
+  ///
+  /// Pass `null` to clear the flag.
+  Future<void> setSessionAdminBypass(bool enabled) async {
+    await _connection.execute(
+      Sql.named(
+        '''SELECT set_config('app.bypass_rls', @flag, false)''',
+      ),
+      parameters: {'flag': enabled ? 'admin' : ''},
+    );
   }
 
   @override
@@ -315,6 +383,20 @@ class PostgresAuditLogAdapter implements AuditLogPort {
   /// Test-only raw connection handle for tampering-detection tests.
   /// Production code MUST NOT use this.
   Connection get debugRawConnection => _connection;
+
+  /// Test-only: switch the effective session role. The RLS test suite
+  /// uses this to drop from the `postgres` superuser (which has
+  /// BYPASSRLS) to the non-bypassing `aduanext_app` role so that the
+  /// policies are actually enforced.
+  ///
+  /// Pass `null` to RESET (restore the original role).
+  Future<void> debugSetSessionRole(String? roleName) async {
+    if (roleName == null) {
+      await _connection.execute('RESET ROLE');
+    } else {
+      await _connection.execute('SET ROLE $roleName');
+    }
+  }
 
   /// Delete all audit events. Test-only helper to reset state between
   /// tests without re-running migrations.
