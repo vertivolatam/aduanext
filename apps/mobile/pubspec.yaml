@@ -36,6 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router: ^17.2.0
   google_fonts: ^8.0.2
+  # VRTV-59 — Riverpod state for the onboarding wizard. Each step has
+  # its own provider so the form can resume after a browser refresh.
+  flutter_riverpod: ^2.6.1
+  # VRTV-59 — domain types (AgentProfile, BondType, AgentPlan) shared
+  # with the application layer + future backend endpoint.
+  aduanext_domain:
+    path: ../../libs/domain
+  # VRTV-59 — `@immutable` annotation on onboarding state value objects.
+  meta: ^1.16.0
 
 dev_dependencies:
   flutter_test:
