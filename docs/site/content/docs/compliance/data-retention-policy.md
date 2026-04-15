@@ -109,6 +109,52 @@ Out of scope for VRTV-57. Tracked separately under audit-export work
 (VRTV-67/68). The archive layout + metadata sidecars give that future
 adapter everything it needs to reconstruct the audit chain context.
 
+## Runtime configuration (VRTV-74)
+
+The retention worker is wired in `apps/server` and reads its knobs
+from environment variables. It stays OFF by default — operators must
+opt in explicitly.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `ADUANEXT_RETENTION_ENABLED` | `false` | Master switch. `true` wires the worker into `AppContainer`. |
+| `ADUANEXT_RETENTION_AUDIT_YEARS` | `7` | Audit-event retention window. Rejected at boot if < 5 (LGA floor). |
+| `ADUANEXT_RETENTION_DUA_YEARS` | `7` | DUA submission retention. Same 5-year floor. |
+| `ADUANEXT_RETENTION_SESSION_DAYS` | `90` | Session log retention (no legal floor). |
+| `ADUANEXT_RETENTION_RUN_AT_UTC` | `03:00` | Daily run time in UTC, `HH:MM`. |
+| `ADUANEXT_ARCHIVE_PATH` | `/var/aduanext/archive` | Filesystem archive root (placeholder until S3/GCS adapters land). |
+
+The worker also requires `ADUANEXT_POSTGRES_URL` — without a
+Postgres audit log there is nothing to purge. With the flag off the
+server still exposes `LegalHoldPort` via the in-memory adapter so
+SubmitDeclarationHandler's hold-aware paths keep functioning.
+
+### Lifecycle
+
+1. `bin/server.dart` builds [`AppContainer`]; if the retention flag
+   is set it constructs a [`RetentionWorker`] backed by a
+   [`PostgresAuditRetentionAdapter`], [`FilesystemArchiveAdapter`] and
+   the [`PostgresLegalHoldAdapter`].
+2. After HTTP boot the worker is `start()`-ed. It runs once per day
+   at the configured UTC time; missed runs catch up on the next tick.
+3. On SIGINT/SIGTERM the worker is `stop()`-ed (awaits in-flight) and
+   the Postgres connections close cleanly.
+
+### Chain integrity
+
+Per SPIKE-002 the worker uses the **cold-archive + tombstone** model:
+
+1. Dump the entity's full audit chain as canonical JSON via
+   `serializeForArchive`.
+2. `putBytes` to the archive with the metadata sidecar.
+3. DELETE every row for the entity from `audit_events`.
+4. Append a fresh `RetentionPurge` event at `sequence_number = 0`
+   with payload `{archivedCount, cutoffDate, category,
+   originalCreatedAt, originalNewestAt}`. The tombstone's
+   `previous_hash` is the genesis hash for the `(entity_type,
+   entity_id)` chain, so `verifyChainIntegrity` reports the new
+   single-event chain as valid.
+
 ## Out of scope
 
 - Per-provider cold storage adapters (S3 / GCS / MinIO) — separate
@@ -116,6 +162,9 @@ adapter everything it needs to reconstruct the audit chain context.
 - Tenant UI for retention configuration — separate issue.
 - Hot-path query optimisation for archived data (the live path simply
   does not see archived rows once purged).
+- Dedicated `aduanext_retention_worker` Postgres role with narrow
+  DELETE grants — today the worker inherits the container's Postgres
+  role (superuser in dev). Tracked in a follow-up.
 
 ## Acceptance criteria pinned by tests
 
