@@ -706,6 +706,14 @@ class _FakeSigning implements SigningPort {
 
   @override
   Future<bool> verifySignature(String signedContent) async => true;
+
+  @override
+  Future<VerificationResult> verifySignatureDetailed(String signedContent) async {
+    return VerificationResult.success(
+      signerCommonName: 'TEST SIGNER',
+      verifiedAt: DateTime.utc(2026, 4, 14),
+    );
+  }
 }
 
 class _FailingAuditLogAdapter implements AuditLogPort {

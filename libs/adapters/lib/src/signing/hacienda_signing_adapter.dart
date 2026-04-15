@@ -32,7 +32,9 @@ class SigningException implements Exception {
 ///
 /// The PKCS#12 certificate bytes and PIN are provided at construction time
 /// and reused for every signing operation.
-class HaciendaSigningAdapter implements SigningPort {
+class HaciendaSigningAdapter
+    with DetailedVerificationBooleanWrapper
+    implements SigningPort {
   /// Default per-RPC deadline for signing operations. XAdES signing is
   /// CPU-bound in the sidecar but should comfortably complete well under
   /// this budget; the timeout is here to prevent pathological hangs when
@@ -141,7 +143,16 @@ class HaciendaSigningAdapter implements SigningPort {
   }
 
   @override
-  Future<bool> verifySignature(String signedContent) async {
+  Future<VerificationResult> verifySignatureDetailed(
+    String signedContent,
+  ) async {
+    // The current hacienda-sidecar `VerifySignature` RPC performs a
+    // structural check only (it parses <ds:Signature> and extracts the
+    // signer CN). Full XAdES-EPES cryptographic verification + BCCR
+    // chain validation + OCSP lives in VRTV-58b (sidecar-side) —
+    // until then we mark the result as DEGRADED so the UI warns the
+    // operator that this is not a legal equivalent of a handwritten
+    // signature yet (per Ley 8454).
     try {
       final response = await _signerClient.verifySignature(
         VerifySignatureRequest(signedXml: signedContent),
@@ -149,12 +160,18 @@ class HaciendaSigningAdapter implements SigningPort {
       );
 
       if (response.hasError() && response.error.isNotEmpty) {
-        throw SigningException(
-          'Signature verification failed: ${response.error}',
+        return VerificationResult.failure(
+          reason: 'Signature verification failed: ${response.error}',
+          verifiedAt: DateTime.now().toUtc(),
         );
       }
 
-      return response.valid;
+      return VerificationResult.degraded(
+        structuralValid: response.valid,
+        signerCommonName:
+            response.signerCn.isEmpty ? null : response.signerCn,
+        verifiedAt: DateTime.now().toUtc(),
+      );
     } on GrpcError catch (e) {
       throw SigningException(
         e.message ?? 'gRPC error during signature verification',
