@@ -23,6 +23,14 @@ class RecordClassificationHandler
   /// Audit log port — required (SRD priority rule #4).
   final AuditLogPort auditLog;
 
+  /// Authorization context. When non-null, the handler enforces
+  /// `requireTenant(command.tenantId)` + `requireRole(Role.agent)`
+  /// BEFORE touching any state (VRTV-55). Left optional so existing
+  /// call sites that haven't wired authz yet keep compiling; a
+  /// follow-up change will make this `required` once every handler is
+  /// wrapped by the server middleware.
+  final AuthorizationPort? authorization;
+
   /// UUID generator. Defaulted so production callers can ignore it;
   /// tests override to produce deterministic ids.
   final String Function() _newId;
@@ -33,6 +41,7 @@ class RecordClassificationHandler
 
   RecordClassificationHandler({
     required this.auditLog,
+    this.authorization,
     String Function()? newId,
     DateTime Function()? clock,
   })  : _newId = newId ?? _defaultUuidGenerator,
@@ -56,6 +65,20 @@ class RecordClassificationHandler
       return const Result.err(InvalidDescriptionFailure());
     }
 
+    // ── Authorize (VRTV-55) ────────────────────────────────────────
+    //
+    // Classification MUST be performed by at least an `agent` (licensed
+    // auxiliar de funcion publica, LGA Art. 28). An importer acting in
+    // importer-led mode is explicitly NOT allowed to auto-classify —
+    // SRD priority rule #3 requires HITL by a licensed agent.
+    Role? actorRole;
+    final authz = authorization;
+    if (authz != null) {
+      authz.requireTenant(command.tenantId);
+      authz.requireRole(Role.agent);
+      actorRole = authz.currentMembership()?.role;
+    }
+
     // ── Construct entity ───────────────────────────────────────────
     final now = _clock().toUtc();
     final decision = ClassificationDecision(
@@ -76,6 +99,10 @@ class RecordClassificationHandler
     // the entire operation fails — the boundary is responsible for
     // translating the infrastructure exception into the right HTTP
     // status.
+    final snapshot = decision.toAuditSnapshot();
+    if (actorRole != null) {
+      snapshot['actorRole'] = actorRole.code;
+    }
     await auditLog.append(
       AuditEvent.draft(
         entityType: 'ClassificationDecision',
@@ -85,7 +112,7 @@ class RecordClassificationHandler
             : 'classification.recorded.pending',
         actorId: decision.agentId,
         tenantId: decision.tenantId,
-        payload: decision.toAuditSnapshot(),
+        payload: snapshot,
         clientTimestamp: now,
       ),
     );

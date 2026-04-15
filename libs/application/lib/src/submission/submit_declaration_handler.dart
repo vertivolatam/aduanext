@@ -44,6 +44,12 @@ class SubmitDeclarationHandler
   final SigningPort signing;
   final AuditLogPort auditLog;
 
+  /// Request-scoped authorization context. Required: we enforce
+  /// role + tenant checks BEFORE any business logic and persist the
+  /// actor's role + membership in the audit payload (LGA Art. 28-30 —
+  /// every action must be attributable).
+  final AuthorizationPort authorization;
+
   /// Pure function converting the [Declaration] into the exact bytes
   /// that will be signed. Defaults to a stable JSON serialization so
   /// call sites that don't yet have the adapter's serializer wired can
@@ -58,6 +64,7 @@ class SubmitDeclarationHandler
     required this.customsGateway,
     required this.signing,
     required this.auditLog,
+    required this.authorization,
     DeclarationPayloadSerializer? serializePayload,
     DateTime Function()? clock,
   })  : serializePayload =
@@ -84,10 +91,22 @@ class SubmitDeclarationHandler
       return Result.err(InvalidDeclarationStructureFailure(structural));
     }
 
+    // ── Authorize (role + tenant) ──────────────────────────────────────
+    //
+    // Must hold at least Role.agent in command.tenantId to submit a DUA.
+    // LGA Art. 28-30 requires the acting auxiliar de funcion publica to
+    // be identified and licensed; an importer with only the `importer`
+    // role CANNOT submit — they must delegate to a contracted agent.
+    // An AuthorizationException propagates to the boundary unchanged.
+    authorization.requireTenant(command.tenantId);
+    authorization.requireRole(Role.agent);
+    final actorRole = authorization.currentMembership()?.role;
+
     // ── Audit #1: submit.requested ─────────────────────────────────────
     await _audit(
       command,
       'submit.requested',
+      actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
         'exporterCode': command.declaration.exporterCode,
@@ -105,6 +124,7 @@ class SubmitDeclarationHandler
       await _audit(
         command,
         'submit.authentication-failed',
+        actorRole: actorRole,
         payload: {
           'declarationId': command.declarationId,
           'reason': e.message,
@@ -121,6 +141,7 @@ class SubmitDeclarationHandler
     await _audit(
       command,
       'submit.authenticated',
+      actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
       },
@@ -133,6 +154,7 @@ class SubmitDeclarationHandler
       await _audit(
         command,
         'submit.validation-failed',
+        actorRole: actorRole,
         payload: {
           'declarationId': command.declarationId,
           'errors': validation.errors
@@ -157,6 +179,7 @@ class SubmitDeclarationHandler
     await _audit(
       command,
       'submit.validated',
+      actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
         'warningCount': validation.warnings.length,
@@ -170,6 +193,7 @@ class SubmitDeclarationHandler
       await _audit(
         command,
         'submit.signing-failed',
+        actorRole: actorRole,
         payload: {
           'declarationId': command.declarationId,
           'reason': signingResult.errorMessage ?? 'unknown',
@@ -189,6 +213,7 @@ class SubmitDeclarationHandler
     await _audit(
       command,
       'submit.signed',
+      actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
         'signedBytesLength': signedBytesLength,
@@ -202,6 +227,7 @@ class SubmitDeclarationHandler
       await _audit(
         command,
         'submit.gateway-rejected',
+        actorRole: actorRole,
         payload: {
           'declarationId': command.declarationId,
           'reason': submission.errorMessage ?? 'unknown',
@@ -217,6 +243,7 @@ class SubmitDeclarationHandler
     await _audit(
       command,
       'submit.accepted',
+      actorRole: actorRole,
       payload: {
         'declarationId': command.declarationId,
         if (submission.registrationNumber != null)
@@ -261,7 +288,15 @@ class SubmitDeclarationHandler
     SubmitDeclarationCommand command,
     String action, {
     required Map<String, dynamic> payload,
+    Role? actorRole,
   }) {
+    // Stitch the actor's role into every audit payload per LGA Art. 28-30
+    // (every logged action must be attributable to a specific role —
+    // agent / supervisor / admin — not just a user id).
+    final enriched = <String, dynamic>{
+      if (actorRole != null) 'actorRole': actorRole.code,
+      ...payload,
+    };
     return auditLog.append(
       AuditEvent.draft(
         entityType: 'Declaration',
@@ -269,7 +304,7 @@ class SubmitDeclarationHandler
         action: action,
         actorId: command.agentId,
         tenantId: command.tenantId,
-        payload: payload,
+        payload: enriched,
         clientTimestamp: _clock().toUtc(),
       ),
     );
