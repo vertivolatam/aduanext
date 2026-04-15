@@ -1,0 +1,15 @@
+/// AduaNext primary server — HTTP boundary that wires domain Ports to
+/// concrete adapters from `libs/adapters`.
+///
+/// Public API:
+/// * [ServerConfig] — runtime configuration from environment variables.
+/// * [AppContainer] — constructs the 4 gRPC adapters + audit log, and
+///   owns their lifecycle.
+/// * [buildHandler] — shelf [Handler] with the `/livez` and `/readyz`
+///   probes. Will grow with subsequent issues.
+library;
+
+export 'src/di/container.dart';
+export 'src/di/server_config.dart';
+export 'src/http/handler.dart';
+export 'src/http/health_endpoint.dart';

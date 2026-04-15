@@ -10,11 +10,15 @@ AduaNext is a multi-tenant customs compliance platform for LATAM, starting with 
 # Domain layer
 cd libs/domain && dart pub get && dart test
 
-# Proto compilation
-protoc --dart_out=grpc:apps/server/lib/src/generated libs/proto/hacienda.proto
+# Proto compilation (protos are consumed by libs/adapters, NOT apps/server)
+protoc --dart_out=grpc:libs/adapters/lib/src/generated libs/proto/hacienda.proto
 
 # Sidecar
 cd apps/hacienda-sidecar && npm install && npm run build && npm test
+
+# Primary server (shelf-based; HTTP + health probes)
+cd apps/server && dart pub get && dart test
+dart run bin/server.dart          # requires postgres + sidecar up
 ```
 
 ## Architecture
@@ -22,7 +26,7 @@ cd apps/hacienda-sidecar && npm install && npm run build && npm test
 - `libs/domain/` — Pure Dart, ZERO I/O dependencies. Entities, Value Objects, Ports, Domain Services.
 - `libs/application/` — Use Cases, Commands, Queries, CountryAdapterFactory. Depends only on domain.
 - `libs/adapters/` — ATENA, RIMM, signing, notifications, persistence. Implements domain Ports.
-- `apps/server/` — Serverpod. Primary adapters (REST endpoints). Wires everything via DI.
+- `apps/server/` — Shelf-based primary server. HTTP + DI + health probes today; per-use-case REST endpoints land incrementally with VRTV-38 etc. May migrate to Serverpod later if/when its ORM is needed.
 - `apps/hacienda-sidecar/` — TypeScript gRPC. Auth (OIDC), XAdES signing, ATENA proxy.
 - `libs/proto/hacienda.proto` — 4 gRPC services: HaciendaAuth, HaciendaSigner, HaciendaApi, HaciendaOrchestrator.
 

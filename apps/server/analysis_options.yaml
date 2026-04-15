@@ -1,0 +1,9 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  # apps/server does not own proto generation (that lives with libs/adapters).
+  # A stale copy of generated files was committed under lib/src/generated
+  # in an earlier spike — exclude it to keep analyzer clean. A follow-up
+  # issue will delete the orphaned folder.
+  exclude:
+    - lib/src/generated/**
