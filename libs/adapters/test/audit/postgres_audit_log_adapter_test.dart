@@ -48,6 +48,11 @@ void main() {
         now: () => DateTime.utc(2026, 4, 13, 10, 0, 0),
       );
       await adapter.debugTruncateForTesting();
+      // VRTV-62: RLS is FORCE-enabled on audit_events, so every read
+      // in this test file needs a bound tenant. All fixtures use
+      // `tenant-1`, so binding once per setUp keeps the existing
+      // assertions unchanged.
+      await adapter.setSessionTenant('tenant-1');
     });
 
     tearDown(() async {

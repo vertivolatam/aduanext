@@ -86,14 +86,99 @@ An `importer` attempting classification or submission gets `role-denied`.
 An agent from tenant A attempting to submit a declaration with
 `tenantId: 'B'` gets `tenant-denied`.
 
+## Postgres Row-Level Security (defense in depth)
+
+Landed in VRTV-62. Every tenant-scoped table (today: `audit_events`;
+future: declarations, classifications, attachments) is protected by
+Postgres RLS policies that key on a session-local GUC:
+`app.current_tenant_id`. The `PostgresAuditLogAdapter` sets this GUC
+automatically on every `append()` (transaction-scoped); middleware-
+owned sessions set it with a session-scoped call at request entry.
+
+### Architecture
+
+```
+                              ┌──────────────────────────┐
+   shelf request  ──▶ auth    │ 1. authMiddleware sets   │
+                              │    app.current_tenant_id │
+                              └─────────────┬────────────┘
+                                            │
+                              ┌─────────────▼────────────┐
+                              │ 2. handler calls         │
+                              │    AuditLogPort.append() │
+                              └─────────────┬────────────┘
+                                            │
+                              ┌─────────────▼────────────┐
+                              │ 3. Postgres RLS compares │
+                              │    row tenant_id ==      │
+                              │    current_app_tenant()  │
+                              └──────────────────────────┘
+```
+
+### Helpers
+
+The migration creates three PL/pgSQL functions:
+
+- `set_app_tenant(p_tenant_id TEXT)` — writes `app.current_tenant_id`.
+- `current_app_tenant()` — reads it (returns `NULL` when unset).
+- `set_app_bypass_rls(p_flag TEXT)` — writes `app.bypass_rls`; set to
+  `'admin'` for cross-tenant reads (fiscalizador export).
+
+### Policies
+
+| verb | policy | predicate |
+|---|---|---|
+| SELECT | `audit_events_tenant_select` | `tenant_id = current_app_tenant() OR app.bypass_rls = 'admin'` |
+| INSERT | `audit_events_tenant_insert` | `tenant_id = current_app_tenant()` |
+| UPDATE / DELETE | *(no policy — denied)* | — |
+
+With `FORCE ROW LEVEL SECURITY` on, even the table owner honours the
+policies. Postgres superusers (and any role with `BYPASSRLS`) still
+bypass — in production, `aduanext_app` is a `NOBYPASSRLS` role created
+by the migration; middleware connects as that role via
+`SET ROLE aduanext_app` (or uses a login role that inherits from it).
+
+### Admin bypass
+
+Some endpoints (fiscalizador audit export, support tooling) need
+cross-tenant reads. The adapter exposes `setSessionAdminBypass(true)`
+which flips `app.bypass_rls = 'admin'`. Callers MUST:
+
+1. Verify the actor holds `Role.admin` or `Role.fiscalizador` in
+   the current tenant.
+2. Audit-log the bypass itself BEFORE flipping the flag.
+3. Clear the flag after the privileged read completes.
+
+### Usage for custom adapters
+
+Future tables (`declarations`, `classifications`, …) should copy the
+same pattern:
+
+```sql
+ALTER TABLE declarations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE declarations FORCE ROW LEVEL SECURITY;
+
+CREATE POLICY declarations_tenant_select ON declarations
+  FOR SELECT USING (tenant_id = current_app_tenant());
+
+CREATE POLICY declarations_tenant_insert ON declarations
+  FOR INSERT WITH CHECK (tenant_id = current_app_tenant());
+
+GRANT SELECT, INSERT ON TABLE declarations TO aduanext_app;
+```
+
+Adapters that call into these tables MUST call
+`setSessionTenant(tenantId)` on every operation (the
+`PostgresAuditLogAdapter` does this for you on `append`).
+
 ## Roadmap
 
-| sub-issue | scope |
-|---|---|
-| VRTV-55 (this) | domain model + `AuthorizationPort` + `InMemoryAuthorizationAdapter` + handler integration |
-| VRTV-55b | `KeycloakAuthorizationAdapter` — JWT signature verification + custom claim mapping (`aduanext_tenant_ids`, `aduanext_roles`) |
-| VRTV-55c | `apps/server` middleware wiring Keycloak + a route table |
-| VRTV-55d | Postgres row-level security on `audit_events` + `set_app_tenant(uuid)` function |
+| sub-issue | scope | status |
+|---|---|---|
+| VRTV-55 | domain model + `AuthorizationPort` + `InMemoryAuthorizationAdapter` + handler integration | Done |
+| VRTV-60 | `KeycloakAuthorizationAdapter` — JWT verification + custom claim mapping | Done |
+| VRTV-61 | `apps/server` middleware + role guards + route table | Done |
+| VRTV-62 (this) | Postgres RLS on `audit_events` + `set_app_tenant()` | Done |
 
 ## Out of scope (separate issues)
 
