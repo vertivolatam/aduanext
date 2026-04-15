@@ -94,6 +94,16 @@ jobs:
           # cert's pubkey will agree with the private key the token
           # uses at Sign time (which is what the integration test
           # roundtrip asserts).
+
+          # Locate the pkcs11 engine .so (path varies by distro/version).
+          PKCS11_ENGINE=$(dpkg -L libengine-pkcs11-openssl 2>/dev/null | grep -E 'pkcs11\.(so|so\.[0-9]+)$' | head -1)
+          if [ -z "$PKCS11_ENGINE" ]; then
+            echo "could not locate libengine-pkcs11-openssl's pkcs11.so" >&2
+            dpkg -L libengine-pkcs11-openssl >&2 || true
+            exit 1
+          fi
+          echo "Using pkcs11 engine: $PKCS11_ENGINE"
+
           OPENSSL_CNF=/tmp/openssl.cnf
           cat > "$OPENSSL_CNF" <<EOF
           openssl_conf = openssl_init
@@ -103,7 +113,7 @@ jobs:
           pkcs11 = pkcs11_section
           [pkcs11_section]
           engine_id = pkcs11
-          dynamic_path = /usr/lib/x86_64-linux-gnu/engines-3/pkcs11.so
+          dynamic_path = ${PKCS11_ENGINE}
           MODULE_PATH = ${SOFTHSM2_MODULE}
           init = 0
           [req]
@@ -115,15 +125,14 @@ jobs:
           C  = CR
           EOF
 
-          # PKCS#11 URI for the token key we just generated (label=aduanext-test-key, id=01).
+          # PKCS#11 URI for the token key we just generated.
           KEY_URI="pkcs11:token=aduanext-test;object=aduanext-test-key;type=private;pin-value=${SOFTHSM2_USER_PIN}"
 
           OPENSSL_CONF="$OPENSSL_CNF" openssl req -new -x509 \
             -engine pkcs11 -keyform engine \
             -key "$KEY_URI" \
             -days 30 \
-            -out /tmp/cert.pem \
-            -config "$OPENSSL_CNF"
+            -out /tmp/cert.pem
 
           openssl x509 -in /tmp/cert.pem -noout -subject -issuer
           openssl x509 -in /tmp/cert.pem -outform DER -out /tmp/cert.der
