@@ -114,29 +114,82 @@ class BondDraft {
 
 @immutable
 class SignatureDraft {
-  /// Always `software` on Flutter Web today — hardware detection lands
-  /// with VRTV-70 once the PKCS#11 helper + adapter ship.
+  /// Mode chosen by the agent. On Flutter Web this is always
+  /// [SignatureMode.softwareP12]; on desktop with the PKCS#11 helper
+  /// installed the user may also pick [SignatureMode.hardwareToken].
   final SignatureMode mode;
 
   /// File name of the uploaded `.p12` (for display only; bytes + PIN
-  /// go straight to the backend).
+  /// go straight to the backend). Only populated when
+  /// [mode] == [SignatureMode.softwareP12].
   final String? uploadedP12Name;
 
-  /// `true` iff the user entered a PIN. The PIN itself is NOT
-  /// retained — we only track whether it was provided so the review
-  /// step can show "PIN provided" without echoing the secret.
+  /// `true` iff the user entered a PIN for the `.p12`. The PIN itself
+  /// is NOT retained — we only track whether it was provided so the
+  /// review step can show "PIN provided" without echoing the secret.
+  /// For hardware-token mode the PIN is collected fresh per signing
+  /// operation (security: PIN must not be stored), so this flag stays
+  /// `false` on that branch.
   final bool pinProvided;
+
+  /// Populated when [mode] == [SignatureMode.hardwareToken]. Captures
+  /// the PKCS#11 module path + slot picked during onboarding so the
+  /// signer knows which physical device to target at DUA time. NEVER
+  /// contains the PIN.
+  final HardwareTokenDraft? hardwareToken;
 
   const SignatureDraft({
     required this.mode,
     required this.uploadedP12Name,
     required this.pinProvided,
+    this.hardwareToken,
+  });
+
+  bool get isComplete {
+    switch (mode) {
+      case SignatureMode.softwareP12:
+        return uploadedP12Name != null && pinProvided;
+      case SignatureMode.hardwareToken:
+        return hardwareToken?.isComplete ?? false;
+    }
+  }
+}
+
+/// Onboarding-time record of the PKCS#11 token the agent plans to use
+/// at signing time.
+///
+/// The PIN is intentionally NOT a field here. Per BCCR guidance and
+/// AduaNext security policy, the user PIN is collected fresh per
+/// signing operation and never persisted on the client.
+@immutable
+class HardwareTokenDraft {
+  /// Absolute path to the PKCS#11 shared library
+  /// (e.g. `/usr/lib/x64-athena/ASEP11.so` on BCCR Linux).
+  final String pkcs11ModulePath;
+
+  /// Slot ID picked by the user from the enumerated list.
+  final int slotId;
+
+  /// Human-readable token label, captured for the review screen.
+  final String tokenLabel;
+
+  /// Serial number, captured for the review screen + future audit.
+  final String tokenSerial;
+
+  /// Subject CN from the first certificate on the token, when the
+  /// middleware exposes it.
+  final String? certCommonName;
+
+  const HardwareTokenDraft({
+    required this.pkcs11ModulePath,
+    required this.slotId,
+    required this.tokenLabel,
+    required this.tokenSerial,
+    this.certCommonName,
   });
 
   bool get isComplete =>
-      mode == SignatureMode.softwareP12 &&
-      uploadedP12Name != null &&
-      pinProvided;
+      pkcs11ModulePath.isNotEmpty && tokenLabel.isNotEmpty;
 }
 
 enum SignatureMode {
