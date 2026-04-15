@@ -9,6 +9,7 @@
 ///   probes. Will grow with subsequent issues.
 library;
 
+export 'src/config/retention_config.dart';
 export 'src/di/container.dart';
 export 'src/di/server_config.dart';
 export 'src/http/error_responses.dart';

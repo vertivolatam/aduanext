@@ -52,6 +52,26 @@ Future<void> main(List<String> args) async {
   );
   log.info('HTTP server listening on ${server.address.host}:${server.port}');
 
+  // Kick off the retention worker when wired (VRTV-74). AppContainer
+  // only constructs it when both `ADUANEXT_RETENTION_ENABLED=true`
+  // and a Postgres audit log are configured — everything else is a
+  // dev/test mode where a daily DELETE loop would be counter-productive.
+  final retentionWorker = container.retentionWorker;
+  if (retentionWorker != null) {
+    retentionWorker.start();
+    log.info(
+      'Retention worker scheduled — daily at '
+      '${container.retention.runAtHourUtc.toString().padLeft(2, "0")}:'
+      '${container.retention.runAtMinuteUtc.toString().padLeft(2, "0")} UTC, '
+      'archive=${container.retention.archivePath}',
+    );
+  } else {
+    log.info(
+      'Retention worker NOT started (set ADUANEXT_RETENTION_ENABLED=true '
+      'and ADUANEXT_POSTGRES_URL to enable)',
+    );
+  }
+
   // Graceful shutdown on SIGINT / SIGTERM.
   final done = Completer<void>();
   void triggerShutdown(ProcessSignal signal) {

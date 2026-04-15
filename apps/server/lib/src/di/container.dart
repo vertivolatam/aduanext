@@ -17,10 +17,15 @@ import 'dart:io';
 import 'package:aduanext_adapters/adapters.dart';
 import 'package:aduanext_adapters/audit.dart';
 import 'package:aduanext_adapters/authorization.dart';
+import 'package:aduanext_adapters/retention.dart';
+import 'package:aduanext_adapters/storage.dart';
+import 'package:aduanext_application/aduanext_application.dart';
 import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:postgres/postgres.dart';
 
+import '../config/retention_config.dart';
 import '../middleware/auth_middleware.dart';
+import '../workers/retention_worker.dart';
 import 'server_config.dart';
 
 /// The wired container. Built once at startup via [AppContainer.boot] and
@@ -42,6 +47,24 @@ class AppContainer {
 
   final AuditLogPort auditLog;
 
+  /// Retention configuration snapshot. Captured so health probes and
+  /// ops tooling can inspect the effective policy without re-reading
+  /// the environment.
+  final RetentionConfig retention;
+
+  /// Legal-hold port — `PostgresLegalHoldAdapter` when the Postgres
+  /// URL is configured AND retention is enabled; otherwise the
+  /// in-memory fallback. Non-null so [SubmitDeclarationHandler] and
+  /// the retention worker both have something to call.
+  final LegalHoldPort legalHold;
+
+  /// Retention worker instance. Non-null when
+  /// [RetentionConfig.enabled] is `true` and a Postgres audit log is
+  /// wired — the worker needs both (nothing to purge without the
+  /// audit table, nothing to schedule without the flag). Callers are
+  /// responsible for [RetentionWorker.start] / [RetentionWorker.stop].
+  final RetentionWorker? retentionWorker;
+
   /// Factory for the per-request [AuthorizationPort]. `null` when
   /// Keycloak is not configured (dev mode without `KEYCLOAK_*` env
   /// vars). The HTTP pipeline interprets `null` as "fail closed" —
@@ -52,6 +75,11 @@ class AppContainer {
   /// underlying HTTP client.
   final JwksCache? _jwksCache;
 
+  /// Postgres adapters we own and must close on shutdown. The legal
+  /// hold adapter is reused across requests; the retention purge
+  /// adapter only runs inside the worker but still holds a connection.
+  final PostgresLegalHoldAdapter? _postgresLegalHold;
+
   AppContainer._({
     required this.config,
     required this.grpcChannel,
@@ -61,9 +89,14 @@ class AppContainer {
     required this.signing,
     required this.pkcs11Signing,
     required this.auditLog,
+    required this.retention,
+    required this.legalHold,
+    required this.retentionWorker,
     required this.authPortFactory,
     required JwksCache? jwksCache,
-  }) : _jwksCache = jwksCache;
+    required PostgresLegalHoldAdapter? postgresLegalHold,
+  })  : _jwksCache = jwksCache,
+        _postgresLegalHold = postgresLegalHold;
 
   /// Build the container from [config]. Blocks on network I/O (opens the
   /// Postgres connection if configured) — call once during startup.
@@ -120,12 +153,54 @@ class AppContainer {
 
     final AuditLogPort auditLog;
     final pgUrl = config.postgresUrl;
+    PostgresAuditLogAdapter? postgresAudit;
     if (pgUrl != null && pgUrl.isNotEmpty) {
-      auditLog = await _openPostgresAudit(pgUrl);
+      postgresAudit = await _openPostgresAudit(pgUrl);
+      auditLog = postgresAudit;
     } else {
       // Explicitly dev-mode: in-memory audit keeps the server bootable for
       // smoke tests. Production deployments MUST set ADUANEXT_POSTGRES_URL.
       auditLog = InMemoryAuditLogAdapter();
+    }
+
+    // Retention subsystem (VRTV-57 + VRTV-74). Opt-in: the worker
+    // only runs when `ADUANEXT_RETENTION_ENABLED=true` AND a Postgres
+    // audit log is wired. In every other mode we still expose an
+    // in-memory LegalHoldPort so SubmitDeclarationHandler can call it.
+    final retentionConfig = RetentionConfig.fromEnv();
+    PostgresLegalHoldAdapter? postgresLegalHold;
+    LegalHoldPort legalHold;
+    if (retentionConfig.enabled &&
+        pgUrl != null &&
+        pgUrl.isNotEmpty) {
+      postgresLegalHold = await _openPostgresLegalHold(pgUrl);
+      legalHold = postgresLegalHold;
+    } else {
+      legalHold = InMemoryLegalHoldAdapter();
+    }
+
+    RetentionWorker? retentionWorker;
+    if (retentionConfig.enabled && postgresAudit != null) {
+      final archiveRoot = Directory(retentionConfig.archivePath);
+      if (!archiveRoot.existsSync()) {
+        archiveRoot.createSync(recursive: true);
+      }
+      final archive = FilesystemArchiveAdapter(rootPath: archiveRoot);
+      final auditRetention = PostgresAuditRetentionAdapter(
+        connection: postgresAudit.debugRawConnection,
+        auditLog: auditLog,
+      );
+      final handler = PurgeExpiredRecordsHandler(
+        purgeables: [auditRetention],
+        legalHold: legalHold,
+        archive: archive,
+        policies: retentionConfig.asPolicies(),
+      );
+      retentionWorker = RetentionWorker(
+        handler: handler,
+        dailyHourUtc: retentionConfig.runAtHourUtc,
+        dailyMinuteUtc: retentionConfig.runAtMinuteUtc,
+      );
     }
 
     JwksCache? jwksCache;
@@ -159,14 +234,42 @@ class AppContainer {
       signing: signing,
       pkcs11Signing: pkcs11Signing,
       auditLog: auditLog,
+      retention: retentionConfig,
+      legalHold: legalHold,
+      retentionWorker: retentionWorker,
       authPortFactory: authPortFactory,
       jwksCache: jwksCache,
+      postgresLegalHold: postgresLegalHold,
+    );
+  }
+
+  /// Parse the shared Postgres URL and open a [PostgresLegalHoldAdapter]
+  /// with the schema created (idempotent). Reuses the same parsing
+  /// logic as [_openPostgresAudit] — both adapters target the same
+  /// database.
+  static Future<PostgresLegalHoldAdapter> _openPostgresLegalHold(
+    String url,
+  ) async {
+    final endpoint = _parsePostgresUrl(url);
+    return PostgresLegalHoldAdapter.open(
+      endpoint: endpoint,
+      ensureSchema: true,
     );
   }
 
   /// Parse `postgres://user:password@host:port/database` into an [Endpoint]
   /// and open the audit log adapter with schema creation enabled.
   static Future<PostgresAuditLogAdapter> _openPostgresAudit(String url) async {
+    return PostgresAuditLogAdapter.open(
+      endpoint: _parsePostgresUrl(url),
+      ensureSchema: true,
+    );
+  }
+
+  /// Parse `postgres://user:password@host:port/database` into an
+  /// [Endpoint]. Shared by every adapter that targets the primary
+  /// Postgres database (audit log, legal holds).
+  static Endpoint _parsePostgresUrl(String url) {
     final uri = Uri.parse(url);
     if (uri.scheme != 'postgres' && uri.scheme != 'postgresql') {
       throw ArgumentError.value(
@@ -180,16 +283,12 @@ class AppContainer {
     final password = userInfo.length > 1 ? userInfo[1] : '';
     final database =
         uri.pathSegments.isNotEmpty ? uri.pathSegments.first : 'aduanext';
-
-    return PostgresAuditLogAdapter.open(
-      endpoint: Endpoint(
-        host: uri.host.isEmpty ? 'localhost' : uri.host,
-        port: uri.port == 0 ? 5432 : uri.port,
-        database: database,
-        username: username,
-        password: password,
-      ),
-      ensureSchema: true,
+    return Endpoint(
+      host: uri.host.isEmpty ? 'localhost' : uri.host,
+      port: uri.port == 0 ? 5432 : uri.port,
+      database: database,
+      username: username,
+      password: password,
     );
   }
 
@@ -206,10 +305,21 @@ class AppContainer {
       }
     }
 
+    // Worker first — stops the periodic timer + awaits any in-flight
+    // run so the Postgres connection is still valid for that last run.
+    final worker = retentionWorker;
+    if (worker != null) {
+      await guarded(worker.stop);
+    }
+
     await guarded(() => grpcChannel.shutdown());
     final audit = auditLog;
     if (audit is PostgresAuditLogAdapter) {
       await guarded(audit.close);
+    }
+    final legalHoldAdapter = _postgresLegalHold;
+    if (legalHoldAdapter != null) {
+      await guarded(legalHoldAdapter.close);
     }
     final jwks = _jwksCache;
     if (jwks != null) {
