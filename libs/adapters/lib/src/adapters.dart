@@ -15,6 +15,7 @@ export 'atena/atena_customs_gateway_adapter.dart';
 
 // Digital signing
 export 'signing/hacienda_signing_adapter.dart';
+export 'signing/subprocess_pkcs11_signing_adapter.dart';
 
 // RIMM tariff catalog
 export 'rimm/rimm_tariff_catalog_adapter.dart';
