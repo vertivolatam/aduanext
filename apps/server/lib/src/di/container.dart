@@ -16,9 +16,11 @@ import 'dart:io';
 
 import 'package:aduanext_adapters/adapters.dart';
 import 'package:aduanext_adapters/audit.dart';
+import 'package:aduanext_adapters/authorization.dart';
 import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:postgres/postgres.dart';
 
+import '../middleware/auth_middleware.dart';
 import 'server_config.dart';
 
 /// The wired container. Built once at startup via [AppContainer.boot] and
@@ -32,6 +34,16 @@ class AppContainer {
   final SigningPort? signing; // null if p12 not configured (dev without cert)
   final AuditLogPort auditLog;
 
+  /// Factory for the per-request [AuthorizationPort]. `null` when
+  /// Keycloak is not configured (dev mode without `KEYCLOAK_*` env
+  /// vars). The HTTP pipeline interprets `null` as "fail closed" —
+  /// every protected route returns 503.
+  final PortFactory? authPortFactory;
+
+  /// Owned reference to the [JwksCache] so [close] can release the
+  /// underlying HTTP client.
+  final JwksCache? _jwksCache;
+
   AppContainer._({
     required this.config,
     required this.grpcChannel,
@@ -40,7 +52,9 @@ class AppContainer {
     required this.tariffCatalog,
     required this.signing,
     required this.auditLog,
-  });
+    required this.authPortFactory,
+    required JwksCache? jwksCache,
+  }) : _jwksCache = jwksCache;
 
   /// Build the container from [config]. Blocks on network I/O (opens the
   /// Postgres connection if configured) — call once during startup.
@@ -88,6 +102,28 @@ class AppContainer {
       auditLog = InMemoryAuditLogAdapter();
     }
 
+    JwksCache? jwksCache;
+    PortFactory? authPortFactory;
+    final jwksUri = config.keycloakJwksUri;
+    final issuer = config.keycloakIssuer;
+    final audience = config.keycloakAudience;
+    if (jwksUri != null && issuer != null && audience != null) {
+      jwksCache = JwksCache(jwksUri: Uri.parse(jwksUri));
+      final keycloakFactory = KeycloakAuthorizationAdapterFactory(
+        jwksCache: jwksCache,
+        expectedIssuer: issuer,
+        expectedAudience: audience,
+      );
+      authPortFactory = ({
+        required String? bearerToken,
+        required String? selectedTenantId,
+      }) =>
+          keycloakFactory.forRequest(
+            bearerToken: bearerToken,
+            selectedTenantId: selectedTenantId,
+          );
+    }
+
     return AppContainer._(
       config: config,
       grpcChannel: grpcChannel,
@@ -96,6 +132,8 @@ class AppContainer {
       tariffCatalog: tariffCatalog,
       signing: signing,
       auditLog: auditLog,
+      authPortFactory: authPortFactory,
+      jwksCache: jwksCache,
     );
   }
 
@@ -145,6 +183,10 @@ class AppContainer {
     final audit = auditLog;
     if (audit is PostgresAuditLogAdapter) {
       await guarded(audit.close);
+    }
+    final jwks = _jwksCache;
+    if (jwks != null) {
+      await guarded(() async => jwks.close());
     }
 
     if (errors.isNotEmpty) {

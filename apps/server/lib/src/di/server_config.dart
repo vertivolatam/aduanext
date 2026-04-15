@@ -45,6 +45,19 @@ class ServerConfig {
   /// adapter for smoke tests.
   final String? postgresUrl;
 
+  /// Full URL of the Keycloak JWKS endpoint, e.g.
+  /// `https://keycloak.aduanext.cr/realms/aduanext/protocol/openid-connect/certs`.
+  /// Required for protected routes — when null, every protected route
+  /// returns 503 (fail-closed).
+  final String? keycloakJwksUri;
+
+  /// Expected `iss` claim on the JWT (must match Keycloak's realm URL).
+  final String? keycloakIssuer;
+
+  /// Expected `aud` claim on the JWT — the Keycloak client id used by
+  /// this server (typically `aduanext-server`).
+  final String? keycloakAudience;
+
   const ServerConfig({
     required this.httpHost,
     required this.httpPort,
@@ -54,6 +67,9 @@ class ServerConfig {
     this.p12CertPath,
     this.p12Pin,
     this.postgresUrl,
+    this.keycloakJwksUri,
+    this.keycloakIssuer,
+    this.keycloakAudience,
   });
 
   /// Reads configuration from [Platform.environment] (or [source] for tests).
@@ -69,6 +85,9 @@ class ServerConfig {
       p12CertPath: env['HACIENDA_P12_PATH'],
       p12Pin: env['HACIENDA_P12_PIN'],
       postgresUrl: env['ADUANEXT_POSTGRES_URL'],
+      keycloakJwksUri: env['KEYCLOAK_JWKS_URI'],
+      keycloakIssuer: env['KEYCLOAK_ISSUER'],
+      keycloakAudience: env['KEYCLOAK_AUDIENCE'],
     );
   }
 }

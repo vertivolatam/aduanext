@@ -11,5 +11,10 @@ library;
 
 export 'src/di/container.dart';
 export 'src/di/server_config.dart';
+export 'src/http/error_responses.dart';
 export 'src/http/handler.dart';
 export 'src/http/health_endpoint.dart';
+export 'src/http/request_context.dart';
+export 'src/http/routes.dart';
+export 'src/middleware/auth_middleware.dart';
+export 'src/middleware/role_guard.dart';

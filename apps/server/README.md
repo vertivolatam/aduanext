@@ -53,6 +53,63 @@ curl -i http://localhost:8180/readyz  # -> 200 if all deps are up, 503 otherwise
 | `HACIENDA_P12_PATH` | *(none)* | Path to PKCS#12 cert — enables `SigningPort` |
 | `HACIENDA_P12_PIN` | *(none)* | PIN for the cert above |
 | `ADUANEXT_POSTGRES_URL` | *(none)* | `postgres://user:pass@host:port/db` — enables `PostgresAuditLogAdapter`; falls back to in-memory |
+| `KEYCLOAK_JWKS_URI` | *(none)* | Keycloak JWKS URL, e.g. `https://keycloak.aduanext.cr/realms/aduanext/protocol/openid-connect/certs`. Required for protected routes — when unset, every protected route returns 503 (fail-closed). |
+| `KEYCLOAK_ISSUER` | *(none)* | Expected `iss` claim, e.g. `https://keycloak.aduanext.cr/realms/aduanext` |
+| `KEYCLOAK_AUDIENCE` | *(none)* | Expected `aud` claim — the Keycloak client id (typically `aduanext-server`) |
+
+## Authentication & authorization
+
+Every protected route flows through two layers:
+
+1. **`authMiddleware`** — extracts `Authorization: Bearer <jwt>` and
+   `X-Tenant-Id`, validates the JWT against Keycloak's JWKS (RS256, exp /
+   nbf / issuer / audience), and attaches a `RequestContext` to the
+   shelf `Request`. On failure it short-circuits with the standardized
+   error JSON below.
+2. **`roleGuard(Set<Role>)`** — enforces tenant membership and the
+   per-route role allow-list. Honours role hierarchy:
+   `fiscalizador < importer < agent < supervisor < admin`.
+
+Public routes (`/livez`, `/readyz`) bypass both layers.
+
+### Route table
+
+The canonical table lives in `lib/src/http/routes.dart`. Each entry
+declares the HTTP verb, the path, the allowed roles, and the handler.
+Until the per-use-case handlers land (VRTV-38 etc.), each route returns
+`501 Not Implemented` once the auth + role checks pass.
+
+| route | required roles |
+|---|---|
+| `POST /api/dispatches/submit` | `agent` or `importer` |
+| `POST /api/classifications/confirm` | `agent` or `supervisor` |
+| `GET /api/dispatches/<id>` | `agent`, `importer`, `supervisor`, `admin` |
+| `POST /api/dispatches/<id>/rectify` | `agent` or `supervisor` |
+| `GET /api/audit/export` | `admin` or `fiscalizador` |
+
+### Standardized error JSON
+
+The frontend depends on the field names and the `code` enum — do not
+rename without coordinating a client release.
+
+```json
+{
+  "error": "authorization_failed",
+  "code": "INSUFFICIENT_ROLE",
+  "message": "This action requires one of: agent, supervisor",
+  "request_id": "req_8c91..."
+}
+```
+
+| HTTP | code | meaning |
+|---|---|---|
+| 401 | `MISSING_TOKEN` | No (or malformed) Authorization header |
+| 401 | `INVALID_TOKEN` | Signature / claims invalid; or Keycloak rejected the token |
+| 401 | `EXPIRED_TOKEN` | `exp` in the past |
+| 400 | `WRONG_TENANT` | Missing `X-Tenant-Id` header |
+| 403 | `WRONG_TENANT` | User has no active membership in the requested tenant |
+| 403 | `INSUFFICIENT_ROLE` | User lacks any of the route's allowed roles |
+| 503 | `AUTH_NOT_CONFIGURED` | Server has no `KEYCLOAK_*` env vars; fail-closed |
 
 ## Tests
 
