@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'libs/**'
+      - 'apps/server/**'
       - '.github/workflows/dart-ci.yml'
   pull_request:
     paths:
       - 'libs/**'
+      - 'apps/server/**'
       - '.github/workflows/dart-ci.yml'
   workflow_dispatch:
 
@@ -54,6 +56,7 @@ jobs:
           - libs/domain
           - libs/adapters
           - libs/application
+          - apps/server
     defaults:
       run:
         working-directory: ${{ matrix.package }}

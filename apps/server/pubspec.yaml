@@ -1,0 +1,29 @@
+name: aduanext_server
+description: AduaNext primary server — shelf-based HTTP with DI wiring for the 4 gRPC adapters and audit log.
+version: 0.1.0
+publish_to: none
+
+# apps/server wires everything via DI. Depends on libs/application and
+# libs/adapters. Libs/adapters is the ONLY place that has I/O deps
+# (gRPC, Postgres). apps/server owns the boundary and exception catch.
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  aduanext_adapters:
+    path: ../../libs/adapters
+  aduanext_application:
+    path: ../../libs/application
+  aduanext_domain:
+    path: ../../libs/domain
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  logging: ^1.2.0
+  # Direct dependency because container.dart constructs Endpoint() for the
+  # PostgresAuditLogAdapter factory.
+  postgres: ^3.5.0
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.1.0
