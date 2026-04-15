@@ -22,6 +22,11 @@ dependencies:
   sqflite_common: ^2.5.4
   sqflite_common_ffi: ^2.3.3
   postgres: ^3.5.0
+  # Pure Dart JWT parser + RS256 verifier. Pinned to 3.x because the
+  # 3.x API is stable (JWT.verify with RSAPublicKey) and resolves cleanly
+  # alongside crypto ^3.0.3 + pointycastle.
+  dart_jsonwebtoken: ^3.0.0
+  pointycastle: ^4.0.0
 
 dev_dependencies:
   test: ^1.25.0

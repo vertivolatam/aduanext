@@ -1,0 +1,25 @@
+{{/*
+  Keycloak realm import ConfigMap.
+
+  Keycloak auto-imports every JSON file found under
+  `/opt/keycloak/data/import` when launched with `--import-realm`.
+  The bitnami/keycloak subchart mounts this ConfigMap at that path via
+  `keycloak.extraVolumes` / `extraVolumeMounts` (see values.yaml).
+
+  The realm JSON lives at infrastructure/keycloak/aduanext-realm.json —
+  .Files.Get picks it up from the chart's root when the chart is built
+  with `helm package` (the file must be copied into the chart dir) OR
+  when rendered directly from the repo root.
+*/}}
+{{- if .Values.keycloak.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-keycloak-realm
+  labels:
+    app.kubernetes.io/part-of: aduanext
+    app.kubernetes.io/component: keycloak
+data:
+  aduanext-realm.json: |-
+{{ .Files.Get "aduanext-realm.json" | indent 4 }}
+{{- end -}}

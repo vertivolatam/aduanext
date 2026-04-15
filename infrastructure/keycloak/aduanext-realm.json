@@ -1,0 +1,97 @@
+{
+  "realm": "aduanext",
+  "enabled": true,
+  "displayName": "AduaNext",
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "accessTokenLifespan": 3600,
+  "ssoSessionIdleTimeout": 28800,
+  "ssoSessionMaxLifespan": 28800,
+  "defaultSignatureAlgorithm": "RS256",
+  "roles": {
+    "client": {
+      "aduanext-server": [
+        {"name": "fiscalizador", "description": "DGA simulator / compliance observer"},
+        {"name": "importer",     "description": "Pyme employee acting on their own behalf"},
+        {"name": "agent",        "description": "Licensed customs agent (LGA Art. 28)"},
+        {"name": "supervisor",   "description": "Agency supervisor"},
+        {"name": "admin",        "description": "Tenant owner / billing contact"}
+      ]
+    }
+  },
+  "clients": [
+    {
+      "clientId": "aduanext-server",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "attributes": {
+        "access.token.lifespan": "3600"
+      },
+      "protocolMappers": [
+        {
+          "name": "aduanext_tenant_ids",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "aduanext_tenant_ids",
+            "claim.name": "aduanext_tenant_ids",
+            "jsonType.label": "JSON",
+            "multivalued": "true",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "false"
+          }
+        },
+        {
+          "name": "aduanext_roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "aduanext_roles",
+            "claim.name": "aduanext_roles",
+            "jsonType.label": "JSON",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "false"
+          }
+        },
+        {
+          "name": "aduanext_membership_since",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "aduanext_membership_since",
+            "claim.name": "aduanext_membership_since",
+            "jsonType.label": "JSON",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "false"
+          }
+        },
+        {
+          "name": "aduanext_membership_exp",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "aduanext_membership_exp",
+            "claim.name": "aduanext_membership_exp",
+            "jsonType.label": "JSON",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ]
+}

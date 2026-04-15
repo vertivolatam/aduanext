@@ -86,6 +86,53 @@ redis:
         cpu: 50m
         memory: 128Mi
 
+# ── Keycloak (subchart bitnami/keycloak) ─────────────────────────────
+# The `aduanext` realm is imported from a ConfigMap mounted into the
+# Keycloak container at `/opt/keycloak/data/import`. Source:
+# infrastructure/keycloak/aduanext-realm.json.
+#
+# Production deployments MUST override admin credentials + TLS host via
+# a sealed-secret values overlay. The defaults here are laptop-friendly.
+keycloak:
+  enabled: false
+  auth:
+    adminUser: admin
+    adminPassword: changeme-kc-admin
+  production: false
+  # Re-use the in-cluster postgres (aduanext subchart) for Keycloak's
+  # own schema instead of the bitnami-bundled postgres.
+  postgresql:
+    enabled: false
+  externalDatabase:
+    host: "{{ .Release.Name }}-postgresql"
+    port: 5432
+    user: keycloak
+    database: keycloak
+    existingSecret: ""
+  ingress:
+    enabled: true
+    hostname: keycloak.aduanext.local
+    pathType: ImplementationSpecific
+    tls: false
+  extraEnvVars:
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
+  # Mount the realm JSON so Keycloak auto-imports it on startup.
+  # The ConfigMap is created by templates/keycloak-realm-configmap.yaml.
+  extraVolumes:
+    - name: aduanext-realm
+      configMap:
+        name: "{{ .Release.Name }}-keycloak-realm"
+  extraVolumeMounts:
+    - name: aduanext-realm
+      mountPath: /opt/keycloak/data/import
+      readOnly: true
+  extraStartupArgs: "--import-realm"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+
 # ── AduaNext Server (placeholder Deployment) ─────────────────────────
 # DISABLED by default in this chart release: the image lives at Harbor
 # (harbor.aduanext.local/aduanext/server), which is provisioned by VRTV-58,

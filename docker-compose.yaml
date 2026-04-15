@@ -47,6 +47,37 @@ services:
       timeout: 3s
       retries: 10
 
+  # Keycloak — identity provider for the `aduanext` realm. The realm is
+  # imported at first boot from infrastructure/keycloak/aduanext-realm.json.
+  # See infrastructure/keycloak/README.md for the claim mapper contract
+  # consumed by KeycloakAuthorizationAdapterFactory in libs/adapters.
+  #
+  # Dev mode only — DO NOT run `start-dev` in production. Production
+  # deployment happens via the bitnami/keycloak Helm subchart.
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: aduanext_keycloak
+    restart: unless-stopped
+    ports:
+      - "8192:8080"
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?KEYCLOAK_ADMIN_PASSWORD must be set in .env}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${KEYCLOAK_DB:-keycloak}
+      KC_DB_USERNAME: ${POSTGRES_USER:-postgres}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+    volumes:
+      - ./infrastructure/keycloak:/opt/keycloak/data/import:ro
+    command:
+      - start-dev
+      - --import-realm
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   # ── Test services (ephemeral — tmpfs) ────────────────────────────────
   postgres_test:
     image: pgvector/pgvector:pg16
