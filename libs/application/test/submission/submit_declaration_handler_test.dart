@@ -10,6 +10,7 @@
 library;
 
 import 'package:aduanext_adapters/audit.dart';
+import 'package:aduanext_adapters/authorization.dart';
 import 'package:aduanext_application/aduanext_application.dart';
 import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:test/test.dart';
@@ -20,20 +21,40 @@ void main() {
     late _FakeAuthProvider auth;
     late _FakeCustomsGateway gateway;
     late _FakeSigning signing;
+    late InMemoryAuthorizationAdapter authorization;
     late SubmitDeclarationHandler handler;
 
     final fixedNow = DateTime.utc(2026, 4, 14, 10, 0, 0);
+
+    User buildUser(Role role) => User(
+          id: 'user-42',
+          email: 'agent@example.cr',
+          memberships: {
+            TenantMembership(
+              userId: 'user-42',
+              tenantId: 'tenant-1',
+              role: role,
+              since: DateTime.utc(2026, 1, 1),
+            ),
+          },
+        );
 
     setUp(() {
       auditLog = InMemoryAuditLogAdapter(now: () => fixedNow);
       auth = _FakeAuthProvider();
       gateway = _FakeCustomsGateway();
       signing = _FakeSigning();
+      authorization = InMemoryAuthorizationAdapter(
+        user: buildUser(Role.agent),
+        selectedTenantId: 'tenant-1',
+        now: () => fixedNow,
+      );
       handler = SubmitDeclarationHandler(
         authProvider: auth,
         customsGateway: gateway,
         signing: signing,
         auditLog: auditLog,
+        authorization: authorization,
         clock: () => fixedNow,
       );
     });
@@ -266,6 +287,7 @@ void main() {
           customsGateway: gateway,
           signing: signing,
           auditLog: auditLog,
+          authorization: authorization,
           serializePayload: (d) => 'canonical:${d.exporterCode}',
           clock: () => fixedNow,
         );
@@ -281,6 +303,111 @@ void main() {
       },
     );
 
+    // -------------------------------------------------------------------------
+    // Authorization (VRTV-55)
+    // -------------------------------------------------------------------------
+    test(
+      'authorization.requireTenant throws AuthorizationException when the '
+      'user has no membership in the requested tenant',
+      () async {
+        final otherAuthorization = InMemoryAuthorizationAdapter(
+          user: User(
+            id: 'user-42',
+            email: 'agent@example.cr',
+            memberships: {
+              TenantMembership(
+                userId: 'user-42',
+                tenantId: 'tenant-OTHER',
+                role: Role.agent,
+                since: DateTime.utc(2026, 1, 1),
+              ),
+            },
+          ),
+          selectedTenantId: 'tenant-OTHER',
+          now: () => fixedNow,
+        );
+        final otherHandler = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: otherAuthorization,
+          clock: () => fixedNow,
+        );
+        await expectLater(
+          otherHandler.handle(_buildCommand(tenantId: 'tenant-1')),
+          throwsA(
+            isA<AuthorizationException>()
+                .having((e) => e.code, 'code', 'tenant-denied'),
+          ),
+        );
+        // No audit written — we fail before Audit #1.
+        expect(await auditLog.queryByEntity('Declaration', 'DECL-1'), isEmpty);
+      },
+    );
+
+    test(
+      'authorization.requireRole throws AuthorizationException when the user '
+      'is a member of the tenant but only holds Role.importer',
+      () async {
+        final importerAuthorization = InMemoryAuthorizationAdapter(
+          user: buildUser(Role.importer),
+          selectedTenantId: 'tenant-1',
+          now: () => fixedNow,
+        );
+        final importerHandler = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: importerAuthorization,
+          clock: () => fixedNow,
+        );
+        await expectLater(
+          importerHandler.handle(_buildCommand()),
+          throwsA(
+            isA<AuthorizationException>()
+                .having((e) => e.code, 'code', 'role-denied')
+                .having((e) => e.requiredRole, 'requiredRole', Role.agent),
+          ),
+        );
+      },
+    );
+
+    test(
+      'happy path with Role.supervisor (outranks agent) writes '
+      'actorRole=supervisor in every audit event',
+      () async {
+        final supervisorAuthorization = InMemoryAuthorizationAdapter(
+          user: buildUser(Role.supervisor),
+          selectedTenantId: 'tenant-1',
+          now: () => fixedNow,
+        );
+        final supHandler = SubmitDeclarationHandler(
+          authProvider: auth,
+          customsGateway: gateway,
+          signing: signing,
+          auditLog: auditLog,
+          authorization: supervisorAuthorization,
+          clock: () => fixedNow,
+        );
+        gateway.submissionResult = const DeclarationResult(
+          success: true,
+          registrationNumber: 'CR-001-001-0001-2026',
+        );
+        final result = await supHandler.handle(_buildCommand());
+        expect(result.isOk, isTrue);
+        final events =
+            await auditLog.queryByEntity('Declaration', 'DECL-1');
+        expect(events, hasLength(5));
+        for (final e in events) {
+          expect(e.payload['actorRole'], 'supervisor',
+              reason: 'Every audit event must carry the actor\'s role '
+                  '(LGA Art. 28-30 attributability).');
+        }
+      },
+    );
+
     test(
       'audit append failure propagates as exception (NOT a Result.err) per '
       'SRD rule #4 — never swallow audit failures',
@@ -291,6 +418,7 @@ void main() {
           customsGateway: gateway,
           signing: signing,
           auditLog: failingAudit,
+          authorization: authorization,
           clock: () => fixedNow,
         );
         await expectLater(
