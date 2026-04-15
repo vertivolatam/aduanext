@@ -5,15 +5,30 @@
 /// * [onboardingDraftProvider] — the `OnboardingDraft` state notifier.
 ///   Exposes per-step setters so the UI doesn't have to rebuild the
 ///   whole draft every keystroke.
+/// * [pkcs11SigningPortProvider] — optional [Pkcs11SigningPort] used
+///   by the hardware-token step to enumerate slots. `null` on Web;
+///   desktop bootstrap wires `SubprocessPkcs11SigningAdapter`.
+/// * [helperProbeProvider] — swappable probe function so widget tests
+///   can simulate "helper installed" without spawning real processes.
 library;
 
+import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'onboarding_state.dart';
+import 'pkcs11_detection.dart';
 import 'stub_dga_registry.dart';
 
 final dgaRegistryProvider = Provider<DgaRegistry>(
   (_) => const StubDgaRegistry(),
+);
+
+final pkcs11SigningPortProvider = Provider<Pkcs11SigningPort?>(
+  (_) => null,
+);
+
+final helperProbeProvider = Provider<HelperProbe>(
+  (_) => defaultHelperProbe,
 );
 
 final onboardingDraftProvider =
