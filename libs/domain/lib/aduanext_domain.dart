@@ -20,6 +20,7 @@ export 'src/retention/legal_hold.dart';
 export 'src/retention/retention_policy.dart';
 
 // Entities.
+export 'src/entities/agent_profile.dart';
 export 'src/entities/classification_decision.dart';
 export 'src/entities/declaration.dart';
 
