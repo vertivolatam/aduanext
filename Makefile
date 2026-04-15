@@ -82,6 +82,12 @@ MINIKUBE_DRIVER  ?= docker
 MINIKUBE_CPUS    ?= 4
 MINIKUBE_MEMORY  ?= 6144
 
+.PHONY: images-pull
+images-pull: ## Pull all third-party container images required by docker-compose (run after `podman system prune`)
+	podman pull docker.io/pgvector/pgvector:pg16
+	podman pull quay.io/keycloak/keycloak:24.0
+	podman pull docker.io/library/redis:6.2
+
 .PHONY: minikube-up
 minikube-up: ## Start minikube (profile: aduanext) with ingress + metrics
 	# Some devs (incl. the founder) have `rootless: true` in their global
