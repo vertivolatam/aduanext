@@ -1,0 +1,7 @@
+# Compiled binaries
+/pkcs11-helper
+/aduanext-pkcs11-helper
+/dist/
+
+# Test artifacts
+/coverage.out
