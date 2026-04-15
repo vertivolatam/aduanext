@@ -18,17 +18,11 @@ import 'package:grpc/grpc.dart';
 import '../generated/hacienda.pbgrpc.dart';
 import '../grpc/grpc_channel_manager.dart';
 
-/// Domain exception for tariff catalog operations.
-class TariffCatalogException implements Exception {
-  final String message;
-  final String? grpcCode;
-
-  const TariffCatalogException(this.message, {this.grpcCode});
-
-  @override
-  String toString() => 'TariffCatalogException: $message'
-      '${grpcCode != null ? ' (gRPC: $grpcCode)' : ''}';
-}
+// TariffCatalogException now lives in libs/domain so application-layer
+// rules can catch it without depending on a country-specific adapter.
+// We re-export it implicitly (through `package:aduanext_domain/domain.dart`
+// above) so call sites continue to import from `aduanext_adapters` if
+// they prefer — no runtime behavior change.
 
 /// Implements [TariffCatalogPort] by delegating to the hacienda-sidecar
 /// [HaciendaApiClient.rimmSearch] gRPC method.
@@ -107,7 +101,7 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error during commodity search',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -155,7 +149,7 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching commodity by code',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -222,7 +216,7 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching exchange rate',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -274,7 +268,7 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching delivery terms',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }
@@ -326,7 +320,7 @@ class RimmTariffCatalogAdapter implements TariffCatalogPort {
     } on GrpcError catch (e) {
       throw TariffCatalogException(
         e.message ?? 'gRPC error fetching customs office',
-        grpcCode: e.codeName,
+        vendorCode: e.codeName,
       );
     }
   }

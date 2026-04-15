@@ -31,3 +31,9 @@ export 'src/classification/record_classification_handler.dart';
 export 'src/submission/submit_declaration_command.dart';
 export 'src/submission/submit_declaration_failure.dart';
 export 'src/submission/submit_declaration_handler.dart';
+
+// Pre-validation engine (SOP-B04, VRTV-42).
+export 'src/validation/declaration_rules.dart';
+export 'src/validation/pre_validate_declaration_query.dart';
+export 'src/validation/validation_report.dart';
+export 'src/validation/validation_rule.dart';
