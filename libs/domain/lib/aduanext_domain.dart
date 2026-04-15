@@ -10,6 +10,7 @@ export 'src/ports/authorization_port.dart';
 export 'src/ports/customs_gateway_port.dart';
 export 'src/ports/legal_hold_port.dart';
 export 'src/ports/notification_port.dart';
+export 'src/ports/pkcs11_signing_port.dart';
 export 'src/ports/retention_purgeable_port.dart';
 export 'src/ports/signing_port.dart';
 export 'src/ports/storage_backend_port.dart';

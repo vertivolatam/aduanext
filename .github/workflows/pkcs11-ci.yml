@@ -5,10 +5,18 @@ on:
     branches: [main]
     paths:
       - 'apps/pkcs11-helper/**'
+      - 'libs/adapters/lib/src/signing/**'
+      - 'libs/adapters/test/signing/**'
+      - 'libs/domain/lib/src/ports/pkcs11_signing_port.dart'
+      - 'libs/application/lib/src/submission/**'
       - '.github/workflows/pkcs11-ci.yml'
   pull_request:
     paths:
       - 'apps/pkcs11-helper/**'
+      - 'libs/adapters/lib/src/signing/**'
+      - 'libs/adapters/test/signing/**'
+      - 'libs/domain/lib/src/ports/pkcs11_signing_port.dart'
+      - 'libs/application/lib/src/submission/**'
       - '.github/workflows/pkcs11-ci.yml'
   workflow_dispatch:
 
@@ -179,6 +187,133 @@ jobs:
             exit 1
           fi
           echo "PIN-leak check passed."
+
+      - name: Export helper path for the Dart integration job
+        # The Dart adapter's integration tests are gated on
+        # PKCS11_HELPER_PATH + SOFTHSM2_MODULE + SOFTHSM2_SLOT_ID.
+        # The upload-artifact below carries the compiled helper to the
+        # dart-integration job below so it can opt in.
+        run: |
+          cp /tmp/pkcs11-helper /tmp/pkcs11-helper-for-dart
+          echo "SOFTHSM2_SLOT_ID=${SOFTHSM2_SLOT_ID}" >/tmp/pkcs11-env
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pkcs11-helper-ci-build
+          path: |
+            /tmp/pkcs11-helper-for-dart
+            /tmp/pkcs11-env
+          retention-days: 1
+
+  dart-integration:
+    name: Dart adapter + handler with real helper + SoftHSM2
+    needs: helper
+    runs-on: ubuntu-latest
+    env:
+      SOFTHSM2_CONF: /tmp/softhsm2.conf
+      SOFTHSM2_MODULE: /usr/lib/softhsm/libsofthsm2.so
+      SOFTHSM2_USER_PIN: "1234"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install SoftHSM2 + OpenSC + pkcs11 OpenSSL engine
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y softhsm2 opensc libsofthsm2 libengine-pkcs11-openssl
+
+      - name: Initialize SoftHSM2 token for Dart integration tests
+        # Mirror the helper job's fixture — we cannot share state
+        # between runner jobs other than via artifacts, so the token
+        # is re-provisioned here.
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/softhsm2-tokens
+          cat > /tmp/softhsm2.conf <<'EOF'
+          directories.tokendir = /tmp/softhsm2-tokens
+          objectstore.backend = file
+          log.level = ERROR
+          EOF
+
+          INIT_OUT=$(softhsm2-util --init-token --free --label aduanext-test \
+            --so-pin 1234 --pin "${SOFTHSM2_USER_PIN}")
+          echo "$INIT_OUT"
+          SLOT=$(echo "$INIT_OUT" | awk '/reassigned to slot/ { print $NF }')
+          echo "SOFTHSM2_SLOT_ID=$SLOT" >> "$GITHUB_ENV"
+
+          pkcs11-tool --module "${SOFTHSM2_MODULE}" \
+            --login --pin "${SOFTHSM2_USER_PIN}" \
+            --keypairgen --key-type rsa:2048 \
+            --label aduanext-test-key --id 01 \
+            --slot "$SLOT"
+
+          PKCS11_ENGINE=$(dpkg -L libengine-pkcs11-openssl 2>/dev/null | grep -E 'pkcs11\.(so|so\.[0-9]+)$' | head -1)
+          OPENSSL_CNF=/tmp/openssl.cnf
+          cat > "$OPENSSL_CNF" <<EOF
+          openssl_conf = openssl_init
+          [openssl_init]
+          engines = engine_section
+          [engine_section]
+          pkcs11 = pkcs11_section
+          [pkcs11_section]
+          engine_id = pkcs11
+          dynamic_path = ${PKCS11_ENGINE}
+          MODULE_PATH = ${SOFTHSM2_MODULE}
+          init = 0
+          [req]
+          distinguished_name = dn
+          prompt = no
+          [dn]
+          CN = AduaNext SoftHSM2 Test
+          O  = AduaNext CI
+          C  = CR
+          EOF
+
+          KEY_URI="pkcs11:token=aduanext-test;object=aduanext-test-key;type=private;pin-value=${SOFTHSM2_USER_PIN}"
+          OPENSSL_CONF="$OPENSSL_CNF" openssl req -new -x509 \
+            -engine pkcs11 -keyform engine \
+            -key "$KEY_URI" \
+            -days 30 \
+            -out /tmp/cert.pem
+
+          openssl x509 -in /tmp/cert.pem -outform DER -out /tmp/cert.der
+
+          pkcs11-tool --module "${SOFTHSM2_MODULE}" \
+            --login --pin "${SOFTHSM2_USER_PIN}" \
+            --write-object /tmp/cert.der --type cert \
+            --label aduanext-test-cert --id 01 \
+            --slot "$SLOT"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pkcs11-helper-ci-build
+          path: /tmp/helper-download
+
+      - name: Make helper executable + export path
+        run: |
+          chmod +x /tmp/helper-download/pkcs11-helper-for-dart
+          echo "PKCS11_HELPER_PATH=/tmp/helper-download/pkcs11-helper-for-dart" >> "$GITHUB_ENV"
+
+      - name: pub get + analyze + test libs/adapters
+        working-directory: libs/adapters
+        run: |
+          dart pub get
+          dart analyze --fatal-infos
+          # Only run the PKCS#11-related test so the matrix here is
+          # focused. The rest of libs/adapters is exercised by the
+          # main dart-ci workflow.
+          dart test test/signing/subprocess_pkcs11_adapter_test.dart --reporter expanded
+
+      - name: pub get + analyze + test libs/application
+        working-directory: libs/application
+        run: |
+          dart pub get
+          dart analyze --fatal-infos
+          dart test test/submission/submit_declaration_handler_test.dart --reporter expanded
 
   upload-binary:
     name: upload binary artifact (debug aid)

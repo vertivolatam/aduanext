@@ -17,6 +17,7 @@ import 'package:aduanext_domain/aduanext_domain.dart';
 import 'package:meta/meta.dart';
 
 import '../shared/command.dart';
+import 'signing_credentials.dart';
 
 /// Submit a [Declaration] to the customs gateway.
 ///
@@ -53,11 +54,19 @@ class SubmitDeclarationCommand extends Command<DeclarationResult> {
   /// Typically the database primary key of the draft declaration row.
   final String declarationId;
 
+  /// How to obtain the digital signature. Defaults to
+  /// [SoftwareCertCredentials] so existing call sites (tests, sandbox)
+  /// that don't know about hardware tokens keep working unchanged.
+  /// Hardware paths provide [HardwareTokenCredentials] with the slot +
+  /// PIN selected by the agent at submission time.
+  final SigningCredentials signingCredentials;
+
   const SubmitDeclarationCommand({
     required this.agentId,
     required this.tenantId,
     required this.declarationId,
     required this.declaration,
     required this.credentials,
+    this.signingCredentials = const SoftwareCertCredentials(),
   });
 }

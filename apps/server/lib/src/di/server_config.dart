@@ -58,6 +58,13 @@ class ServerConfig {
   /// this server (typically `aduanext-server`).
   final String? keycloakAudience;
 
+  /// Absolute path to the `aduanext-pkcs11-helper` binary produced by
+  /// VRTV-69. When set, AppContainer wires a [Pkcs11SigningPort] so
+  /// the SubmitDeclaration handler can accept
+  /// [HardwareTokenCredentials]. When null, submissions with
+  /// hardware credentials fail-closed (no silent software fallback).
+  final String? pkcs11HelperPath;
+
   const ServerConfig({
     required this.httpHost,
     required this.httpPort,
@@ -70,6 +77,7 @@ class ServerConfig {
     this.keycloakJwksUri,
     this.keycloakIssuer,
     this.keycloakAudience,
+    this.pkcs11HelperPath,
   });
 
   /// Reads configuration from [Platform.environment] (or [source] for tests).
@@ -88,6 +96,7 @@ class ServerConfig {
       keycloakJwksUri: env['KEYCLOAK_JWKS_URI'],
       keycloakIssuer: env['KEYCLOAK_ISSUER'],
       keycloakAudience: env['KEYCLOAK_AUDIENCE'],
+      pkcs11HelperPath: env['PKCS11_HELPER_PATH'],
     );
   }
 }
