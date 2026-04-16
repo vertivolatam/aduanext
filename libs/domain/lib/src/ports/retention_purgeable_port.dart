@@ -2,7 +2,15 @@
 /// whose data falls under a [RetentionPolicy].
 ///
 /// The retention worker walks each implementer in turn:
-///   1. `findExpired(now, batchSize)` — returns a page of purge candidates.
+///   1. `findExpired(cutoff, batchSize)` — returns a page of purge
+///      candidates whose newest record is older than [cutoff]. The
+///      cutoff is computed at the handler level from the effective
+///      [RetentionPolicy] (`now() - policy.window`) and passed in
+///      explicitly — VRTV-76 was the "plumbing bug" where adapters
+///      hardcoded a policy-local cutoff that ignored env / tenant
+///      overrides (i.e. `ADUANEXT_RETENTION_AUDIT_YEARS=10` had no
+///      effect because the adapter always evaluated against the
+///      default 7-year window).
 ///   2. for each candidate that is NOT under a [LegalHold]:
 ///      a. archive the entity bytes via [StorageBackendPort];
 ///      b. `purge(...)` removes the entity from the live store;
@@ -43,10 +51,15 @@ abstract class RetentionPurgeablePort {
   /// the right [RetentionPolicy].
   RetentionCategory get category;
 
-  /// Page through records whose `expires_at` is before [now]. Adapters
-  /// MUST honour [batchSize] so the worker can keep memory bounded.
+  /// Page through records whose newest timestamp is strictly less than
+  /// [cutoff] (i.e. older than the retention window). The handler
+  /// computes [cutoff] from the effective policy and passes it in —
+  /// adapters MUST NOT re-derive it from a hardcoded policy.
+  ///
+  /// Adapters MUST honour [batchSize] so the worker can keep memory
+  /// bounded even when catching up after downtime.
   Future<List<ExpiredRecord>> findExpired({
-    required DateTime now,
+    required DateTime cutoff,
     int batchSize = 100,
   });
 

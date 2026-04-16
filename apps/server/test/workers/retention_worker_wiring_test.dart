@@ -232,7 +232,7 @@ class _FakeChainPurgeable implements RetentionPurgeablePort {
 
   @override
   Future<List<ExpiredRecord>> findExpired({
-    required DateTime now,
+    required DateTime cutoff,
     int batchSize = 100,
   }) async {
     return chains.entries

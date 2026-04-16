@@ -73,7 +73,7 @@ class _FakePurgeable implements RetentionPurgeablePort {
 
   @override
   Future<List<ExpiredRecord>> findExpired({
-    required DateTime now,
+    required DateTime cutoff,
     int batchSize = 100,
   }) async {
     final out = expired.take(batchSize).toList();

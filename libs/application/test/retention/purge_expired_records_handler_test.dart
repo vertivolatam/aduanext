@@ -194,6 +194,93 @@ void main() {
           .byCategory['auditEvent']!;
       expect(stats.purged, 1);
     });
+
+    // ── VRTV-76: cutoff plumbing ──────────────────────────────
+    //
+    // Prior to VRTV-76 the Postgres audit adapter embedded the
+    // default policy window (7 years) as the cutoff, ignoring the
+    // handler's effective policy. These tests pin the new contract:
+    // the handler computes `cutoff = now - policy.window` and
+    // passes it to the adapter via the port's `findExpired`
+    // parameter.
+
+    test('passes policy-derived cutoff to the adapter (7-year default)',
+        () async {
+      final port =
+          _FakePurgeable(category: RetentionCategory.auditEvent);
+      final handler = PurgeExpiredRecordsHandler(
+        purgeables: [port],
+        legalHold: InMemoryLegalHoldAdapter(),
+        archive: _FakeArchive(),
+      );
+
+      await handler.handle(PurgeExpiredRecordsCommand(now: now));
+
+      // 7-year default window (see DefaultRetentionPolicies.auditEvent).
+      final expected = now
+          .subtract(DefaultRetentionPolicies.auditEvent.window)
+          .toUtc();
+      expect(port.lastCutoff, isNotNull);
+      expect(port.lastCutoff!.toUtc(), expected);
+    });
+
+    test('honours an extended 10-year tenant override for cutoff',
+        () async {
+      // This is the exact bug VRTV-76 was filed for: an operator sets
+      // `ADUANEXT_RETENTION_AUDIT_YEARS=10`, expects 10 years of
+      // retention, but before this fix the adapter still used 7 years
+      // because it re-derived the cutoff from the const default.
+      final tenYearWindow = const Duration(days: 365 * 10);
+      final extendedPolicy = DefaultRetentionPolicies.auditEvent
+          .withTenantOverride(tenYearWindow);
+      final policies = <RetentionCategory, RetentionPolicy>{
+        ...DefaultRetentionPolicies.all,
+        RetentionCategory.auditEvent: extendedPolicy,
+      };
+      final port =
+          _FakePurgeable(category: RetentionCategory.auditEvent);
+      final handler = PurgeExpiredRecordsHandler(
+        purgeables: [port],
+        legalHold: InMemoryLegalHoldAdapter(),
+        archive: _FakeArchive(),
+        policies: policies,
+      );
+
+      await handler.handle(PurgeExpiredRecordsCommand(now: now));
+
+      final expected = now.subtract(tenYearWindow).toUtc();
+      expect(port.lastCutoff, isNotNull);
+      expect(port.lastCutoff!.toUtc(), expected,
+          reason:
+              'Handler must pass the tenant-overridden 10-year window, '
+              'not the 7-year default — VRTV-76 regression');
+      // Sanity: ensure the observed cutoff differs from the default
+      // one so we know the override ACTUALLY propagated (not just a
+      // happy coincidence of identical timestamps).
+      final defaultCutoff = now
+          .subtract(DefaultRetentionPolicies.auditEvent.window)
+          .toUtc();
+      expect(port.lastCutoff!.toUtc(), isNot(defaultCutoff));
+    });
+
+    test('normalizes the cutoff to UTC before passing to the adapter',
+        () async {
+      // The handler is fed a local-time command; adapters expect UTC
+      // cutoffs because server_timestamp is TIMESTAMPTZ.
+      final localNow = DateTime(2026, 4, 13, 3, 0, 0); // local
+      final port =
+          _FakePurgeable(category: RetentionCategory.auditEvent);
+      final handler = PurgeExpiredRecordsHandler(
+        purgeables: [port],
+        legalHold: InMemoryLegalHoldAdapter(),
+        archive: _FakeArchive(),
+      );
+
+      await handler.handle(PurgeExpiredRecordsCommand(now: localNow));
+
+      expect(port.lastCutoff, isNotNull);
+      expect(port.lastCutoff!.isUtc, isTrue);
+    });
   });
 
   group('LegalHold + InMemoryLegalHoldAdapter', () {
@@ -296,11 +383,17 @@ class _FakePurgeable implements RetentionPurgeablePort {
 
   _FakePurgeable({required this.category});
 
+  /// Most recent [cutoff] passed in by the handler. Tests assert on
+  /// this to verify the plumbing — i.e. that the handler is deriving
+  /// the cutoff from the effective policy, not a hardcoded constant.
+  DateTime? lastCutoff;
+
   @override
   Future<List<ExpiredRecord>> findExpired({
-    required DateTime now,
+    required DateTime cutoff,
     int batchSize = 100,
   }) async {
+    lastCutoff = cutoff;
     final selected = expired.take(batchSize).toList();
     expired.removeRange(0, selected.length);
     return selected;
