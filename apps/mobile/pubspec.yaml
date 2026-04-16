@@ -45,6 +45,10 @@ dependencies:
     path: ../../libs/domain
   # VRTV-59 — `@immutable` annotation on onboarding state value objects.
   meta: ^1.16.0
+  # VRTV-83 — REST client for the backend dispatch endpoints. `http` is
+  # the canonical HTTP package for Flutter Web; `dio` was considered but
+  # its browser support lags on CORS edge-cases.
+  http: ^1.5.0
 
 dev_dependencies:
   flutter_test:

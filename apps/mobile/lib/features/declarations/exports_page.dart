@@ -13,11 +13,21 @@ class ExportsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // Header — wraps the title in `Expanded` so it yields space
+          // to the button on narrow viewports instead of overflowing
+          // the row. The prior unbounded title overflowed by ~46px on
+          // the default flutter_test 800x600 surface (VRTV-83 caught
+          // this when Flutter CI was enabled for the first time).
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Exportaciones', style: Theme.of(context).textTheme.headlineMedium),
+              Expanded(
+                child: Text(
+                  'Exportaciones',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               ElevatedButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.add, size: 16),
