@@ -162,17 +162,88 @@ Per SPIKE-002 the worker uses the **cold-archive + tombstone** model:
 - Tenant UI for retention configuration — separate issue.
 - Hot-path query optimisation for archived data (the live path simply
   does not see archived rows once purged).
-- Dedicated `aduanext_retention_worker` Postgres role with narrow
-  DELETE grants — today the worker inherits the container's Postgres
-  role (superuser in dev). Tracked in a follow-up.
+
+## Production deployment — dedicated Postgres role (VRTV-75)
+
+The RetentionWorker runs with a **narrow, dedicated** Postgres role
+(`aduanext_retention_worker`) in production. It cannot `DROP TABLE`,
+cannot `INSERT INTO audit_events` (that path goes through the normal
+`AuditLogPort` with the chain hasher), and cannot bypass Row-Level
+Security invisibly.
+
+### Bootstrap (one-time, per environment)
+
+The role + grants are installed by the embedded migration
+`retention_worker_role_migration.dart` (SQL source:
+`libs/adapters/lib/src/retention/migrations/0002_retention_worker_role.sql`).
+`AppContainer.boot()` applies it automatically against the privileged
+container connection before opening the worker's narrow connection.
+
+Privileges granted:
+
+| Table          | Grants                        |
+| -------------- | ----------------------------- |
+| `audit_events` | `SELECT`, `DELETE`            |
+| `legal_holds`  | `SELECT`, `INSERT`, `UPDATE`  |
+| (functions)    | `set_app_bypass_rls`, `set_app_tenant`, `current_app_tenant` |
+
+Privileges NOT granted (enforced by absent grants + NOBYPASSRLS):
+
+- No `INSERT` / `UPDATE` / `TRUNCATE` on `audit_events`.
+- No `DELETE` on `legal_holds` (append-only with `released_at`).
+- No `BYPASSRLS` — cross-tenant iteration happens via the audited
+  `app.bypass_rls='admin'` GUC (VRTV-62).
+
+### Connection string
+
+Set `ADUANEXT_RETENTION_DB_URL` to a URL authenticating as the role:
+
+```
+ADUANEXT_RETENTION_DB_URL=postgres://aduanext_retention_worker:<password>@db:5432/aduanext
+```
+
+The boot sequence logs a warning if the variable is unset and
+falls back to the main `DATABASE_URL` — acceptable for dev,
+**not acceptable in production**.
+
+### Password management
+
+Rotate the role's password via `setRetentionWorkerRolePassword(conn,
+password:)` called from your deployment orchestration (helm post-install
+hook / ArgoCD job). The Dart helper validates the password shape
+(rejects empty / control-char values) and issues an idempotent
+`ALTER ROLE ... PASSWORD '...'`.
+
+In Kubernetes, store the password in a `Secret` referenced by the
+server Deployment env var `ADUANEXT_RETENTION_DB_URL`:
+
+```yaml
+env:
+  - name: ADUANEXT_RETENTION_DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: aduanext-retention-db
+        key: url
+```
+
+### Audit attribution
+
+Every action taken by the worker is attributed in the tombstone
+payload with `actor = "system.retention_worker"` so DGA auditors can
+distinguish automated purges from manual admin bypasses.
 
 ## Acceptance criteria pinned by tests
 
 - `purge_expired_records_handler_test.dart` covers archive + purge +
-  tombstone, legal-hold skip, partial failure isolation, and the
-  release-then-purge transition.
+  tombstone, legal-hold skip, partial failure isolation, the
+  release-then-purge transition, AND the cutoff-plumbing contract
+  (VRTV-76).
 - `filesystem_archive_adapter_test.dart` covers blob + meta sidecar,
   idempotent write, refusal to overwrite different bytes, and `..` /
   absolute path rejection.
 - `retention_worker_test.dart` covers `runNow` end-to-end and idempotent
   start / clean stop.
+- `retention_worker_role_migration_test.dart` (VRTV-75) locks the
+  grant table: NOBYPASSRLS, NOINHERIT, SELECT+DELETE on
+  `audit_events`, SELECT+INSERT+UPDATE on `legal_holds`, no DELETE on
+  `legal_holds`, idempotent CREATE/ALTER.

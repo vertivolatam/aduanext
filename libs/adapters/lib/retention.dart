@@ -13,5 +13,6 @@
 library;
 
 export 'src/retention/in_memory_legal_hold_adapter.dart';
+export 'src/retention/migrations/retention_worker_role_migration.dart';
 export 'src/retention/postgres_audit_retention_adapter.dart';
 export 'src/retention/postgres_legal_hold_adapter.dart';

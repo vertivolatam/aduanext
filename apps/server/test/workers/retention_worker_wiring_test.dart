@@ -107,6 +107,34 @@ void main() {
           policies[RetentionCategory.classificationDecision]!;
       expect(classification.window, classification.platformDefault);
     });
+
+    // ── VRTV-75: dedicated retention DB URL ─────────────────
+    test('retentionDbUrl null when env var absent', () {
+      final c = RetentionConfig.fromEnv(const {
+        'ADUANEXT_RETENTION_ENABLED': 'true',
+      });
+      expect(c.retentionDbUrl, isNull);
+    });
+
+    test('retentionDbUrl captured from ADUANEXT_RETENTION_DB_URL', () {
+      final c = RetentionConfig.fromEnv(const {
+        'ADUANEXT_RETENTION_ENABLED': 'true',
+        'ADUANEXT_RETENTION_DB_URL':
+            'postgres://aduanext_retention_worker:secret@db:5432/aduanext',
+      });
+      expect(
+        c.retentionDbUrl,
+        'postgres://aduanext_retention_worker:secret@db:5432/aduanext',
+      );
+    });
+
+    test('empty retentionDbUrl treated as null', () {
+      final c = RetentionConfig.fromEnv(const {
+        'ADUANEXT_RETENTION_ENABLED': 'true',
+        'ADUANEXT_RETENTION_DB_URL': '',
+      });
+      expect(c.retentionDbUrl, isNull);
+    });
   });
 
   group('RetentionWorker.runNow end-to-end with wired ports', () {

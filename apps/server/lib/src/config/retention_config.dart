@@ -38,6 +38,17 @@ class RetentionConfig {
   /// S3/GCS adapter (separate issue); this is the default placeholder.
   final String archivePath;
 
+  /// Dedicated Postgres URL for the RetentionWorker (VRTV-75).
+  ///
+  /// Production deployments MUST set `ADUANEXT_RETENTION_DB_URL` to a
+  /// connection that authenticates as `aduanext_retention_worker` —
+  /// the dedicated Postgres role created by retention migration 0002
+  /// with narrow SELECT/DELETE grants. When `null`, the container
+  /// falls back to the main `DATABASE_URL` and logs a loud warning
+  /// (acceptable for dev; violates the hardening contract in
+  /// production).
+  final String? retentionDbUrl;
+
   const RetentionConfig({
     required this.enabled,
     required this.auditWindow,
@@ -46,10 +57,12 @@ class RetentionConfig {
     required this.runAtHourUtc,
     required this.runAtMinuteUtc,
     required this.archivePath,
+    this.retentionDbUrl,
   });
 
   /// Defaults match the compliance doc: 7 years audit/DUA, 90 days
-  /// sessions, 03:00 UTC daily, `/var/aduanext/archive`.
+  /// sessions, 03:00 UTC daily, `/var/aduanext/archive`, no dedicated
+  /// retention DB URL (falls back to main).
   static const RetentionConfig defaults = RetentionConfig(
     enabled: false,
     auditWindow: Duration(days: 365 * 7),
@@ -58,6 +71,7 @@ class RetentionConfig {
     runAtHourUtc: 3,
     runAtMinuteUtc: 0,
     archivePath: '/var/aduanext/archive',
+    retentionDbUrl: null,
   );
 
   /// Parse from environment variables. See field-level docstrings for
@@ -75,6 +89,11 @@ class RetentionConfig {
     final runAt = _parseHhMm(env['ADUANEXT_RETENTION_RUN_AT_UTC']);
     final archivePath =
         env['ADUANEXT_ARCHIVE_PATH'] ?? defaults.archivePath;
+    final rawRetentionUrl = env['ADUANEXT_RETENTION_DB_URL'];
+    final retentionDbUrl =
+        (rawRetentionUrl != null && rawRetentionUrl.isNotEmpty)
+            ? rawRetentionUrl
+            : null;
 
     final auditWindow = Duration(days: 365 * auditYears);
     final duaWindow = Duration(days: 365 * duaYears);
@@ -109,6 +128,7 @@ class RetentionConfig {
       runAtHourUtc: runAt.$1,
       runAtMinuteUtc: runAt.$2,
       archivePath: archivePath,
+      retentionDbUrl: retentionDbUrl,
     );
   }
 
