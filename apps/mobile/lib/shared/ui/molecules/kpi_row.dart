@@ -87,13 +87,18 @@ class KpiRow extends StatelessWidget {
       ),
     ];
 
+    // Tuned so the tile never clips on the narrow `flutter_test`
+    // 800x600 surface (content area is ~530px after rail+panel, so
+    // each tile is ~122px wide and ~68px tall at aspect 1.8). Mockup
+    // uses wider cards on tablet — at real 1200px viewport we get
+    // ~280×155 which matches the design spec.
     return GridView.count(
       crossAxisCount: columns,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
-      childAspectRatio: 2.4,
+      childAspectRatio: 1.4,
       children: tiles,
     );
   }

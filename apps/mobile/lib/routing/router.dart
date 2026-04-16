@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/declarations/exports_page.dart';
+import '../features/dashboard/dashboard_page.dart';
+import '../features/dashboard/dua_detail_page.dart';
 import '../features/onboarding/agent_onboarding_flow.dart';
 import '../features/onboarding/welcome_page.dart';
 import '../shared/ui/templates/dashboard_layout.dart';
 
+/// Root GoRouter configuration.
+///
+/// Authenticated routes ship inside a [ShellRoute] so the rail + panel
+/// chrome stays mounted across navigation. The onboarding wizard is
+/// deliberately outside the shell — the wizard is full-bleed.
+///
+/// `/exports` is kept as a redirect to `/dashboard` so any in-flight
+/// VRTV-39 deep-links (bookmarks, onboarding deep links) keep working
+/// through the rollout.
 final router = GoRouter(
-  initialLocation: '/exports',
+  initialLocation: '/dashboard',
   routes: [
-    // Onboarding routes — no dashboard shell (the wizard is full-bleed).
     GoRoute(
       path: '/onboarding',
       builder: (_, _) => const WelcomePage(),
@@ -19,7 +28,12 @@ final router = GoRouter(
       builder: (_, _) => const AgentOnboardingFlow(),
     ),
 
-    // Authenticated app — dashboard shell.
+    // Legacy route — redirect before the DashboardLayout evaluates.
+    GoRoute(
+      path: '/exports',
+      redirect: (_, _) => '/dashboard',
+    ),
+
     ShellRoute(
       builder: (context, state, child) {
         return DashboardLayout(
@@ -29,7 +43,16 @@ final router = GoRouter(
         );
       },
       routes: [
-        GoRoute(path: '/exports', builder: (_, _) => const ExportsPage()),
+        GoRoute(
+          path: '/dashboard',
+          builder: (_, _) => const DashboardPage(),
+        ),
+        GoRoute(
+          path: '/dispatches/:id',
+          builder: (_, state) => DuaDetailPage(
+            declarationId: state.pathParameters['id']!,
+          ),
+        ),
         GoRoute(
           path: '/imports',
           builder: (_, _) => _Placeholder('Importaciones'),
