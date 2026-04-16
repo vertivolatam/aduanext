@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/classifier/classifier_page.dart';
 import '../features/dashboard/dashboard_page.dart';
 import '../features/dashboard/dua_detail_page.dart';
 import '../features/onboarding/agent_onboarding_flow.dart';
@@ -67,7 +68,7 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/classify',
-          builder: (_, _) => _Placeholder('Clasificador RIMM'),
+          builder: (_, _) => const ClassifierPage(),
         ),
         GoRoute(
           path: '/risk',
