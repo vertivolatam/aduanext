@@ -28,9 +28,13 @@ import '../classifier/classifier_drawer.dart';
 import 'dua_form_notifier.dart';
 import 'dua_form_state.dart';
 import 'steps.dart';
+import 'steps/step_documentos.dart';
 import 'steps/step_envio.dart';
+import 'steps/step_facturas.dart';
 import 'steps/step_general.dart';
 import 'steps/step_items.dart';
+import 'steps/step_revision.dart';
+import 'steps/step_valoracion.dart';
 
 class DuaFormPage extends ConsumerStatefulWidget {
   const DuaFormPage({super.key});
@@ -249,65 +253,13 @@ class _StepBody extends StatelessWidget {
               onRequestClassify(-1, description),
         );
       case DuaFormStep.valuation:
+        return const StepValoracion();
       case DuaFormStep.invoices:
+        return const StepFacturas();
       case DuaFormStep.documents:
+        return const StepDocumentos();
       case DuaFormStep.review:
-        return _PlaceholderStep(step: step);
-    }
-  }
-}
-
-class _PlaceholderStep extends StatelessWidget {
-  final DuaFormStep step;
-  const _PlaceholderStep({required this.step});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: AduaNextTheme.surfaceCard,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AduaNextTheme.borderSubtle),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Paso ${step.ordinal}: ${step.displayName}',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _bodyFor(step),
-              style: const TextStyle(color: AduaNextTheme.textSecondary),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String _bodyFor(DuaFormStep step) {
-    switch (step) {
-      case DuaFormStep.valuation:
-        return 'Factura, moneda, tipo de cambio y cálculo CIF. '
-            'Formulario completo en VRTV-89.';
-      case DuaFormStep.invoices:
-        return 'Lista de facturas adjuntas al DUA. '
-            'Formulario completo en VRTV-89.';
-      case DuaFormStep.documents:
-        return 'B/L, certificados y otros documentos requeridos. '
-            'Subida de archivos en VRTV-89.';
-      case DuaFormStep.review:
-        return 'Resumen final con pre-validación (VRTV-42) y submit a '
-            'ATENA (VRTV-79). Wire-up completo en VRTV-89.';
-      case DuaFormStep.general:
-      case DuaFormStep.shipping:
-      case DuaFormStep.items:
-        return '';
+        return const StepRevision();
     }
   }
 }

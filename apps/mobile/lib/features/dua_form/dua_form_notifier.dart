@@ -129,18 +129,65 @@ class DuaFormNotifier extends StateNotifier<DuaDraft> {
     _mutate(state.copyWith(items: next));
   }
 
+  // ─── Step 4 — Valoración ─────────────────────────────────────
+
   void setValuation({
     String? invoiceCurrencyCode,
     double? exchangeRate,
+    double? freightAmount,
+    double? insuranceAmount,
   }) {
     _mutate(state.copyWith(
       invoiceCurrencyCode: invoiceCurrencyCode,
       exchangeRate: exchangeRate,
+      freightAmount: freightAmount,
+      insuranceAmount: insuranceAmount,
     ));
   }
 
-  void setInvoiceCount(int count) {
-    _mutate(state.copyWith(invoiceCount: count));
+  // ─── Step 5 — Facturas ───────────────────────────────────────
+
+  void addInvoice([DuaDraftInvoice invoice = const DuaDraftInvoice()]) {
+    _mutate(state.copyWith(invoices: [...state.invoices, invoice]));
+  }
+
+  void updateInvoice(int index, DuaDraftInvoice invoice) {
+    if (index < 0 || index >= state.invoices.length) return;
+    final next = [...state.invoices];
+    next[index] = invoice;
+    _mutate(state.copyWith(invoices: next));
+  }
+
+  void removeInvoice(int index) {
+    if (index < 0 || index >= state.invoices.length) return;
+    final next = [...state.invoices]..removeAt(index);
+    _mutate(state.copyWith(invoices: next));
+  }
+
+  // ─── Step 6 — Documentos ─────────────────────────────────────
+
+  /// Seed the checklist with the required docs for the current regimen.
+  /// Idempotent — no-op if the list already has entries.
+  void seedDocumentsIfEmpty(List<DuaDraftDocument> required) {
+    if (state.documents.isNotEmpty) return;
+    _mutate(state.copyWith(documents: required));
+  }
+
+  void updateDocument(int index, DuaDraftDocument document) {
+    if (index < 0 || index >= state.documents.length) return;
+    final next = [...state.documents];
+    next[index] = document;
+    _mutate(state.copyWith(documents: next));
+  }
+
+  void addDocument(DuaDraftDocument document) {
+    _mutate(state.copyWith(documents: [...state.documents, document]));
+  }
+
+  void removeDocument(int index) {
+    if (index < 0 || index >= state.documents.length) return;
+    final next = [...state.documents]..removeAt(index);
+    _mutate(state.copyWith(documents: next));
   }
 
   // ─── Stepper tone ──────────────────────────────────────────────
