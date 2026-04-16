@@ -1,0 +1,69 @@
+name: Flutter CI
+
+# Triggers on any change to the Flutter Web app so regressions get caught
+# at the same merge gate as the Dart server+libs CI. Keeps apps/mobile/
+# out of dart-ci.yml (which expects a pure Dart SDK, not Flutter) while
+# still running `dart analyze` semantics under `flutter analyze`.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/mobile/**'
+      - '.github/workflows/flutter-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/mobile/**'
+      - '.github/workflows/flutter-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-test-build:
+    name: flutter analyze + test + build web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Pin the Flutter stable channel so PR runs don't flake on
+      # upstream rollouts. `cache: true` takes care of SDK caching.
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Cache pub-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-flutter-${{ hashFiles('apps/mobile/pubspec.yaml') }}
+          restore-keys: |
+            pub-${{ runner.os }}-flutter-
+
+      # `flutter pub get` in apps/mobile depends on libs/domain via
+      # path dependency; the resolver walks up the repo so checkout@v4's
+      # default full checkout is fine here.
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+
+      - name: Test
+        run: flutter test
+
+      # Web build is the only target AduaNext ships — catching
+      # web-specific compile errors (dart:html usage, web-only conditional
+      # imports) before merge keeps main deployable to staging.
+      - name: Build web (release)
+        run: flutter build web --release --no-tree-shake-icons
