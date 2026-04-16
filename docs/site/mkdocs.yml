@@ -134,12 +134,21 @@ markdown_extensions:
 # =============================================================================
 nav:
   - Inicio: index.md
+  - Arquitectura:
+    - docs/architecture/index.md
   - SOPs:
     - docs/sops/index.md
     - "A: Ciclo del Agente": docs/sops/categoria-a-ciclo-agente.md
     - "B: Despacho Exportacion": docs/sops/categoria-b-despacho-exportacion.md
     - "C: Post-Despacho": docs/sops/categoria-c-post-despacho.md
     - "D: Compliance Continuo": docs/sops/categoria-d-compliance.md
+  - API:
+    - docs/api/index.md
+    - "Dispatch API": docs/api/dispatches.md
+  - Security:
+    - docs/security/index.md
+    - "RBAC + Tenant Isolation": docs/security/rbac.md
+    - "Signature Verification": docs/security/signature-verification.md
   - Normativa:
     - docs/legal/index.md
     - Ley 7557 (LGA): docs/legal/ley-7557-lga.md
@@ -148,6 +157,8 @@ nav:
   - Compliance:
     - docs/compliance/index.md
     - "Auditoria 2026-04-12": docs/compliance/audit-2026-04-12.md
+    - "Auditoria 2026-04-16 (Refresh)": docs/compliance/audit-2026-04-16.md
+    - "Data Retention Policy": docs/compliance/data-retention-policy.md
 
 # =============================================================================
 # Extra

@@ -70,7 +70,7 @@ entityId)` triple. Use cases:
 
 - DGA opens a fiscalizacion case touching a particular DUA → admin
   places a hold on `('Declaration', 'DUA-2026-NNN')`.
-- A tenant disputes an HS classification at TICA → hold the
+- A tenant disputes an HS classification at ATENA → hold the
   classification decision and any related declarations.
 
 Holds are tenant-scoped — a hold in tenant A never affects tenant B.
