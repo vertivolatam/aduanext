@@ -86,6 +86,130 @@ class DuaDraftLineItem {
       );
 }
 
+/// A single invoice attached to the DUA (Step 5).
+@immutable
+class DuaDraftInvoice {
+  /// Invoice number from the supplier (free-form).
+  final String number;
+
+  /// Issue date in ISO-8601 (yyyy-MM-dd). Null until the agent picks.
+  final DateTime? issueDate;
+
+  /// Supplier legal name (free-form for MVP — company registry
+  /// lookup lands with the same ticket that adds exporter autocomplete).
+  final String supplier;
+
+  /// Total amount in the invoice currency.
+  final double? totalAmount;
+
+  /// ISO 4217 currency code (USD, EUR, CRC, CNY, ...).
+  final String currencyCode;
+
+  const DuaDraftInvoice({
+    this.number = '',
+    this.issueDate,
+    this.supplier = '',
+    this.totalAmount,
+    this.currencyCode = 'USD',
+  });
+
+  DuaDraftInvoice copyWith({
+    String? number,
+    DateTime? issueDate,
+    String? supplier,
+    double? totalAmount,
+    String? currencyCode,
+  }) =>
+      DuaDraftInvoice(
+        number: number ?? this.number,
+        issueDate: issueDate ?? this.issueDate,
+        supplier: supplier ?? this.supplier,
+        totalAmount: totalAmount ?? this.totalAmount,
+        currencyCode: currencyCode ?? this.currencyCode,
+      );
+
+  bool get isComplete =>
+      number.trim().isNotEmpty &&
+      issueDate != null &&
+      supplier.trim().isNotEmpty &&
+      (totalAmount ?? 0) > 0 &&
+      currencyCode.isNotEmpty;
+
+  Map<String, Object?> toJson() => {
+        'number': number,
+        'issueDate': issueDate?.toUtc().toIso8601String(),
+        'supplier': supplier,
+        'totalAmount': totalAmount,
+        'currencyCode': currencyCode,
+      };
+
+  factory DuaDraftInvoice.fromJson(Map<String, dynamic> json) => DuaDraftInvoice(
+        number: (json['number'] as String?) ?? '',
+        issueDate: json['issueDate'] == null
+            ? null
+            : DateTime.parse(json['issueDate'] as String).toUtc(),
+        supplier: (json['supplier'] as String?) ?? '',
+        totalAmount: (json['totalAmount'] as num?)?.toDouble(),
+        currencyCode: (json['currencyCode'] as String?) ?? 'USD',
+      );
+}
+
+/// A single supporting document attached to the DUA (Step 6).
+@immutable
+class DuaDraftDocument {
+  /// ATENA UNCL1001 document code (380 = commercial invoice, 705 =
+  /// bill of lading, ...).
+  final String code;
+
+  /// Human-readable name shown in the list row.
+  final String displayName;
+
+  /// User-facing file name. Real upload URL/hash lands when VRTV-48
+  /// wires the storage port.
+  final String? fileName;
+
+  /// When true, the checklist flags this doc as required for the
+  /// regimen — missing = red tone on the stepper semáforo.
+  final bool required;
+
+  const DuaDraftDocument({
+    required this.code,
+    required this.displayName,
+    required this.required,
+    this.fileName,
+  });
+
+  DuaDraftDocument copyWith({
+    String? code,
+    String? displayName,
+    bool? required,
+    String? fileName,
+  }) =>
+      DuaDraftDocument(
+        code: code ?? this.code,
+        displayName: displayName ?? this.displayName,
+        required: required ?? this.required,
+        fileName: fileName ?? this.fileName,
+      );
+
+  bool get attached => fileName != null && fileName!.isNotEmpty;
+
+  Map<String, Object?> toJson() => {
+        'code': code,
+        'displayName': displayName,
+        'required': required,
+        'fileName': fileName,
+      };
+
+  factory DuaDraftDocument.fromJson(Map<String, dynamic> json) =>
+      DuaDraftDocument(
+        code: json['code'] as String,
+        displayName: json['displayName'] as String,
+        required: (json['required'] as bool?) ?? false,
+        fileName: json['fileName'] as String?,
+      );
+}
+
 @immutable
 class DuaDraft {
   /// Stable client-side id — persists across autosave snapshots so the
@@ -110,13 +234,21 @@ class DuaDraft {
   final String? invoiceCurrencyCode;
   final double? exchangeRate;
 
-  /// Step 5 — Facturas (# invoices included in the DUA).
-  final int invoiceCount;
+  /// Freight cost (CRC or invoiceCurrency — UI decides) used for
+  /// FOB→CIF conversion on Step 4.
+  final double? freightAmount;
 
-  /// Step 6 — Documentos (attached docs)
-  final List<String> attachedDocumentIds;
+  /// Insurance cost — FOB + freight + insurance = CIF.
+  final double? insuranceAmount;
 
-  /// Step 7 — Revisión is a read-only step; no draft state.
+  /// Step 5 — Facturas (list of structured invoices).
+  final List<DuaDraftInvoice> invoices;
+
+  /// Step 6 — Documentos (structured checklist with required flags).
+  final List<DuaDraftDocument> documents;
+
+  /// Step 7 — Revisión is a read-only step; submission state lives
+  /// on the notifier (not persisted — you can't resume a submit).
 
   /// The agent's current step. Drives the stepper's "azul" bubble.
   final DuaFormStep currentStep;
@@ -141,8 +273,10 @@ class DuaDraft {
     this.items = const [],
     this.invoiceCurrencyCode,
     this.exchangeRate,
-    this.invoiceCount = 0,
-    this.attachedDocumentIds = const [],
+    this.freightAmount,
+    this.insuranceAmount,
+    this.invoices = const [],
+    this.documents = const [],
     this.currentStep = DuaFormStep.general,
     this.savedAt,
   });
@@ -161,8 +295,10 @@ class DuaDraft {
     List<DuaDraftLineItem>? items,
     String? invoiceCurrencyCode,
     double? exchangeRate,
-    int? invoiceCount,
-    List<String>? attachedDocumentIds,
+    double? freightAmount,
+    double? insuranceAmount,
+    List<DuaDraftInvoice>? invoices,
+    List<DuaDraftDocument>? documents,
     DuaFormStep? currentStep,
     DateTime? updatedAt,
     DateTime? savedAt,
@@ -182,11 +318,30 @@ class DuaDraft {
         items: items ?? this.items,
         invoiceCurrencyCode: invoiceCurrencyCode ?? this.invoiceCurrencyCode,
         exchangeRate: exchangeRate ?? this.exchangeRate,
-        invoiceCount: invoiceCount ?? this.invoiceCount,
-        attachedDocumentIds:
-            attachedDocumentIds ?? this.attachedDocumentIds,
+        freightAmount: freightAmount ?? this.freightAmount,
+        insuranceAmount: insuranceAmount ?? this.insuranceAmount,
+        invoices: invoices ?? this.invoices,
+        documents: documents ?? this.documents,
         currentStep: currentStep ?? this.currentStep,
         savedAt: savedAt ?? this.savedAt,
+      );
+
+  // ─── Computed totals ───────────────────────────────────────────
+
+  /// Total FOB across all items (quantity × unit FOB).
+  double get totalFob => items.fold<double>(
+        0,
+        (sum, i) => sum + ((i.quantity ?? 0) * (i.fobAmount ?? 0)),
+      );
+
+  /// FOB + freight + insurance = CIF (Step 4 CIF calculator).
+  double get totalCif =>
+      totalFob + (freightAmount ?? 0) + (insuranceAmount ?? 0);
+
+  /// Sum of invoice totals in their invoice currency (Step 5).
+  double get totalInvoiceAmount => invoices.fold<double>(
+        0,
+        (sum, i) => sum + (i.totalAmount ?? 0),
       );
 
   // ─── Step completeness ─────────────────────────────────────────
@@ -212,10 +367,14 @@ class DuaDraft {
       invoiceCurrencyCode!.isNotEmpty &&
       (exchangeRate ?? 0) > 0;
 
-  bool get step5Complete => invoiceCount > 0;
+  bool get step5Complete =>
+      invoices.isNotEmpty && invoices.every((i) => i.isComplete);
 
-  // Documents + Review are optional for the stepper semáforo — they
-  // flip verde once the agent visits them.
+  /// Step 6 — every *required* doc has a file attached.
+  bool get step6Complete =>
+      documents.isNotEmpty &&
+      documents.where((d) => d.required).every((d) => d.attached);
+
   bool isStepComplete(DuaFormStep step) {
     switch (step) {
       case DuaFormStep.general:
@@ -229,13 +388,14 @@ class DuaDraft {
       case DuaFormStep.invoices:
         return step5Complete;
       case DuaFormStep.documents:
-        return attachedDocumentIds.isNotEmpty;
+        return step6Complete;
       case DuaFormStep.review:
         return step1Complete &&
             step2Complete &&
             step3Complete &&
             step4Complete &&
-            step5Complete;
+            step5Complete &&
+            step6Complete;
     }
   }
 
@@ -266,13 +426,17 @@ class DuaDraft {
         'items': items.map((i) => i.toJson()).toList(),
         'invoiceCurrencyCode': invoiceCurrencyCode,
         'exchangeRate': exchangeRate,
-        'invoiceCount': invoiceCount,
-        'attachedDocumentIds': attachedDocumentIds,
+        'freightAmount': freightAmount,
+        'insuranceAmount': insuranceAmount,
+        'invoices': invoices.map((i) => i.toJson()).toList(),
+        'documents': documents.map((d) => d.toJson()).toList(),
         'currentStep': currentStep.name,
       };
 
   factory DuaDraft.fromJson(Map<String, dynamic> json) {
     final rawItems = (json['items'] as List?) ?? const [];
+    final rawInvoices = (json['invoices'] as List?) ?? const [];
+    final rawDocs = (json['documents'] as List?) ?? const [];
     final stepName = json['currentStep'] as String? ?? DuaFormStep.general.name;
     final step = DuaFormStep.values.firstWhere(
       (s) => s.name == stepName,
@@ -300,11 +464,16 @@ class DuaDraft {
           .toList(growable: false),
       invoiceCurrencyCode: json['invoiceCurrencyCode'] as String?,
       exchangeRate: (json['exchangeRate'] as num?)?.toDouble(),
-      invoiceCount: (json['invoiceCount'] as num?)?.toInt() ?? 0,
-      attachedDocumentIds: (json['attachedDocumentIds'] as List?)
-              ?.whereType<String>()
-              .toList() ??
-          const [],
+      freightAmount: (json['freightAmount'] as num?)?.toDouble(),
+      insuranceAmount: (json['insuranceAmount'] as num?)?.toDouble(),
+      invoices: rawInvoices
+          .whereType<Map<String, dynamic>>()
+          .map(DuaDraftInvoice.fromJson)
+          .toList(growable: false),
+      documents: rawDocs
+          .whereType<Map<String, dynamic>>()
+          .map(DuaDraftDocument.fromJson)
+          .toList(growable: false),
       currentStep: step,
     );
   }
