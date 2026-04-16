@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../features/classifier/classifier_page.dart';
 import '../features/dashboard/dashboard_page.dart';
 import '../features/dashboard/dua_detail_page.dart';
+import '../features/dua_form/dua_form_page.dart';
 import '../features/onboarding/agent_onboarding_flow.dart';
 import '../features/onboarding/welcome_page.dart';
 import '../shared/ui/templates/dashboard_layout.dart';
@@ -53,6 +54,10 @@ final router = GoRouter(
           builder: (_, state) => DuaDetailPage(
             declarationId: state.pathParameters['id']!,
           ),
+        ),
+        GoRoute(
+          path: '/dua-form/new',
+          builder: (_, _) => const DuaFormPage(),
         ),
         GoRoute(
           path: '/imports',

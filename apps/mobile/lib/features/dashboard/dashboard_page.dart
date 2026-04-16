@@ -188,15 +188,9 @@ class _HeaderState extends ConsumerState<_Header> {
         ),
         const SizedBox(width: 8),
         ElevatedButton.icon(
-          onPressed: () {
-            // VRTV-43 (DUA form) will wire this — for now the button
-            // scaffolds the nav surface.
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Nueva DUA estará disponible en VRTV-43'),
-              ),
-            );
-          },
+          // VRTV-87 wires the stepper skeleton; full step content
+          // lands with VRTV-88 + VRTV-89.
+          onPressed: () => context.push('/dua-form/new'),
           icon: const Icon(Icons.add, size: 16),
           label: const Text('Nueva DUA'),
         ),

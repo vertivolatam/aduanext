@@ -53,6 +53,10 @@ dependencies:
   # "Apr 12"). `intl` is also pulled in transitively by flutter_localizations
   # and any future localization work so pinning it here is future-proof.
   intl: ^0.20.0
+  # VRTV-87 — DUA-form autosave to localStorage (web).
+  shared_preferences: ^2.3.0
+  # VRTV-87 — stable client-side draftId for autosave dedupe.
+  uuid: ^4.5.0
 
 dev_dependencies:
   flutter_test:
