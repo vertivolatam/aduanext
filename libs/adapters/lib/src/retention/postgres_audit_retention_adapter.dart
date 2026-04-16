@@ -65,25 +65,21 @@ class PostgresAuditRetentionAdapter implements RetentionPurgeablePort {
 
   @override
   Future<List<ExpiredRecord>> findExpired({
-    required DateTime now,
+    required DateTime cutoff,
     int batchSize = 100,
   }) async {
-    // One row per entity whose newest event is older than [now]. We
-    // use the server-side cutoff computed from the retention policy
-    // window later — here the handler passes `now` and the policy
-    // window is applied by the caller. But since the handler
-    // evaluates expiry via the policy at a higher layer, we defer to
-    // the policy: any entity whose MAX(server_timestamp) <
-    // now - window qualifies. To keep this adapter policy-agnostic we
-    // return rows whose newest event is simply older than [now], and
-    // rely on the handler / policy composition to set `now = now -
-    // window` before calling us. That is NOT what the handler does
-    // today — it passes the current time — so we embed the audit
-    // legal floor here as the cutoff. A follow-up issue can
-    // generalize this to accept the cutoff directly.
-    final cutoff = now
-        .toUtc()
-        .subtract(DefaultRetentionPolicies.auditEvent.window);
+    // One row per entity whose newest event is strictly older than
+    // [cutoff]. The handler (PurgeExpiredRecordsHandler) computes
+    // `cutoff = now() - policy.window` using the EFFECTIVE policy
+    // (including any env / tenant overrides) and passes it in — this
+    // adapter is policy-agnostic and simply runs the SQL.
+    //
+    // Prior to VRTV-76 this adapter re-derived the cutoff from
+    // `DefaultRetentionPolicies.auditEvent.window` (a const 7 years),
+    // silently overriding any `ADUANEXT_RETENTION_AUDIT_YEARS` env
+    // override an operator had set. Callers now own the cutoff
+    // computation end-to-end.
+    final normalizedCutoff = cutoff.toUtc();
     final rows = await _connection.execute(
       Sql.named('''
         SELECT entity_type, entity_id, tenant_id,
@@ -96,7 +92,7 @@ class PostgresAuditRetentionAdapter implements RetentionPurgeablePort {
         LIMIT @batchSize
       '''),
       parameters: {
-        'cutoff': cutoff,
+        'cutoff': normalizedCutoff,
         'batchSize': batchSize,
       },
     );

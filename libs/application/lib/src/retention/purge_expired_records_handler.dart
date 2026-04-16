@@ -55,7 +55,17 @@ class PurgeExpiredRecordsHandler
         );
         continue;
       }
-      final stats = await _purgeCategory(port, command);
+      // Compute the cutoff here (policy.window away from the
+      // command's clock) and pass it to the adapter. Prior to
+      // VRTV-76 the adapter embedded its own cutoff derived from
+      // the default policy, silently ignoring env overrides.
+      final cutoff = command.now.toUtc().subtract(policy.window);
+      _log.fine(
+        'retention.run.started category=${port.category.name} '
+        'cutoff=${cutoff.toIso8601String()} '
+        'windowDays=${policy.window.inDays}',
+      );
+      final stats = await _purgeCategory(port, command, cutoff: cutoff);
       byCategory[port.category.name] = stats;
     }
 
@@ -64,8 +74,9 @@ class PurgeExpiredRecordsHandler
 
   Future<PurgeCategoryStats> _purgeCategory(
     RetentionPurgeablePort port,
-    PurgeExpiredRecordsCommand command,
-  ) async {
+    PurgeExpiredRecordsCommand command, {
+    required DateTime cutoff,
+  }) async {
     var candidates = 0;
     var archived = 0;
     var purged = 0;
@@ -75,7 +86,7 @@ class PurgeExpiredRecordsHandler
     final List<ExpiredRecord> page;
     try {
       page = await port.findExpired(
-        now: command.now,
+        cutoff: cutoff,
         batchSize: command.batchSize,
       );
     } catch (e, st) {
