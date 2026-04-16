@@ -20,8 +20,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../shared/api/api_exception.dart';
 import '../../shared/api/dispatch_dto.dart';
+import '../../shared/api/dispatch_stream_providers.dart';
 import '../../shared/theme/aduanext_theme.dart';
 import '../../shared/ui/atoms/declaration_status_semaphore.dart';
+import '../../shared/ui/atoms/live_indicator.dart';
 import '../../shared/ui/molecules/dua_list_item.dart';
 import '../../shared/ui/molecules/kpi_row.dart';
 import '../../shared/ui/molecules/status_filter_chips.dart';
@@ -30,14 +32,47 @@ import '../../shared/ui/organisms/dua_timeline.dart';
 import 'dashboard_filters.dart';
 import 'dashboard_providers.dart';
 
-class DashboardPage extends ConsumerWidget {
+class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends ConsumerState<DashboardPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Wire the polling fallback — invoked when the backend returns
+    // 404/501 and the stream client flips to polling mode.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ref.read(dispatchStreamClientProvider).setPollingTick((_) {
+        if (!mounted) return;
+        ref.invalidate(dispatchesListProvider);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final filters = ref.watch(dashboardFiltersProvider);
     final kpi = ref.watch(dashboardKpiSummaryProvider);
     final listAsync = ref.watch(dispatchesListProvider);
+
+    // React to live SSE updates: every event invalidates the list
+    // so `dispatchesListProvider` refetches and the UI reflects the
+    // new state. A future optimization (tracked as VRTV-87) can
+    // mutate the list in-place from the `patch` field without
+    // hitting the backend — for now the refetch is cheap.
+    ref.listen<AsyncValue<DispatchUpdate>>(
+      dispatchStreamUpdatesProvider,
+      (_, next) {
+        if (next is AsyncData<DispatchUpdate>) {
+          ref.invalidate(dispatchesListProvider);
+        }
+      },
+    );
 
     return SingleChildScrollView(
       child: Padding(
@@ -111,15 +146,27 @@ class _HeaderState extends ConsumerState<_Header> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(
-            'Monitoreo DUAs',
-            style: Theme.of(context).textTheme.headlineMedium,
-            overflow: TextOverflow.ellipsis,
-          ),
+        // Title + live indicator: Wrap so the indicator falls onto a
+        // second line under narrow viewports instead of overflowing.
+        Wrap(
+          spacing: 12,
+          runSpacing: 4,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              'Monitoreo DUAs',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const LiveIndicator(),
+          ],
         ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
         SizedBox(
           width: 200,
           child: TextField(
@@ -152,6 +199,8 @@ class _HeaderState extends ConsumerState<_Header> {
           },
           icon: const Icon(Icons.add, size: 16),
           label: const Text('Nueva DUA'),
+        ),
+          ],
         ),
       ],
     );
