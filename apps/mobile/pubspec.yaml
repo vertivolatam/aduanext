@@ -49,6 +49,10 @@ dependencies:
   # the canonical HTTP package for Flutter Web; `dio` was considered but
   # its browser support lags on CORS edge-cases.
   http: ^1.5.0
+  # VRTV-84 — short date formatting on the DUA timeline ("Mar 30",
+  # "Apr 12"). `intl` is also pulled in transitively by flutter_localizations
+  # and any future localization work so pinning it here is future-proof.
+  intl: ^0.20.0
 
 dev_dependencies:
   flutter_test:
