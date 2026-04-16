@@ -1,5 +1,6 @@
 import 'package:aduanext_mobile/features/dashboard/dashboard_page.dart';
 import 'package:aduanext_mobile/features/dashboard/dashboard_providers.dart';
+import 'package:aduanext_mobile/shared/api/api_config.dart';
 import 'package:aduanext_mobile/shared/api/api_providers.dart';
 import 'package:aduanext_mobile/shared/api/fake_api_client.dart';
 import 'package:aduanext_mobile/shared/theme/aduanext_theme.dart';
@@ -9,6 +10,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget _wrap(Widget child) => ProviderScope(
       overrides: [
+        // Force the fake config so the stream provider swaps in its
+        // no-op client — otherwise the real DispatchStreamClient
+        // tries to connect to localhost and the test hangs.
+        apiConfigProvider.overrideWithValue(
+          const ApiConfig(baseUrl: 'http://test', useFake: true),
+        ),
         apiClientProvider.overrideWith((ref) {
           final fake =
               FakeApiClient(now: DateTime.utc(2026, 4, 15, 12));
