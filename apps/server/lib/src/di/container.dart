@@ -21,12 +21,15 @@ import 'package:aduanext_adapters/retention.dart';
 import 'package:aduanext_adapters/storage.dart';
 import 'package:aduanext_application/aduanext_application.dart';
 import 'package:aduanext_domain/aduanext_domain.dart';
+import 'package:logging/logging.dart';
 import 'package:postgres/postgres.dart';
 
 import '../config/retention_config.dart';
 import '../middleware/auth_middleware.dart';
 import '../workers/retention_worker.dart';
 import 'server_config.dart';
+
+final _log = Logger('aduanext.container');
 
 /// The wired container. Built once at startup via [AppContainer.boot] and
 /// torn down via [close] on shutdown.
@@ -80,6 +83,14 @@ class AppContainer {
   /// adapter only runs inside the worker but still holds a connection.
   final PostgresLegalHoldAdapter? _postgresLegalHold;
 
+  /// Dedicated Postgres connection for the RetentionWorker — owned by
+  /// the container and closed on shutdown. Non-null when retention is
+  /// enabled AND `ADUANEXT_RETENTION_DB_URL` resolves. When null, the
+  /// worker re-uses the audit adapter's connection (with a loud
+  /// warning logged at boot; acceptable for dev, violates VRTV-75 in
+  /// production).
+  final Connection? _retentionConnection;
+
   AppContainer._({
     required this.config,
     required this.grpcChannel,
@@ -95,8 +106,10 @@ class AppContainer {
     required this.authPortFactory,
     required JwksCache? jwksCache,
     required PostgresLegalHoldAdapter? postgresLegalHold,
+    required Connection? retentionConnection,
   })  : _jwksCache = jwksCache,
-        _postgresLegalHold = postgresLegalHold;
+        _postgresLegalHold = postgresLegalHold,
+        _retentionConnection = retentionConnection;
 
   /// Build the container from [config]. Blocks on network I/O (opens the
   /// Postgres connection if configured) — call once during startup.
@@ -180,14 +193,56 @@ class AppContainer {
     }
 
     RetentionWorker? retentionWorker;
+    Connection? retentionConnection;
     if (retentionConfig.enabled && postgresAudit != null) {
       final archiveRoot = Directory(retentionConfig.archivePath);
       if (!archiveRoot.existsSync()) {
         archiveRoot.createSync(recursive: true);
       }
       final archive = FilesystemArchiveAdapter(rootPath: archiveRoot);
+
+      // VRTV-75: apply the retention-worker role migration on the
+      // ADMIN connection (postgresAudit) before opening the worker's
+      // narrow connection. The migration is idempotent — safe to run
+      // every boot. Running it here, under the container's privileged
+      // role, is the only place the superuser-level DDL lives.
+      await applyRetentionWorkerRoleMigration(
+        postgresAudit.debugRawConnection,
+      );
+
+      // Decide which Postgres connection the worker uses.
+      //
+      //   * If `ADUANEXT_RETENTION_DB_URL` is set, open a dedicated
+      //     Connection that logs in as `aduanext_retention_worker`
+      //     (narrow grants). This is the production mode required by
+      //     VRTV-75.
+      //   * Otherwise, reuse the audit adapter's connection. This is
+      //     strictly a dev fallback and is logged as a warning so ops
+      //     catches it in the boot diagnostics.
+      final Connection workerConnection;
+      final retentionUrl = retentionConfig.retentionDbUrl;
+      if (retentionUrl != null && retentionUrl.isNotEmpty) {
+        workerConnection =
+            await _openRetentionConnection(retentionUrl);
+        retentionConnection = workerConnection;
+        _log.info(
+          'retention.worker.connection dedicated role configured '
+          '(ADUANEXT_RETENTION_DB_URL is set)',
+        );
+      } else {
+        _log.warning(
+          'retention.worker.connection falling back to the main '
+          'Postgres role because ADUANEXT_RETENTION_DB_URL is not '
+          'set. This is acceptable for dev but violates the VRTV-75 '
+          'production hardening contract — set the env var + create '
+          'the `aduanext_retention_worker` role on the production '
+          'database.',
+        );
+        workerConnection = postgresAudit.debugRawConnection;
+      }
+
       final auditRetention = PostgresAuditRetentionAdapter(
-        connection: postgresAudit.debugRawConnection,
+        connection: workerConnection,
         auditLog: auditLog,
       );
       final handler = PurgeExpiredRecordsHandler(
@@ -240,6 +295,19 @@ class AppContainer {
       authPortFactory: authPortFactory,
       jwksCache: jwksCache,
       postgresLegalHold: postgresLegalHold,
+      retentionConnection: retentionConnection,
+    );
+  }
+
+  /// Open a dedicated [Connection] for the RetentionWorker using the
+  /// supplied URL. Expected to authenticate as the
+  /// `aduanext_retention_worker` role (narrow grants — see migration
+  /// 0002).
+  static Future<Connection> _openRetentionConnection(String url) async {
+    final endpoint = _parsePostgresUrl(url);
+    return Connection.open(
+      endpoint,
+      settings: const ConnectionSettings(sslMode: SslMode.disable),
     );
   }
 
@@ -313,6 +381,15 @@ class AppContainer {
     }
 
     await guarded(() => grpcChannel.shutdown());
+
+    // Close the dedicated retention connection (if any) BEFORE the
+    // audit adapter because the worker has already stopped and the
+    // retention connection only matters up to this point.
+    final retentionConn = _retentionConnection;
+    if (retentionConn != null && retentionConn.isOpen) {
+      await guarded(retentionConn.close);
+    }
+
     final audit = auditLog;
     if (audit is PostgresAuditLogAdapter) {
       await guarded(audit.close);
