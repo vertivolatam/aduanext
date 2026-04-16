@@ -5,12 +5,16 @@
 ///
 ///   * Header: breadcrumb + title + risk badge + Guardar / Siguiente.
 ///   * Stepper semáforo: 7 bubbles with tone from the notifier.
-///   * Body: per-step content (scaffolded placeholder here; full
-///     content lands with VRTV-88 and VRTV-89).
+///   * Body: per-step content (General / Envio / Items live now —
+///     valoracion/facturas/docs/revision land with VRTV-89).
 ///   * Footer: Guardar + Anterior / Siguiente buttons.
 ///
-/// Autosave indicator in the header shows the last-persisted time.
+/// Owns the `endDrawer` slot so Step 3 (items) can open the RIMM
+/// classifier drawer. Autosave indicator in the header shows the
+/// last-persisted time.
 library;
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,32 +24,92 @@ import 'package:intl/intl.dart';
 import '../../shared/theme/aduanext_theme.dart';
 import '../../shared/ui/atoms/risk_score_badge.dart';
 import '../../shared/ui/organisms/stepper_semaforo.dart';
+import '../classifier/classifier_drawer.dart';
 import 'dua_form_notifier.dart';
 import 'dua_form_state.dart';
 import 'steps.dart';
+import 'steps/step_envio.dart';
+import 'steps/step_general.dart';
+import 'steps/step_items.dart';
 
-class DuaFormPage extends ConsumerWidget {
+class DuaFormPage extends ConsumerStatefulWidget {
   const DuaFormPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DuaFormPage> createState() => _DuaFormPageState();
+}
+
+class _DuaFormPageState extends ConsumerState<DuaFormPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// Seed text for the drawer (the commercial description of the item
+  /// being classified) + the pending completer the drawer fulfills.
+  String _classifierSeed = '';
+  int? _classifierItemIndex;
+  Completer<String?>? _classifierCompleter;
+
+  Future<String?> _requestClassify(int itemIndex, String description) {
+    _classifierItemIndex = itemIndex;
+    _classifierSeed = description;
+    _classifierCompleter = Completer<String?>();
+    _scaffoldKey.currentState?.openEndDrawer();
+    return _classifierCompleter!.future;
+  }
+
+  void _handleDrawerClosed() {
+    // When the drawer pops without confirmation, complete with null.
+    final pending = _classifierCompleter;
+    if (pending != null && !pending.isCompleted) {
+      pending.complete(null);
+    }
+    _classifierCompleter = null;
+    _classifierItemIndex = null;
+    _classifierSeed = '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final draft = ref.watch(duaFormProvider);
     final notifier = ref.read(duaFormProvider.notifier);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _Header(draft: draft, notifier: notifier),
-        StepperSemaforo(
-          activeStep: draft.currentStep,
-          toneBuilder: notifier.toneFor,
-          onStepTap: notifier.goToStep,
-        ),
-        Expanded(
-          child: _StepBody(step: draft.currentStep),
-        ),
-        _Footer(draft: draft, notifier: notifier),
-      ],
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.transparent,
+      endDrawerEnableOpenDragGesture: false,
+      onEndDrawerChanged: (open) {
+        if (!open) _handleDrawerClosed();
+      },
+      endDrawer: ClassifierDrawer(
+        contextLabel: _classifierItemIndex == null
+            ? null
+            : 'Item ${_classifierItemIndex! + 1}',
+        initialDescription: _classifierSeed,
+        onConfirm: (result) {
+          final c = _classifierCompleter;
+          _classifierCompleter = null;
+          if (c != null && !c.isCompleted) {
+            c.complete(result.suggestion.hsCode);
+          }
+        },
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _Header(draft: draft, notifier: notifier),
+          StepperSemaforo(
+            activeStep: draft.currentStep,
+            toneBuilder: notifier.toneFor,
+            onStepTap: notifier.goToStep,
+          ),
+          Expanded(
+            child: _StepBody(
+              step: draft.currentStep,
+              onRequestClassify: _requestClassify,
+            ),
+          ),
+          _Footer(draft: draft, notifier: notifier),
+        ],
+      ),
     );
   }
 }
@@ -164,11 +228,38 @@ class _Header extends StatelessWidget {
   }
 }
 
-// ─── Step body (placeholder until VRTV-88/VRTV-89) ────────────────
+// ─── Step body router ────────────────────────────────────────────
 
 class _StepBody extends StatelessWidget {
   final DuaFormStep step;
-  const _StepBody({required this.step});
+  final Future<String?> Function(int itemIndex, String description)
+      onRequestClassify;
+  const _StepBody({required this.step, required this.onRequestClassify});
+
+  @override
+  Widget build(BuildContext context) {
+    switch (step) {
+      case DuaFormStep.general:
+        return const StepGeneral();
+      case DuaFormStep.shipping:
+        return const StepEnvio();
+      case DuaFormStep.items:
+        return StepItems(
+          onRequestClassify: (description) =>
+              onRequestClassify(-1, description),
+        );
+      case DuaFormStep.valuation:
+      case DuaFormStep.invoices:
+      case DuaFormStep.documents:
+      case DuaFormStep.review:
+        return _PlaceholderStep(step: step);
+    }
+  }
+}
+
+class _PlaceholderStep extends StatelessWidget {
+  final DuaFormStep step;
+  const _PlaceholderStep({required this.step});
 
   @override
   Widget build(BuildContext context) {
@@ -201,15 +292,6 @@ class _StepBody extends StatelessWidget {
 
   String _bodyFor(DuaFormStep step) {
     switch (step) {
-      case DuaFormStep.general:
-        return 'Exportador, consignatario y aduana de despacho. '
-            'Formulario completo en VRTV-88.';
-      case DuaFormStep.shipping:
-        return 'Incoterm, país de origen/destino, medio de transporte. '
-            'Formulario completo en VRTV-88.';
-      case DuaFormStep.items:
-        return 'Líneas de mercancía con clasificador RIMM inline. '
-            'Formulario completo en VRTV-88.';
       case DuaFormStep.valuation:
         return 'Factura, moneda, tipo de cambio y cálculo CIF. '
             'Formulario completo en VRTV-89.';
@@ -222,6 +304,10 @@ class _StepBody extends StatelessWidget {
       case DuaFormStep.review:
         return 'Resumen final con pre-validación (VRTV-42) y submit a '
             'ATENA (VRTV-79). Wire-up completo en VRTV-89.';
+      case DuaFormStep.general:
+      case DuaFormStep.shipping:
+      case DuaFormStep.items:
+        return '';
     }
   }
 }
