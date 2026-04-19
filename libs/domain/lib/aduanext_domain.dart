@@ -8,7 +8,9 @@ export 'src/ports/audit_log_port.dart';
 export 'src/ports/auth_provider_port.dart';
 export 'src/ports/authorization_port.dart';
 export 'src/ports/customs_gateway_port.dart';
+export 'src/ports/declaration_repository_port.dart';
 export 'src/ports/legal_hold_port.dart';
+export 'src/ports/notification_dispatcher_port.dart';
 export 'src/ports/notification_port.dart';
 export 'src/ports/pkcs11_signing_port.dart';
 export 'src/ports/retention_purgeable_port.dart';
@@ -24,6 +26,7 @@ export 'src/retention/retention_policy.dart';
 export 'src/entities/agent_profile.dart';
 export 'src/entities/classification_decision.dart';
 export 'src/entities/declaration.dart';
+export 'src/entities/declaration_state_machine.dart';
 
 // Authorization entities + value objects.
 export 'src/authorization/role.dart';
