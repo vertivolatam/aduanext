@@ -33,6 +33,11 @@ export 'src/submission/submit_declaration_command.dart';
 export 'src/submission/submit_declaration_failure.dart';
 export 'src/submission/submit_declaration_handler.dart';
 
+// Dispatch feature slice (VRTV-40 — declaration state machine).
+export 'src/dispatch/transition_declaration_status_command.dart';
+export 'src/dispatch/transition_declaration_status_failure.dart';
+export 'src/dispatch/transition_declaration_status_handler.dart';
+
 // Pre-validation engine (SOP-B04, VRTV-42).
 export 'src/validation/declaration_rules.dart';
 export 'src/validation/pre_validate_declaration_query.dart';
