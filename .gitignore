@@ -175,5 +175,6 @@ examples/**/.packages
 .augment/rules/byterover-rules.md
 
 # Preserve .gitkeep files in ignored directories
-!.gitkeep.superpowers/
+!.gitkeep
+.superpowers/
 docs/site/site/
