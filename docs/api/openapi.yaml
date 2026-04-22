@@ -1,0 +1,68 @@
+# TODO: placeholder. El spec real se generará desde apps/server (shelf-based, Dart)
+# y/o desde libs/proto/hacienda.proto vía buf/protoc-gen-openapi cuando aterrice la
+# primera superficie REST pública (por ejemplo, los endpoints de DUA de VRTV-38).
+# Reemplazar este stub entonces.
+openapi: 3.1.0
+info:
+  title: AduaNext API
+  version: 0.0.1-placeholder
+  summary: Plataforma multi-tenant de cumplimiento aduanero para LATAM (CR → ATENA).
+  description: |
+    Placeholder OpenAPI spec. Aún no hay superficie REST pública estable.
+
+    La primera superficie documentada será la de los use cases de DUA export
+    (libs/application/lib/src/dua/…) expuestos vía apps/server (shelf). Este
+    archivo debe regenerarse en ese momento — idealmente desde un generador
+    automático (OpenAPI plugin del server o script de introspección sobre los
+    handlers CQRS) para mantener el spec sincronizado con el código.
+  contact:
+    name: AduaNext
+    url: https://github.com/vertivolatam/aduanext
+  license:
+    name: BSL 1.1
+    url: https://github.com/vertivolatam/aduanext/blob/main/LICENSE.md
+servers:
+  - url: https://api.aduanext.example.com
+    description: Placeholder — el host real se define cuando se despliegue apps/server.
+paths:
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Healthcheck del servicio
+      description: |
+        Devuelve 200 si apps/server está vivo. Stub sin dependencias —
+        no toca postgres ni el sidecar hacienda-cr.
+      tags:
+        - system
+      responses:
+        "200":
+          description: Servicio operativo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+              examples:
+                ok:
+                  value:
+                    status: ok
+                    version: 0.0.1-placeholder
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+            - down
+          description: Estado general del servicio.
+        version:
+          type: string
+          description: Versión del servicio en ejecución.
+tags:
+  - name: system
+    description: Endpoints de salud y diagnóstico.
