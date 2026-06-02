@@ -73,6 +73,11 @@ test-dart-domain: ## Run dart test on libs/domain only
 test-dart-adapters: ## Run dart test on libs/adapters only (requires `make db-up`)
 	cd libs/adapters && dart pub get && dart test
 
+# ── Mobile ───────────────────────────────────────────────────────────
+.PHONY: dev-mobile-launch-desktop
+dev-mobile-launch-desktop: ## Launch the Flutter desktop app (Linux, foreground)
+	cd apps/mobile && flutter pub get && flutter run -d linux
+
 # ── Minikube + Helm ──────────────────────────────────────────────────
 HELM_CHART_DIR ?= infrastructure/helm-charts/aduanext
 HELM_RELEASE   ?= aduanext
@@ -229,6 +234,11 @@ harbor-push-server: ## PLACEHOLDER: tag + push the server image to Harbor
 	@echo "  URL=\$$(minikube -p $(MINIKUBE_PROFILE) service harbor -n harbor --url | head -1 | sed 's|http://||')"
 	@echo "  docker tag nginx:alpine \$$URL/$(HARBOR_PROJECT)/server:dev"
 	@echo "  docker push \$$URL/$(HARBOR_PROJECT)/server:dev"
+
+# ── Bootstrap ────────────────────────────────────────────────────────
+.PHONY: bootstrap-dev
+bootstrap-dev: ## Full local bring-up (Minikube + Helm infra + Flutter desktop); logs to logs/bootstrap/
+	@./infrastructure/scripts/bootstrap-dev.sh
 
 # ── Help ─────────────────────────────────────────────────────────────
 .PHONY: help

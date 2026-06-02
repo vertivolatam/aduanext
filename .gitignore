@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 logs/**
+logs/**/*.log
 !logs/**/
 !logs/**/.gitkeep
 
