@@ -1,4 +1,4 @@
-import 'package:aduanext_mobile/shared/theme/aduanext_theme.dart';
+import 'package:aduanext_ui/aduanext_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;

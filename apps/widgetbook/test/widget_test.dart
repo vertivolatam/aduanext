@@ -1,4 +1,4 @@
-import 'package:aduanext_mobile/shared/ui/atoms/hs_code_chip.dart';
+import 'package:aduanext_ui/aduanext_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

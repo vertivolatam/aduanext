@@ -43,6 +43,8 @@ dependencies:
   # with the application layer + future backend endpoint.
   aduanext_domain:
     path: ../../libs/domain
+  aduanext_ui:
+    path: ../../packages/aduanext_ui
   # VRTV-59 — `@immutable` annotation on onboarding state value objects.
   meta: ^1.16.0
   # VRTV-83 — REST client for the backend dispatch endpoints. `http` is
