@@ -31,6 +31,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  aduanext_ui:
+    dependency: "direct main"
+    description:
+      path: "../../packages/aduanext_ui"
+      relative: true
+    source: path
+    version: "0.1.0"
   analyzer:
     dependency: transitive
     description:

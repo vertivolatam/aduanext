@@ -1,5 +1,4 @@
-import 'package:aduanext_mobile/shared/ui/atoms/declaration_status_semaphore.dart';
-import 'package:aduanext_mobile/shared/ui/atoms/timeline_dot.dart';
+import 'package:aduanext_ui/aduanext_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;

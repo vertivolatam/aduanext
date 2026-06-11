@@ -36,6 +36,11 @@ final dashboardFiltersProvider = StateProvider<DashboardFilters>(
 /// seeding 50+ dispatches.
 final dashboardPageSizeProvider = Provider<int>((ref) => 50);
 
+/// Wall clock, injectable so tests can pin "now" to the same instant
+/// as their seeded fixtures — the default date-range filter is
+/// relative to now, so an un-pinned clock makes seeds age out.
+final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+
 /// Fetches the current dispatch list. Reacts to filter + page changes
 /// via `ref.watch` — swapping the filter refetches automatically.
 final dispatchesListProvider = FutureProvider<DispatchListResponse>(
@@ -44,7 +49,7 @@ final dispatchesListProvider = FutureProvider<DispatchListResponse>(
     final filters = ref.watch(dashboardFiltersProvider);
     final page = ref.watch(dashboardPageProvider);
     final pageSize = ref.watch(dashboardPageSizeProvider);
-    final now = DateTime.now();
+    final now = ref.watch(clockProvider)();
 
     return api.listDispatches(
       offset: page * pageSize,
