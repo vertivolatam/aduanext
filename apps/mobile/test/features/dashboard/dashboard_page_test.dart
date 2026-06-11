@@ -22,6 +22,9 @@ Widget _wrap(Widget child) => ProviderScope(
           ref.onDispose(fake.close);
           return fake;
         }),
+        // Pin "now" al mismo instante de los seeds: el rango de fechas
+        // por defecto es relativo a now y los seeds envejecen.
+        clockProvider.overrideWithValue(() => DateTime.utc(2026, 4, 15, 12)),
       ],
       child: MaterialApp(
         theme: AduaNextTheme.darkTheme,
